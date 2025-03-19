@@ -14,22 +14,21 @@ const GameGrid = ({ movieQuery }: Props) => {
     const { data: movies, error, isLoading } = useMovies(movieQuery);
     const skeletons = [1, 2, 3, 4, 5, 6]
 
+    if (error) return <Text>{error}</Text>
+
     return (
-        <>
-            {error && <Text>{error}</Text>}
-            <SimpleGrid columns={{ base: 1, sm: 2, md: 4, lg: 5, xl: 6}} gap={{ sm: 5, md: 5, lg: 5, xl: 6}} padding='10px'>
-                {isLoading && skeletons.map(skeleton => 
-                    <MovieCardContainer key={skeleton}>
-                        <MovieCardSkeleton />
-                    </MovieCardContainer>
-                )}
-                {movies.map(movie => 
-                    <MovieCardContainer key={movie.id}>
-                        <MovieCard movie={movie} />
-                    </MovieCardContainer>
-                )}
-            </SimpleGrid>
-        </>
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 4, lg: 5, xl: 6}} gap={{ sm: 5, md: 5, lg: 5, xl: 6}} padding='10px'>
+            {isLoading && skeletons.map(skeleton => 
+                <MovieCardContainer key={skeleton}>
+                    <MovieCardSkeleton />
+                </MovieCardContainer>
+            )}
+            {movies.map(movie => 
+                <MovieCardContainer key={movie.id}>
+                    <MovieCard movie={movie} />
+                </MovieCardContainer>
+            )}
+        </SimpleGrid>
     )
 }
 

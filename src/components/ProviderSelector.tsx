@@ -7,6 +7,8 @@ interface Props {
   selectedProvider: Provider | null;
 }
 
+const ChevronDownIcon = BsChevronDown as React.ElementType;
+
 const ProviderSelector = ({ selectedProvider, onSelectProvider }: Props) => {
   const { data: providers, error } = useProviders();
 
@@ -16,7 +18,7 @@ const ProviderSelector = ({ selectedProvider, onSelectProvider }: Props) => {
     <Menu.Root>
       <Menu.Trigger asChild>
         <Button variant="outline" size="sm">
-          {selectedProvider?.provider_name || 'Select Provider'} <BsChevronDown />
+          {selectedProvider?.provider_name || 'Select Provider'} <ChevronDownIcon />
         </Button>
       </Menu.Trigger>
       <Portal>

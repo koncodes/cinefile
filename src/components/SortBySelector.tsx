@@ -5,6 +5,7 @@ interface Props {
     onSelectSort: (sortBy: string) => void;
     selectedSort: string | null;
 }
+const ChevronDownIcon = BsChevronDown as React.ElementType;
 
 const SortBySelector = ({ onSelectSort, selectedSort }: Props) => {
     const sortValues: { value: string; label: string }[] = [
@@ -25,7 +26,7 @@ const SortBySelector = ({ onSelectSort, selectedSort }: Props) => {
         <Menu.Root>
             <Menu.Trigger asChild>
                 <Button variant="outline" size="sm">
-                    {selectedLabel} <BsChevronDown />
+                    {selectedLabel} <ChevronDownIcon />
                 </Button>
             </Menu.Trigger>
             <Portal>

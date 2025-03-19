@@ -6,6 +6,9 @@ interface Props {
     onSearch: (searchText: string) => void;
     searchText: string | null;
   }
+
+  const SearchIcon = BsSearch as React.ElementType;
+
   
   const SearchInput = ({ onSearch, searchText }: Props) => {
     const [inputValue, setInputValue] = useState(searchText || "");
@@ -25,7 +28,7 @@ interface Props {
 
   return (
     <form onSubmit={handleSubmit}>
-      <InputGroup  startElement={<BsSearch />}>
+      <InputGroup  startElement={<SearchIcon />}>
             <Input placeholder="Search movies..." borderRadius={20} variant="subtle" 
             value={inputValue}
             onChange={handleInputChange}
