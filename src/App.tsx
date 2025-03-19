@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Grid, GridItem } from "@chakra-ui/react"
+import { Box, Button, ButtonGroup, Grid, GridItem } from "@chakra-ui/react"
 import NavBar from "./components/NavBar"
 import GameGrid from "./components/GameGrid"
 import GenreList from "./components/GenreList"
@@ -7,7 +7,7 @@ import GenreList from "./components/GenreList"
 function App() {
   
   return (
-    <div className="App">
+    <Box className="App" bg="bg.root">
       <Grid templateAreas={{
         base: `"nav" "main" "footer"`,
       }}>
@@ -20,7 +20,7 @@ function App() {
         </GridItem>
         <GridItem area="footer">Nav</GridItem>
       </Grid>
-    </div>
+    </Box>
   )
 }
 

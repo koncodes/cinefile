@@ -3,7 +3,7 @@ import React from 'react'
 
 const MovieCardSkeleton = () => {
   return (
-    <Card.Root>
+    <Card.Root bg="bg.card">
       <Skeleton height="250px"/>
       <Card.Body>
         <SkeletonText />
