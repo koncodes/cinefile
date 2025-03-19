@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Box, Grid, GridItem, HStack } from "@chakra-ui/react";
-import NavBar from "./components/NavBar";
 import MovieGrid from "./components/MovieGrid";
 import GenreList from "./components/GenreList";
 import { Genre } from "./hooks/useGenres";
@@ -9,6 +8,7 @@ import ProviderSelector from "./components/ProviderSelector";
 import { Provider } from "./hooks/useProviders";
 import SearchInput from "./components/SearchInput";
 import MovieGridHeading from "./components/MovieGridHeading";
+import NavBar from "./components/NavBar";
 
 export interface MovieQuery {
   genre: Genre | null;
