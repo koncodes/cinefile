@@ -2,6 +2,7 @@ import { Movie } from '@/hooks/useMovies'
 import { Avatar, Box, Button, Card, Image } from '@chakra-ui/react'
 import React from 'react'
 import placeholder from '../assets/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg';
+import Rating from './rating';
 
 
 interface Props {
@@ -40,6 +41,7 @@ const MovieCard = ( { movie }: Props) => {
             This is the card body. Lorem ipsum dolor sit amet, consectetur
             adipiscing elit.
             </Card.Description>
+            <Rating score={movie.vote_average} />
         </Card.Body>
         <Card.Footer justifyContent="flex-end">
         </Card.Footer>

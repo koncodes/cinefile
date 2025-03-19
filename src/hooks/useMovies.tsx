@@ -33,13 +33,11 @@ const useMovies = () => {
         const controller = new AbortController();
 
         apiClient
-            .get<FetchMovies>('discover/movie', {
+            .get<FetchMovies>('movie/now_playing', {
                 params: {
-                    include_adult: false,
-                    include_video: false,
                     language: 'en-US',
                     page: 1,
-                    sort_by: 'popularity',
+                    api_key: import.meta.env.VITE_API_KEY,
                 },
                 signal: controller.signal
             })
