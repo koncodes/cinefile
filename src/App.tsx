@@ -17,7 +17,7 @@ function App() {
           <NavBar />
         </GridItem>
         <GridItem area="main">
-          <GenreList onSelectGenre={(genre) => setSelectedGenre(genre)}/>
+          <GenreList selectedGenre={selectedGenre} onSelectGenre={(genre) => setSelectedGenre(genre)}/>
           <GameGrid selectedGenre={selectedGenre}/>
         </GridItem>
         <GridItem area="footer">Nav</GridItem>
