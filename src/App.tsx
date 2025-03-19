@@ -8,6 +8,7 @@ import SortBySelector from "./components/SortBySelector";
 import ProviderSelector from "./components/ProviderSelector";
 import { Provider } from "./hooks/useProviders";
 import SearchInput from "./components/SearchInput";
+import MovieGridHeading from "./components/MovieGridHeading";
 
 export interface MovieQuery {
   genre: Genre | null;
@@ -38,6 +39,7 @@ function App() {
           <NavBar />
         </GridItem>
         <GridItem area="main">
+          <MovieGridHeading movieQuery={movieQuery}/>
           <Box padding="10px">
             <SearchInput searchText={movieQuery.searchText} onSearch={(searchText) => updateMovieQuery({ searchText })} />
           </Box>
