@@ -25,22 +25,23 @@ interface FetchMovies {
 }
 
 const useMovies = (movieQuery: MovieQuery) => {
+    const endpoint = movieQuery.searchText ? 'search/movie' : 'discover/movie';
 
-    const providerId = movieQuery.provider?.provider_id;
-
-        
     return useData<Movie>(
-        'discover/movie', 
-        'results', 
-        { params: { 
-            language: 'en-US', 
-            page: 1, 
-            'vote_count.gte': 300, 
-            watch_region: 'US',
-            with_genres: movieQuery.genre?.id,
-            sort_by: movieQuery.sortBy,
-            with_watch_providers: movieQuery.provider?.provider_id
-         }},
+        endpoint,
+        'results',
+        {
+            params: {
+                language: 'en-US',
+                page: 1,
+                'vote_count.gte': movieQuery.searchText ? undefined : 300, 
+                watch_region: 'US',
+                with_genres: movieQuery.searchText ? undefined : movieQuery.genre?.id, 
+                sort_by: movieQuery.searchText ? undefined : movieQuery.sortBy, 
+                with_watch_providers: movieQuery.searchText ? undefined : movieQuery.provider?.provider_id, 
+                query: movieQuery.searchText || undefined,
+            },
+        },
         [movieQuery]
     );
 };
