@@ -13,7 +13,7 @@ const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
   if (error) return null;
 
   return (
-    <Wrap padding="10px">
+    <Wrap>
         {genres.map (genre => 
         <Skeleton asChild loading={isLoading} key={genre.id}>
             <Badge size="md" padding="3" bg="bg.pill"

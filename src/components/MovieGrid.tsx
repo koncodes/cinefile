@@ -4,13 +4,14 @@ import MovieCard from './MovieCard';
 import MovieCardContainer from './MovieCardContainer';
 import { Genre } from '@/hooks/useGenres';
 import MovieCardSkeleton from './MovieCardSkeleton';
+import { MovieQuery } from '@/App';
 
 interface Props {
-    selectedGenre: Genre | null;
+    movieQuery: MovieQuery;
 }
 
-const GameGrid = ({ selectedGenre }: Props) => {
-    const { data: movies, error, isLoading } = useMovies(selectedGenre);
+const GameGrid = ({ movieQuery }: Props) => {
+    const { data: movies, error, isLoading } = useMovies(movieQuery);
     const skeletons = [1, 2, 3, 4, 5, 6]
 
     return (

@@ -1,3 +1,4 @@
+import { MovieQuery } from '@/App';
 import useData from './useData';
 import { Genre } from './useGenres';
 
@@ -23,12 +24,18 @@ interface FetchMovies {
     results: Movie[];
 }
 
-const useMovies = (selectedGenre: Genre | null) => {
+const useMovies = (movieQuery: MovieQuery) => {
     return useData<Movie>(
         'discover/movie', 
         'results', 
-        { params: { language: 'en-US', page: 1, with_genres: selectedGenre?.id }},
-        [selectedGenre?.id]
+        { params: { 
+            language: 'en-US', 
+            page: 1, 
+            'vote_count.gte': 400, 
+            with_genres: movieQuery.genre?.id,
+            sort_by: movieQuery.sortBy
+         }},
+        [movieQuery]
     );
 };
 
