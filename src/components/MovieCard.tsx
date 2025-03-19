@@ -2,7 +2,7 @@ import { Movie } from '@/hooks/useMovies'
 import { Avatar, Box, Button, Card, Image } from '@chakra-ui/react'
 import React from 'react'
 import placeholder from '../assets/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg';
-import Rating from './rating';
+import Rating from './Rating';
 
 
 interface Props {
@@ -11,9 +11,7 @@ interface Props {
 
 const MovieCard = ( { movie }: Props) => {
   return (
-    <Card.Root
-    borderRadius="10px"
-    overflow="hidden">
+    <Card.Root>
         {movie.poster_path ? <Image 
           src={`https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`} 
           alt={movie.title}
