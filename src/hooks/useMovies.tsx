@@ -25,9 +25,10 @@ interface FetchMovies {
 
 const useMovies = (selectedGenre: Genre | null) => {
     return useData<Movie>(
-        'movie/now_playing', 
+        'discover/movie', 
         'results', 
-        { language: 'en-US', page: 1 }
+        { params: { language: 'en-US', page: 1, with_genres: selectedGenre?.id }},
+        [selectedGenre?.id]
     );
 };
 

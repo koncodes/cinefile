@@ -8,7 +8,7 @@ export interface Genre {
 const useGenres = () => useData<Genre>(
     '/genre/movie/list',
     'genres', 
-    { language: 'en' }
+    { params: { language: 'en-US' } }
 );
 
 export default useGenres;

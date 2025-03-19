@@ -11,8 +11,8 @@ interface FetchResponse<T> {
 const useData = <T extends unknown>( 
     endpoint: string,
     key: string,
-    params: Record<string, any> = {},
-    requestConfig?: AxiosRequestConfig
+    requestConfig?: AxiosRequestConfig,
+    deps?: any[]
 ) => {
     const [data, setData] = useState<T[]>([]);
     const [error, setError] = useState('');
@@ -24,11 +24,8 @@ const useData = <T extends unknown>(
         setIsLoading(true);
         apiClient
             .get<FetchResponse<T>>(endpoint, {
-                params: {
-                    ...params,
-                    api_key: import.meta.env.VITE_API_KEY,
-                },
-                signal: controller.signal
+                signal: controller.signal,
+                ...requestConfig
             })
             .then(response => {
                 setData(response.data[key] || []);
@@ -41,7 +38,7 @@ const useData = <T extends unknown>(
             });
 
         return () => controller.abort();
-    }, []);
+    }, deps ? [...deps] : []);
 
     return { data, error, isLoading };
 };
