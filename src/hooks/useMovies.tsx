@@ -25,15 +25,21 @@ interface FetchMovies {
 }
 
 const useMovies = (movieQuery: MovieQuery) => {
+
+    const providerId = movieQuery.provider?.provider_id;
+
+        
     return useData<Movie>(
         'discover/movie', 
         'results', 
         { params: { 
             language: 'en-US', 
             page: 1, 
-            'vote_count.gte': 400, 
+            'vote_count.gte': 300, 
+            watch_region: 'US',
             with_genres: movieQuery.genre?.id,
-            sort_by: movieQuery.sortBy
+            sort_by: movieQuery.sortBy,
+            with_watch_providers: movieQuery.provider?.provider_id
          }},
         [movieQuery]
     );
