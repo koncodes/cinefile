@@ -7,6 +7,7 @@ import { Genre } from "./hooks/useGenres"
 import SortBySelector from "./components/SortBySelector"
 import ProviderSelector from "./components/ProviderSelector"
 import { Provider } from "./hooks/useProviders"
+import SearchInput from "./components/SearchInput"
 
 export interface MovieQuery {
   genre: Genre | null;
@@ -29,10 +30,11 @@ function App() {
           <NavBar />
         </GridItem>
         <GridItem area="main">
+          <Box padding="10px"><SearchInput /></Box>
           <HStack align="flex-start" padding="10px" gap="20">
             <GenreList selectedGenre={movieQuery.genre} onSelectGenre={(genre) => setMovieQuery({ ...movieQuery, genre})}/>
             <HStack>
-              <SortBySelector selectedSort={movieQuery.sortBy} onSortChange={(sortBy) => setMovieQuery({ ...movieQuery, sortBy})}/>
+              <SortBySelector selectedSort={movieQuery.sortBy} onSelectSort={(sortBy) => setMovieQuery({ ...movieQuery, sortBy})}/>
               <ProviderSelector selectedProvider={movieQuery.provider} onSelectProvider={(provider) => setMovieQuery({ ...movieQuery, provider})}/>
             </HStack>
           </HStack>

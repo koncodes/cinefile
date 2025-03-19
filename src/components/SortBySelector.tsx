@@ -2,17 +2,17 @@ import { Button, Menu, Portal } from '@chakra-ui/react';
 import { BsChevronDown } from 'react-icons/bs';
 
 interface Props {
-    onSortChange: (sortBy: string) => void;
+    onSelectSort: (sortBy: string) => void;
     selectedSort: string | null;
 }
 
-const SortBySelector = ({ onSortChange, selectedSort }: Props) => {
+const SortBySelector = ({ onSelectSort, selectedSort }: Props) => {
     const sortValues: { value: string; label: string }[] = [
         { value: 'popularity.desc', label: 'Popularity' },
         { value: 'primary_release_date.desc', label: 'Release Date' },
         { value: 'vote_average.desc', label: 'Rating' },
         // Uncomment these if needed:
-        // { value: 'title.desc', label: 'Title Descending' },
+        { value: 'title.desc', label: 'Title' },
         // { value: 'title.asc', label: 'Title Ascending' },
         // { value: 'popularity.asc', label: 'Popularity Ascending' },
         // { value: 'primary_release_date.asc', label: 'Release Date Ascending' },
@@ -30,19 +30,17 @@ const SortBySelector = ({ onSortChange, selectedSort }: Props) => {
             </Menu.Trigger>
             <Portal>
                 <Menu.Positioner>
-                    <Menu.Content minW="10rem">
-                        <Menu.RadioItemGroup
-                            value={selectedSort || 'popularity.desc'} 
-                            onValueChange={({ value }: { value: string }) => onSortChange(value)} 
-                        >
-                            {sortValues.map((item) => (
-                                <Menu.RadioItem key={item.value} value={item.value}>
-                                    {item.label}
-                                    <Menu.ItemIndicator />
-                                </Menu.RadioItem>
-                            ))}
-                        </Menu.RadioItemGroup>
-                    </Menu.Content>
+                  <Menu.Content minW="10rem">
+                    {sortValues.map((sortValue) => (
+                      <Menu.Item
+                        key={sortValue.value}
+                        value={sortValue.value}
+                        onClick={() => onSelectSort(sortValue.value)}
+                      >
+                        {sortValue.label}
+                      </Menu.Item>
+                    ))}
+                  </Menu.Content>
                 </Menu.Positioner>
             </Portal>
         </Menu.Root>
