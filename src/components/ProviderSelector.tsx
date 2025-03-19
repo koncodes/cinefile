@@ -23,7 +23,7 @@ const ProviderSelector = ({ selectedProvider, onSelectProvider }: Props) => {
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
-          <Menu.Content minW="10rem">
+          <Menu.Content>
             {providers.map((provider) => (
               <Menu.Item
                 key={provider.provider_id}
