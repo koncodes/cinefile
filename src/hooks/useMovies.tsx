@@ -1,4 +1,5 @@
 import useData from './useData';
+import { Genre } from './useGenres';
 
 export interface Movie {
     adult: boolean;
@@ -22,7 +23,7 @@ interface FetchMovies {
     results: Movie[];
 }
 
-const useMovies = () => {
+const useMovies = (selectedGenre: Genre | null) => {
     return useData<Movie>(
         'movie/now_playing', 
         'results', 

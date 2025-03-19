@@ -1,5 +1,5 @@
 import apiClient from "@/services/api-client";
-import { CanceledError } from "axios";
+import { Axios, AxiosRequestConfig, CanceledError } from "axios";
 import { useEffect, useState } from "react";
 
 interface FetchResponse<T> {
@@ -11,7 +11,8 @@ interface FetchResponse<T> {
 const useData = <T extends unknown>( 
     endpoint: string,
     key: string,
-    params: Record<string, any> = {}
+    params: Record<string, any> = {},
+    requestConfig?: AxiosRequestConfig
 ) => {
     const [data, setData] = useState<T[]>([]);
     const [error, setError] = useState('');
