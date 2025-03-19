@@ -1,13 +1,11 @@
-import apiClient from '@/services/api-client';
-import { CanceledError } from 'axios';
-import React, { useEffect, useState } from 'react';
+import useData from './useData';
 
 export interface Movie {
     adult: boolean;
     backdrop_path: string;
     genre_ids: number[];
     id: number;
-    original_language: number;
+    original_language: string;
     original_title: string;
     overview: string;
     popularity: number;
@@ -25,38 +23,11 @@ interface FetchMovies {
 }
 
 const useMovies = () => {
+    return useData<Movie>(
+        'movie/now_playing', 
+        'results', 
+        { language: 'en-US', page: 1 }
+    );
+};
 
-    const [movies, setMovies] = useState<Movie[]>([]);
-    const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        const controller = new AbortController();
-
-        setIsLoading(true);
-        apiClient
-            .get<FetchMovies>('movie/now_playing', {
-                params: {
-                    language: 'en-US',
-                    page: 1,
-                    api_key: import.meta.env.VITE_API_KEY,
-                },
-                signal: controller.signal
-            })
-            .then(response => {
-                setMovies(response.data.results);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                if (error instanceof CanceledError) return;
-                setError(error.message);
-                setIsLoading(false);
-            });
-
-        return () => controller.abort();
-    }, [])
-
-    return { movies, error, isLoading }
-}
-
-export default useMovies
+export default useMovies;

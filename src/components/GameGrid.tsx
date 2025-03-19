@@ -6,7 +6,7 @@ import MovieCardContainer from './MovieCardContainer';
 
 
 const GameGrid = () => {
-    const {movies, error, isLoading} = useMovies();
+    const { data: movies, error, isLoading } = useMovies();
     const skeletons = [1, 2, 3, 4, 5, 6]
 
     return (
