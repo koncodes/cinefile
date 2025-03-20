@@ -1,5 +1,5 @@
-import useGenres, { Genre } from '@/hooks/useGenres'
-import { Badge, Skeleton, Wrap } from '@chakra-ui/react';
+import useGenres, { Genre } from "@/hooks/useGenres";
+import { Badge, Skeleton, Wrap } from "@chakra-ui/react";
 
 interface Props {
   onSelectGenre: (genre: Genre) => void;
@@ -8,21 +8,27 @@ interface Props {
 
 const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
   const { data: genres, error, isLoading } = useGenres();
-  const skeletons = [1, 2, 3, 4, 5, 6]
+  const skeletons = [1, 2, 3, 4, 5, 6];
 
   if (error) return null;
 
   return (
     <Wrap>
-        {genres.map (genre => 
+      {genres?.genres?.map((genre) => (
         <Skeleton asChild loading={isLoading} key={genre.id}>
-            <Badge size="md" padding="3" bg="bg.pill"
+          <Badge
+            size="md"
+            padding="3"
+            bg="bg.pill"
             onClick={() => onSelectGenre(genre)}
-            fontWeight={genre.id === selectedGenre?.id ? 'bold' : 'normal'}>{genre.name}</Badge>
+            fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
+          >
+            {genre.name}
+          </Badge>
         </Skeleton>
-        )}
+      ))}
     </Wrap>
-  )
-}
+  );
+};
 
-export default GenreList
+export default GenreList;

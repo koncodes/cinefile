@@ -22,9 +22,18 @@ function App() {
 
   const updateMovieQuery = (newQuery: Partial<MovieQuery>) => {
     if (newQuery.searchText !== undefined) {
-      setMovieQuery({ searchText: newQuery.searchText, genre: null, sortBy: null, provider: null });
+      setMovieQuery({
+        searchText: newQuery.searchText,
+        genre: null,
+        sortBy: null,
+        provider: null,
+      });
     } else {
-      setMovieQuery((prevQuery) => ({ ...prevQuery, ...newQuery, searchText: null }));
+      setMovieQuery((prevQuery) => ({
+        ...prevQuery,
+        ...newQuery,
+        searchText: null,
+      }));
     }
   };
 
@@ -39,9 +48,12 @@ function App() {
           <NavBar />
         </GridItem>
         <GridItem area="main">
-          <MovieGridHeading movieQuery={movieQuery}/>
+          <MovieGridHeading movieQuery={movieQuery} />
           <Box padding="10px">
-            <SearchInput searchText={movieQuery.searchText} onSearch={(searchText) => updateMovieQuery({ searchText })} />
+            <SearchInput
+              searchText={movieQuery.searchText}
+              onSearch={(searchText) => updateMovieQuery({ searchText })}
+            />
           </Box>
           <HStack align="flex-start" padding="10px" gap="20">
             <GenreList

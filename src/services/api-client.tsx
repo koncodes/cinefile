@@ -1,8 +1,30 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
-export default axios.create({
-    baseURL: 'https://api.themoviedb.org/3',
-    params: {
-        api_key: import.meta.env.VITE_API_KEY,
-    }
-})
+export interface FetchResponse<T> {
+  results?: T[];
+  genres?: T[];
+  [key: string]: any;
+}
+
+export const axiosInstance = axios.create({
+  baseURL: "https://api.themoviedb.org/3",
+  params: {
+    api_key: import.meta.env.VITE_TMDB_API_KEY,
+  },
+});
+
+class APIClient<T> {
+  endpoint: string;
+
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
+  }
+
+  getAll = (config: AxiosRequestConfig) => {
+    return axiosInstance
+      .get<FetchResponse<T>>(this.endpoint, config)
+      .then((res) => res.data);
+  }
+}
+
+export default APIClient;
