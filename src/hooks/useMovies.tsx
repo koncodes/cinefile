@@ -44,10 +44,11 @@ const useMovies = (movieQuery: MovieQuery) => {
     initialPageParam: 1, 
     getNextPageParam: (lastPage, allPages) => {
       if ((lastPage.page ?? 0) < (lastPage.total_pages ?? 0)) {
-        return (lastPage.page ?? 0) + 1; // Return the next page number
+        return (lastPage.page ?? 0) + 1; 
       }
-      return undefined; // No more pages to fetch
+      return undefined; 
     },
+    staleTime: 24 * 60 * 60 * 1000, // 24 hours
   });
 };
 
