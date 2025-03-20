@@ -1,6 +1,6 @@
 import { MovieQuery } from "@/App";
-import { useQuery } from "@tanstack/react-query";
-import APIClient from "@/services/api-client";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import APIClient, { FetchResponse } from "@/services/api-client";
 
 export interface Movie {
   adult: boolean;
@@ -24,13 +24,13 @@ const useMovies = (movieQuery: MovieQuery) => {
     movieQuery.searchText ? "search/movie" : "discover/movie"
   );
 
-  return useQuery({
+  return useInfiniteQuery<FetchResponse<Movie>, Error>({
     queryKey: ["movies", movieQuery],
-    queryFn: () =>
+    queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
           language: "en-US",
-          page: 1,
+          page: pageParam,
           "vote_count.gte": movieQuery.searchText ? undefined : 300,
           watch_region: "US",
           with_genres: movieQuery.searchText ? undefined : movieQuery.genre?.id,
@@ -41,6 +41,13 @@ const useMovies = (movieQuery: MovieQuery) => {
           query: movieQuery.searchText || undefined,
         },
       }),
+    initialPageParam: 1, 
+    getNextPageParam: (lastPage, allPages) => {
+      if ((lastPage.page ?? 0) < (lastPage.total_pages ?? 0)) {
+        return (lastPage.page ?? 0) + 1; // Return the next page number
+      }
+      return undefined; // No more pages to fetch
+    },
   });
 };
 

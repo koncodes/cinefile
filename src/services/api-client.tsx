@@ -4,6 +4,9 @@ export interface FetchResponse<T> {
   results?: T[];
   genres?: T[];
   [key: string]: any;
+  page?: number;
+  total_pages?: number;
+  total_results?: number;
 }
 
 export const axiosInstance = axios.create({
