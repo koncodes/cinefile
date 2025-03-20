@@ -1,5 +1,7 @@
 import { AbsoluteCenter, ProgressCircle } from '@chakra-ui/react';
 
+
+
 interface Props {
     score: number;
 }

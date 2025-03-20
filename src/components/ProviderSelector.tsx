@@ -1,16 +1,15 @@
-import { Button, Menu, Portal } from '@chakra-ui/react';
-import { BsChevronDown } from 'react-icons/bs';
-import useProviders, { Provider } from '@/hooks/useProviders';
+import { Button, Menu, Portal } from "@chakra-ui/react";
+import { BsChevronDown } from "react-icons/bs";
+import useProviders, { Provider } from "@/hooks/useProviders";
 
 interface Props {
   onSelectProvider: (provider: Provider) => void;
   selectedProvider: Provider | null;
 }
 
-const ChevronDownIcon = BsChevronDown as React.ElementType;
-
 const ProviderSelector = ({ selectedProvider, onSelectProvider }: Props) => {
   const { data: providers, error } = useProviders();
+  const ChevronDownIcon = BsChevronDown as React.ElementType;
 
   if (error) return null;
 
@@ -18,13 +17,14 @@ const ProviderSelector = ({ selectedProvider, onSelectProvider }: Props) => {
     <Menu.Root>
       <Menu.Trigger asChild>
         <Button variant="outline" size="sm">
-          {selectedProvider?.provider_name || 'Select Provider'} <ChevronDownIcon />
+          {selectedProvider?.provider_name || "Select Provider"}{" "}
+          <ChevronDownIcon />
         </Button>
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
           <Menu.Content>
-            {providers.map((provider) => (
+            {providers?.results?.map((provider) => (
               <Menu.Item
                 key={provider.provider_id}
                 value={provider.provider_id.toString()}
