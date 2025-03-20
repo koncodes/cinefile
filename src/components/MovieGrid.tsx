@@ -1,10 +1,11 @@
+import { MovieQuery } from "@/App";
 import useMovies from "@/hooks/useMovies";
-import { Box, Button, SimpleGrid, Text } from "@chakra-ui/react";
+import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import React from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import MovieCard from "./MovieCard";
 import MovieCardContainer from "./MovieCardContainer";
 import MovieCardSkeleton from "./MovieCardSkeleton";
-import { MovieQuery } from "@/App";
-import React from "react";
 
 interface Props {
   movieQuery: MovieQuery;
@@ -22,12 +23,23 @@ const GameGrid = ({ movieQuery }: Props) => {
   const skeletons = [1, 2, 3, 4, 5, 6];
 
   if (error) return <Text>{error.message}</Text>;
+  const fetchedMovieCount =
+    movies?.pages.reduce(
+      (total, page) => total + (page.results?.length ?? 0),
+      0
+    ) || 0;
 
   return (
-    <Box padding="10px">
+    <InfiniteScroll
+      dataLength={fetchedMovieCount}
+      hasMore={!!hasNextPage}
+      next={() => fetchNextPage()}
+      loader={<Spinner />}
+    >
       <SimpleGrid
         columns={{ base: 1, sm: 2, md: 4, lg: 5, xl: 6 }}
         gap={{ sm: 5, md: 5, lg: 5, xl: 6 }}
+        padding="10px"
       >
         {isLoading &&
           skeletons.map((skeleton) => (
@@ -45,12 +57,7 @@ const GameGrid = ({ movieQuery }: Props) => {
           </React.Fragment>
         ))}
       </SimpleGrid>
-      {hasNextPage && (
-        <Button onClick={() => fetchNextPage()} marginY="5">
-          {isFetchingNextPage ? "Loading..." : "Load More"}
-        </Button>
-      )}
-    </Box>
+    </InfiniteScroll>
   );
 };
 
