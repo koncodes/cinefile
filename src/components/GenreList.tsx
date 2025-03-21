@@ -1,14 +1,12 @@
-import useGenres, { Genre } from "@/hooks/useGenres";
+import useGenres from "@/hooks/useGenres";
+import useMovieQueryStore from "@/store";
 import { Badge, Skeleton, Wrap } from "@chakra-ui/react";
 
-interface Props {
-  onSelectGenre: (genre: Genre) => void;
-  selectedGenre: Genre | null;
-}
-
-const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
+const GenreList = () => {
   const { data: genres, error, isLoading } = useGenres();
-  const skeletons = [1, 2, 3, 4, 5, 6];
+
+  const selectedGenre = useMovieQueryStore((s) => s.movieQuery.genre);
+  const setGenre = useMovieQueryStore((s) => s.setGenre);
 
   if (error) return null;
 
@@ -20,7 +18,7 @@ const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
             size="md"
             padding="3"
             bg="bg.pill"
-            onClick={() => onSelectGenre(genre)}
+            onClick={() => setGenre(genre)}
             fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
           >
             {genre.name}

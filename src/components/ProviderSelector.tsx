@@ -1,15 +1,14 @@
 import { Button, Menu, Portal } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 import useProviders, { Provider } from "@/hooks/useProviders";
+import useMovieQueryStore from "@/store";
 
-interface Props {
-  onSelectProvider: (provider: Provider) => void;
-  selectedProvider: Provider | null;
-}
-
-const ProviderSelector = ({ selectedProvider, onSelectProvider }: Props) => {
+const ProviderSelector = () => {
   const { data: providers, error } = useProviders();
   const ChevronDownIcon = BsChevronDown as React.ElementType;
+
+  const selectedProvider = useMovieQueryStore((s) => s.movieQuery.provider);
+  const setProvider = useMovieQueryStore((s) => s.setProvider);
 
   if (error) return null;
 
@@ -28,7 +27,7 @@ const ProviderSelector = ({ selectedProvider, onSelectProvider }: Props) => {
               <Menu.Item
                 key={provider.provider_id}
                 value={provider.provider_id.toString()}
-                onClick={() => onSelectProvider(provider)}
+                onClick={() => setProvider(provider)}
               >
                 {provider.provider_name}
               </Menu.Item>

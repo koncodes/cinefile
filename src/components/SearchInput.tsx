@@ -1,39 +1,30 @@
+import useMovieQueryStore from "@/store";
 import { Input, InputGroup } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { BsSearch } from "react-icons/bs";
-
-interface Props {
-  onSearch: (searchText: string) => void;
-  searchText: string | null;
-}
 
 const SearchIcon = BsSearch as React.ElementType;
 
-const SearchInput = ({ onSearch, searchText }: Props) => {
-  const [inputValue, setInputValue] = useState(searchText || "");
-
-  useEffect(() => {
-    setInputValue(searchText || "");
-  }, [searchText]);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    onSearch(inputValue);
-  };
+const SearchInput = () => {
+  const ref = useRef<HTMLInputElement>(null);
+  const searchText = useMovieQueryStore((s) => s.movieQuery.searchText);
+  const setSearchText = useMovieQueryStore((s) => s.setSearchText);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (ref.current) setSearchText(ref.current.value);
+      }}
+    >
       <InputGroup startElement={<SearchIcon />}>
         <Input
           placeholder="Search movies..."
           borderRadius={20}
           variant="subtle"
-          value={inputValue}
-          onChange={handleInputChange}
+          ref={ref}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
         />
       </InputGroup>
     </form>
