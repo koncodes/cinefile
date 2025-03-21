@@ -1,12 +1,8 @@
+import useMovieQueryStore from "@/store";
 import { Button, Menu, Portal } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 
-interface Props {
-  onSelectSort: (sortBy: string) => void;
-  selectedSort: string | null;
-}
-
-const SortBySelector = ({ onSelectSort, selectedSort }: Props) => {
+const SortBySelector = () => {
   const sortValues: { value: string; label: string }[] = [
     { value: "popularity.desc", label: "Popularity" },
     { value: "primary_release_date.desc", label: "Release Date" },
@@ -18,6 +14,9 @@ const SortBySelector = ({ onSelectSort, selectedSort }: Props) => {
     // { value: 'primary_release_date.asc', label: 'Release Date Ascending' },
     // { value: 'vote_average.asc', label: 'Rating Ascending' },
   ];
+
+  const selectedSort = useMovieQueryStore((s) => s.movieQuery.sortBy);
+  const setSortBy = useMovieQueryStore((s) => s.setSortBy);
 
   const ChevronDownIcon = BsChevronDown as React.ElementType;
   const selectedLabel =
@@ -39,7 +38,7 @@ const SortBySelector = ({ onSelectSort, selectedSort }: Props) => {
               <Menu.Item
                 key={sortValue.value}
                 value={sortValue.value}
-                onClick={() => onSelectSort(sortValue.value)}
+                onClick={() => setSortBy(sortValue.value)}
               >
                 {sortValue.label}
               </Menu.Item>

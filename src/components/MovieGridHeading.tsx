@@ -1,12 +1,11 @@
-import { MovieQuery } from "@/App";
+import useMovieQueryStore from "@/store";
 import { Heading } from "@chakra-ui/react";
 
-interface Props {
-  movieQuery: MovieQuery;
-}
+const MovieGridHeading = () => {
+  const selectedGenre = useMovieQueryStore((s) => s.movieQuery.genre);
+  const selectedProvider = useMovieQueryStore((s) => s.movieQuery.provider);
 
-const MovieGridHeading = ({ movieQuery }: Props) => {
-  const heading = `${movieQuery.genre?.name || ""} Movies ${movieQuery.provider ? `available on ${movieQuery.provider.provider_name}` : ""}`;
+  const heading = `${selectedGenre?.name || ""} Movies ${selectedProvider ? `available on ${selectedProvider.provider_name}` : ""}`;
 
   return (
     <Heading as="h1" size="5xl" padding="10px">

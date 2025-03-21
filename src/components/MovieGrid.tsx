@@ -1,4 +1,3 @@
-import { MovieQuery } from "@/App";
 import useMovies from "@/hooks/useMovies";
 import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import React from "react";
@@ -7,11 +6,7 @@ import MovieCard from "./MovieCard";
 import MovieCardContainer from "./MovieCardContainer";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 
-interface Props {
-  movieQuery: MovieQuery;
-}
-
-const GameGrid = ({ movieQuery }: Props) => {
+const GameGrid = () => {
   const {
     data: movies,
     error,
@@ -19,7 +14,7 @@ const GameGrid = ({ movieQuery }: Props) => {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useMovies(movieQuery);
+  } = useMovies();
   const skeletons = [1, 2, 3, 4, 5, 6];
 
   if (error) return <Text>{error.message}</Text>;

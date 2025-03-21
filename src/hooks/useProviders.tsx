@@ -1,6 +1,7 @@
 import providers from "@/data/providers";
-import { useQuery } from "@tanstack/react-query";
 import APIClient from "@/services/api-client";
+import { useQuery } from "@tanstack/react-query";
+import ms from "ms";
 
 export interface Provider {
   logo_path: string;
@@ -15,7 +16,7 @@ const useProviders = () => {
     queryKey: ["providers"],
     queryFn: () =>
       apiClient.getAll({ params: { language: "en-US", watch_region: "US" } }),
-    staleTime: 24 * 60 * 60 * 1000, // 24 hours
+    staleTime: ms("24h"),
     initialData: providers,
   });
 };

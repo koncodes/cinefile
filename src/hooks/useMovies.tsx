@@ -1,6 +1,7 @@
-import { MovieQuery } from "@/App";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import APIClient, { FetchResponse } from "@/services/api-client";
+import useMovieQueryStore from "@/store";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import ms from "ms";
 
 export interface Movie {
   adult: boolean;
@@ -19,7 +20,9 @@ export interface Movie {
   vote_count: number;
 }
 
-const useMovies = (movieQuery: MovieQuery) => {
+const useMovies = () => {
+  const movieQuery = useMovieQueryStore(s => s.movieQuery);
+
   const apiClient = new APIClient<Movie>(
     movieQuery.searchText ? "search/movie" : "discover/movie"
   );
@@ -41,15 +44,19 @@ const useMovies = (movieQuery: MovieQuery) => {
           query: movieQuery.searchText || undefined,
         },
       }),
-    initialPageParam: 1, 
+    initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       if ((lastPage.page ?? 0) < (lastPage.total_pages ?? 0)) {
-        return (lastPage.page ?? 0) + 1; 
+        return (lastPage.page ?? 0) + 1;
       }
-      return undefined; 
+      return undefined;
     },
-    staleTime: 24 * 60 * 60 * 1000, // 24 hours
+    staleTime: ms("24h"),
   });
 };
 
 export default useMovies;
+function useGameQueryStore(arg0: any) {
+  throw new Error("Function not implemented.");
+}
+
