@@ -27,7 +27,12 @@ const SortBySelector = () => {
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
-        <Button variant="outline" size="sm">
+        <Button
+          variant="outline"
+          size="sm"
+          width="100%"
+          justifyContent="space-between"
+        >
           {selectedLabel} <ChevronDownIcon />
         </Button>
       </Menu.Trigger>

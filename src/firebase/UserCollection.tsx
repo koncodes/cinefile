@@ -39,19 +39,9 @@ export default class UserCollection {
     });
   }
 
-  // static async setUser(user: User) {
-  //   const userDocRef = UserCollection.getUserDoc(user.id);
-  //   return setDoc(userDocRef.withConverter(userConverter), user);
-  // }
-
   static async setUser(user: User) {
     const userDocRef = UserCollection.getUserDoc(user.id);
-    try {
-      await setDoc(userDocRef.withConverter(userConverter), user);
-      console.log("User successfully written to Firestore:", user);
-    } catch (error) {
-      console.error("🔥 Firestore write error:", error);
-    }
+    return setDoc(userDocRef.withConverter(userConverter), user);
   }
 
   static async getUsers() {
