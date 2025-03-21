@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Genre } from "./entities/Genre";
 import { Provider } from "./entities/Provider";
+import { User } from "./entities/User";
 
 interface MovieQuery {
   genre?: Genre;
@@ -17,7 +18,7 @@ interface MovieQueryStore {
   setSortBy: (sortBy: string) => void;
 }
 
-const useMovieQueryStore = create<MovieQueryStore>((set) => ({
+export const useMovieQueryStore = create<MovieQueryStore>((set) => ({
   movieQuery: {},
   setSearchText: (searchText: string) =>
     set(() => ({ movieQuery: { searchText } })),
@@ -53,4 +54,12 @@ const useMovieQueryStore = create<MovieQueryStore>((set) => ({
     })),
 }));
 
-export default useMovieQueryStore;
+interface AuthStore {
+  authUser: User | null;
+  setAuthUser: (authUser: User | null) => void;
+}
+
+export const userAuthStore = create<AuthStore>((set) => ({
+  authUser: null,
+  setAuthUser: (authUser: User | null) => set(() => ({ authUser })),
+}));

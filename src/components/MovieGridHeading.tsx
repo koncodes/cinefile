@@ -1,4 +1,4 @@
-import useMovieQueryStore from "@/store";
+import { useMovieQueryStore } from "@/store";
 import { Heading } from "@chakra-ui/react";
 
 const MovieGridHeading = () => {

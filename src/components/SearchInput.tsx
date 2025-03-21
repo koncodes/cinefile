@@ -1,4 +1,4 @@
-import useMovieQueryStore from "@/store";
+import { useMovieQueryStore } from "@/store";
 import { Input, InputGroup } from "@chakra-ui/react";
 import { useRef } from "react";
 import { BsSearch } from "react-icons/bs";

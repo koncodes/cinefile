@@ -1,8 +1,8 @@
 import APIClient, { FetchResponse } from "@/services/api-client";
-import useMovieQueryStore from "@/store";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ms from "ms";
 import { Movie } from "../entities/Movie";
+import { useMovieQueryStore } from "@/store";
 
 const useMovies = () => {
   const movieQuery = useMovieQueryStore((s) => s.movieQuery);
