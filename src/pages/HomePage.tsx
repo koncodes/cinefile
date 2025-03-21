@@ -12,7 +12,7 @@ const HomePage = () => {
     <>
       <MovieGridHeading />
       <SearchInput />
-      <HStack align="flex-start" gap="20" marginBlock={5}>
+      <HStack align="flex-start" gap="20" marginTop={5}>
         <GenreList />
         <HStack>
           <SortBySelector />

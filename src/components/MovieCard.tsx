@@ -10,7 +10,7 @@ interface Props {
 
 const MovieCard = ({ movie }: Props) => {
   return (
-    <Card.Root bg="bg.card" overflow="hidden">
+    <Card.Root bg="bg.card">
       {movie.poster_path ? (
         <Image
           src={`https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`}
