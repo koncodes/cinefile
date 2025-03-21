@@ -56,7 +56,3 @@ const useMovies = () => {
 };
 
 export default useMovies;
-function useGameQueryStore(arg0: any) {
-  throw new Error("Function not implemented.");
-}
-

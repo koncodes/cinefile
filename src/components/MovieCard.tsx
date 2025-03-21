@@ -3,6 +3,7 @@ import { Avatar, Box, Button, Card, Image } from "@chakra-ui/react";
 import React from "react";
 import placeholder from "../assets/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg";
 import Rating from "./Rating";
+import { Link } from "react-router-dom";
 
 interface Props {
   movie: Movie;
@@ -36,7 +37,9 @@ const MovieCard = ({ movie }: Props) => {
         />
       )}
       <Card.Body gap="2">
-        <Card.Title mb="2">{movie.title}</Card.Title>
+        <Card.Title mb="2">
+          <Link to={"/movies/" + movie.id}>{movie.title}</Link>
+        </Card.Title>
         <Card.Description>
           This is the card body. Lorem ipsum dolor sit amet, consectetur
           adipiscing elit.

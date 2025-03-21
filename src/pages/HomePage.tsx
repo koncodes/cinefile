@@ -11,10 +11,8 @@ const HomePage = () => {
   return (
     <>
       <MovieGridHeading />
-      <Box padding="10px">
-        <SearchInput />
-      </Box>
-      <HStack align="flex-start" padding="10px" gap="20">
+      <SearchInput />
+      <HStack align="flex-start" gap="20" marginBlock={5}>
         <GenreList />
         <HStack>
           <SortBySelector />
