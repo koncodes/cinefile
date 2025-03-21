@@ -22,7 +22,6 @@ const ExpandableText = ({ children }: Props) => {
       <Button
         size="xs"
         fontWeight="bold"
-        colorScheme="yellow"
         marginLeft={1}
         onClick={() => setExpanded(!expanded)}
       >
