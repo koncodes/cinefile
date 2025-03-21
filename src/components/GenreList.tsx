@@ -1,3 +1,4 @@
+import { Genre } from "@/entities/Genre";
 import useGenres from "@/hooks/useGenres";
 import { useMovieQueryStore } from "@/store";
 import { Badge, Skeleton, Wrap } from "@chakra-ui/react";
@@ -10,6 +11,14 @@ const GenreList = () => {
 
   if (error) return null;
 
+  const handleGenreClick = (genre: Genre) => {
+    if (genre.id === selectedGenre?.id) {
+      setGenre(null);
+    } else {
+      setGenre(genre);
+    }
+  };
+
   return (
     <Wrap>
       {genres?.genres?.map((genre) => (
@@ -18,8 +27,9 @@ const GenreList = () => {
             size="md"
             padding="3"
             bg="bg.pill"
-            onClick={() => setGenre(genre)}
+            onClick={() => handleGenreClick(genre)}
             fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
+            cursor="pointer"
           >
             {genre.name}
           </Badge>

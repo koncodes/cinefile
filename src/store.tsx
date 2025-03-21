@@ -4,17 +4,17 @@ import { Provider } from "./entities/Provider";
 import { User } from "./entities/User";
 
 interface MovieQuery {
-  genre?: Genre;
+  genre?: Genre | null;
   sortBy?: string;
-  provider?: Provider;
+  provider?: Provider | null;
   searchText?: string;
 }
 
 interface MovieQueryStore {
   movieQuery: MovieQuery;
   setSearchText: (searchText: string) => void;
-  setGenre: (genre: Genre) => void;
-  setProvider: (provider: Provider) => void;
+  setGenre: (genre: Genre | null) => void;
+  setProvider: (provider: Provider | null) => void;
   setSortBy: (sortBy: string) => void;
 }
 
@@ -22,7 +22,7 @@ export const useMovieQueryStore = create<MovieQueryStore>((set) => ({
   movieQuery: {},
   setSearchText: (searchText: string) =>
     set(() => ({ movieQuery: { searchText } })),
-  setGenre: (genre: Genre) =>
+  setGenre: (genre: Genre | null) =>
     set((store) => ({
       movieQuery: {
         ...store.movieQuery,
@@ -32,7 +32,7 @@ export const useMovieQueryStore = create<MovieQueryStore>((set) => ({
           : store.movieQuery.searchText,
       },
     })),
-  setProvider: (provider: Provider) =>
+  setProvider: (provider: Provider | null) =>
     set((store) => ({
       movieQuery: {
         ...store.movieQuery,

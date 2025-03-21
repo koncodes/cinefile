@@ -15,7 +15,12 @@ const ProviderSelector = () => {
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
-        <Button variant="outline" size="sm">
+        <Button
+          variant="outline"
+          size="sm"
+          width="100%"
+          justifyContent="space-between"
+        >
           {selectedProvider?.provider_name || "Select Provider"}{" "}
           <ChevronDownIcon />
         </Button>
