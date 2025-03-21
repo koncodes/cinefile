@@ -2,26 +2,10 @@ import APIClient, { FetchResponse } from "@/services/api-client";
 import useMovieQueryStore from "@/store";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ms from "ms";
-
-export interface Movie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
+import { Movie } from "../entities/Movie";
 
 const useMovies = () => {
-  const movieQuery = useMovieQueryStore(s => s.movieQuery);
+  const movieQuery = useMovieQueryStore((s) => s.movieQuery);
 
   const apiClient = new APIClient<Movie>(
     movieQuery.searchText ? "search/movie" : "discover/movie"

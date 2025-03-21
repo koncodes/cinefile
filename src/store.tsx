@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { Genre } from "./hooks/useGenres";
-import { Provider } from "./hooks/useProviders";
+import { Genre } from "./entities/Genre";
+import { Provider } from "./entities/Provider";
 
 interface MovieQuery {
   genre?: Genre;
