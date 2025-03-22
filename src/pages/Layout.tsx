@@ -1,15 +1,21 @@
+import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <Box bg="bg.root">
+    <Flex bg="bg.root" h="full" minH="100vh" gap="0" direction="column">
       <NavBar />
-      <Box padding="5">
+      <Box
+        paddingInline={{ base: "5", md: "10" }}
+        paddingBlock="10"
+        bg="layoutPrimary.bg"
+      >
         <Outlet />
       </Box>
-    </Box>
+      <Footer />
+    </Flex>
   );
 };
 

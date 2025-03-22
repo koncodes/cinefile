@@ -1,7 +1,7 @@
 import { Button, HStack, Image, Menu, Portal } from "@chakra-ui/react";
-import logo from "../assets/react.svg";
+import logo from "/images/cinefile.svg";
 import ColorModeSwitch from "./ColorModeSwitch";
-import Authentication from "./Authentication";
+import AuthenticationPopover from "./AuthenticationPopover";
 import { userAuthStore } from "@/stores/AuthStore";
 import { Link } from "react-router-dom";
 import { BsChevronDown } from "react-icons/bs";
@@ -12,8 +12,15 @@ const NavBar = () => {
   const ChevronDownIcon = BsChevronDown as React.ElementType;
 
   return (
-    <HStack justifyContent="space-between" padding="10px">
-      <Image src={logo} boxSize="40px" />
+    <HStack
+      justifyContent="space-between"
+      paddingInline={{ base: "5", md: "10" }}
+      paddingBlock="5"
+      bg="layoutSecondary.bg"
+    >
+      <Link to={"/"}>
+        <Image src={logo} height="8" />
+      </Link>
       <HStack>
         {authUser && (
           <Menu.Root>
@@ -52,7 +59,7 @@ const NavBar = () => {
         <Button variant="outline" size="sm" asChild>
           <Link to={"/lists"}>Lists</Link>
         </Button>
-        {!authUser && (<Authentication />)}
+        {!authUser && <AuthenticationPopover />}
         <ColorModeSwitch />
       </HStack>
     </HStack>
