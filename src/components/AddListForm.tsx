@@ -1,9 +1,5 @@
-import List from "@/entities/List";
-import { Movie } from "@/entities/Movie";
-import { MovieList } from "@/entities/MovieList";
-import MovieListCollection from "@/firebase/MovieListCollection";
-import { userAuthStore } from "@/stores/AuthStore";
-import fetchMovie from "@/utils/fetchMovie";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   CloseButton,
@@ -16,11 +12,15 @@ import {
   Portal,
   Stack,
   Text,
-  Textarea
+  Textarea,
 } from "@chakra-ui/react";
 import { Timestamp } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+
+import List from "@/entities/List";
+import { Movie, FirestoreMovie } from "@/entities/Movie";
+import { MovieList } from "@/entities/MovieList";
+import MovieListCollection from "@/firebase/MovieListCollection";
+import { userAuthStore } from "@/stores/AuthStore";
 import AddMovie from "./AddMovie";
 import DraggableMovieList from "./DragableMovieList";
 
@@ -29,103 +29,114 @@ const AddListForm = () => {
   const navigate = useNavigate();
   const authUser = userAuthStore((s) => s.authUser);
 
-  const getInitialFormData = () => ({
+  const [formData, setFormData] = useState({
     name: "",
     description: "",
     privacy: "public",
-    movieIds: new List<number>(),
-    posterUrls: new List<string>(),
   });
-
-  const [formData, setFormData] =
-    useState<Partial<MovieList>>(getInitialFormData());
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const isEditing = Boolean(id);
 
   useEffect(() => {
-    if (!id) {
-      setFormData(getInitialFormData());
-      setMovies([]);
-      return;
-    }
+    if (!isEditing) return;
+
     const fetchList = async () => {
       setIsLoading(true);
       try {
-        const userData = await MovieListCollection.getMovieListById(id!);
-        if (userData) {
-          setFormData(userData);
-          if (userData.movieIds && userData.movieIds.length > 0) {
-            const uniqueMovieIds = [...new Set(userData.movieIds.getItems())];
-            const moviePromises = uniqueMovieIds.map((movieId) =>
-              fetchMovie(movieId!)
-            );
-            const movieResults = await Promise.all(moviePromises);
-            const validMovies = movieResults.filter(
-              (movie) => movie !== undefined
-            ) as Movie[];
-            setMovies(validMovies);
-          } else {
-            setMovies([]);
+        const listData = await MovieListCollection.getMovieListById(id!);
+        if (listData) {
+          setFormData({
+            name: listData.name || "",
+            description: listData.description || "",
+            privacy: listData.privacy || "public",
+          });
+
+          if (listData.movies && listData.movies.length > 0) {
+            setMovies(listData.movies.getItems() as Movie[]);
           }
         } else {
-          setFormData(getInitialFormData());
           navigate("/");
         }
       } catch (error) {
         console.error("Error fetching movie list:", error);
-        setFormData(getInitialFormData());
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchList();
   }, [id, navigate]);
 
-  const handleAddMovie = (anotherMovie: Movie) => {
-    if (!movies.some((movie) => movie.id === anotherMovie.id)) {
-      setMovies((movies) => [...movies, anotherMovie]);
-      formData.movieIds?.addItem(anotherMovie.id);
-      formData.posterUrls?.addItem(anotherMovie.poster_path);
+  const handleAddMovie = (newMovie: Movie) => {
+    if (!movies.some((movie) => movie.id === newMovie.id)) {
+      setMovies((prevMovies) => [...prevMovies, newMovie]);
     }
   };
 
-  const handleDeleteMovie = (anotherMovie: Movie) => {
-    setMovies((movies) =>
-      movies.filter((movie) => movie.id !== anotherMovie.id)
+  const handleReorderMovies = (reorderedMovies: Movie[]) => {
+    setMovies(reorderedMovies);
+  };
+
+  const handleDeleteMovie = (movieToDelete: Movie) => {
+    setMovies((prevMovies) =>
+      prevMovies.filter((movie) => movie.id !== movieToDelete.id)
     );
-    formData.movieIds?.removeItem(anotherMovie.id);
-    formData.posterUrls?.removeItem(anotherMovie.poster_path);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!authUser) return;
+
+    const movieIds = new List<number>(movies.map((m) => m.id));
+    const posterUrls = new List<string>(movies.map((m) => m.poster_path));
+    const firestoreMovies = new List<FirestoreMovie>(
+      movies.map((m) => ({
+        id: m.id,
+        title: m.title,
+        poster_path: m.poster_path,
+        release_date: m.release_date,
+        vote_average: m.vote_average,
+      }))
+    );
     const newMovieList = new MovieList({
       id: id || crypto.randomUUID(),
-      userId: authUser?.id || "",
+      userId: authUser.id,
       name: formData.name,
       description: formData.description,
       privacy: formData.privacy,
       type: "custom",
       created: Timestamp.now(),
       updated: Timestamp.now(),
-      movieIds: formData.movieIds?.getItems(),
-      posterUrls: formData.posterUrls?.getItems(),
+      movieIds: movieIds.getItems(),
+      posterUrls: posterUrls.getItems(),
+      movies: firestoreMovies.getItems(),
     });
+
     try {
-      if (id) {
+      if (isEditing) {
         await MovieListCollection.updateMovieList(newMovieList);
       } else {
         await MovieListCollection.setMovieList(newMovieList);
       }
-      setFormData({ name: "", description: "", privacy: "public" });
-      setMovies([]);
       navigate("/");
     } catch (error) {
       console.error("Error saving MovieList:", error);
     }
   };
 
-  const handleDeleteList = async (id: string) => {
+  const handleDeleteList = async () => {
+    if (!id) return;
+
     try {
       await MovieListCollection.deleteMovieList(id);
       navigate("/");
@@ -134,13 +145,15 @@ const AddListForm = () => {
     }
   };
 
-  // if (isLoading) return Spinner;
-  if (!authUser) return;
+  if (!authUser) return null;
+
   return (
     <form onSubmit={handleSubmit}>
       <Fieldset.Root size="lg" maxW="md">
         <Stack>
-          <Fieldset.Legend>Create Custom List</Fieldset.Legend>
+          <Fieldset.Legend>
+            {isEditing ? "Edit Custom List" : "Create Custom List"}
+          </Fieldset.Legend>
           <Fieldset.HelperText>
             Please provide the details for your custom list.
           </Fieldset.HelperText>
@@ -152,31 +165,27 @@ const AddListForm = () => {
             <Input
               name="name"
               value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
+              onChange={handleInputChange}
               required
             />
           </Field.Root>
+
           <Field.Root>
             <Field.Label>Description</Field.Label>
             <Textarea
               name="description"
               value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
+              onChange={handleInputChange}
             />
           </Field.Root>
+
           <Field.Root>
             <Field.Label>Who can view?</Field.Label>
             <NativeSelect.Root>
               <NativeSelect.Field
                 name="privacy"
                 value={formData.privacy}
-                onChange={(e) =>
-                  setFormData({ ...formData, privacy: e.target.value })
-                }
+                onChange={handleInputChange}
               >
                 <option value="public">Public</option>
                 <option value="private">Private</option>
@@ -187,24 +196,29 @@ const AddListForm = () => {
 
           <AddMovie onAddMovie={handleAddMovie} />
 
-          <Text fontWeight="bold">Added Movies:</Text>
-          <DraggableMovieList
-            movies={movies}
-            onReorder={setMovies}
-            onDelete={handleDeleteMovie}
-          />
+          {movies.length > 0 && (
+            <>
+              <Text fontWeight="bold" mt={4}>
+                Added Movies:
+              </Text>
+              <DraggableMovieList
+                movies={movies}
+                onReorder={handleReorderMovies}
+                onDelete={handleDeleteMovie}
+              />
+            </>
+          )}
         </Fieldset.Content>
 
-        <HStack>
-          <Button type="submit" alignSelf="flex-start">
-            Submit
+        <HStack mt={4}>
+          <Button type="submit" loading={isLoading}>
+            {isEditing ? "Update" : "Create"} List
           </Button>
-          {id && (
+
+          {isEditing && (
             <Dialog.Root placement="center">
               <Dialog.Trigger asChild>
-                <Button alignSelf="flex-start" variant="outline">
-                  Delete
-                </Button>
+                <Button variant="outline">Delete</Button>
               </Dialog.Trigger>
               <Portal>
                 <Dialog.Backdrop />
@@ -220,9 +234,7 @@ const AddListForm = () => {
                       <Dialog.ActionTrigger asChild>
                         <Button variant="outline">Cancel</Button>
                       </Dialog.ActionTrigger>
-                      <Button onClick={() => handleDeleteList(id)}>
-                        Delete
-                      </Button>
+                      <Button onClick={handleDeleteList}>Delete</Button>
                     </Dialog.Footer>
                     <Dialog.CloseTrigger asChild>
                       <CloseButton size="sm" />

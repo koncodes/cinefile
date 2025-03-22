@@ -1,7 +1,7 @@
 import { Movie } from "@/entities/Movie";
 import useMovies from "@/hooks/useMovies";
 import { MovieQuery } from "@/stores/MovieQueryStore";
-import { Box, Field, Input, Spinner, Text } from "@chakra-ui/react";
+import { Box, Spinner, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
@@ -69,12 +69,18 @@ const SearchMovie = ({ onSelectMovie, selectedMovie }: Props) => {
               autoComplete="off"
             />
             {isOpen && (
-              <AutoCompleteList>
+              <AutoCompleteList
+                maxH="300px"
+                overflow="auto"
+                id="scrollable-movie-list"
+              >
                 <InfiniteScroll
                   dataLength={fetchedMovieCount}
                   hasMore={!!hasNextPage}
                   next={() => fetchNextPage()}
                   loader={<Spinner />}
+                  scrollableTarget="scrollable-movie-list"
+                  style={{ overflow: "visible" }}
                 >
                   {movies?.pages.map((page, index) => (
                     <React.Fragment key={index}>
@@ -84,8 +90,9 @@ const SearchMovie = ({ onSelectMovie, selectedMovie }: Props) => {
                           value={`${movie.title} ${movie.id}`}
                           onClick={() => handleMovieSelect(movie)}
                         >
-                          {movie.title} (
-                          {new Date(movie.release_date).getFullYear()})
+                          {movie.title}
+                          {movie.release_date &&
+                            `(${new Date(movie.release_date).getFullYear()})`}
                         </AutoCompleteItem>
                       ))}
                     </React.Fragment>
