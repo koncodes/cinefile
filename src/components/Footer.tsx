@@ -44,7 +44,7 @@ const Footer = () => {
       </Marquee>
       <Flex
         paddingInline={{ base: "5", md: "10" }}
-        paddingBlock={{ base: "4em", md: "4em" }}
+        paddingBlock={{ base: "10", md: "5em" }}
         direction="column"
         gap="8"
       >
@@ -55,22 +55,34 @@ const Footer = () => {
         >
           <HStack justify="flex-start" gap="6">
             <Link to="/">
-              <ChakraLink variant="underline">Home</ChakraLink>
+              <ChakraLink as="span" variant="underline">
+                Home
+              </ChakraLink>
             </Link>
             <Link to="/films">
-              <ChakraLink variant="underline">Films</ChakraLink>
+              <ChakraLink as="span" variant="underline">
+                Films
+              </ChakraLink>
             </Link>
             <Link to="/lists">
-              <ChakraLink variant="underline">Lists</ChakraLink>
+              <ChakraLink as="span" variant="underline">
+                Lists
+              </ChakraLink>
             </Link>
             <Link to="/members">
-              <ChakraLink variant="underline">Members</ChakraLink>
+              <ChakraLink as="span" variant="underline">
+                Members
+              </ChakraLink>
             </Link>
             <Link to="/about">
-              <ChakraLink variant="underline">About</ChakraLink>
+              <ChakraLink as="span" variant="underline">
+                About
+              </ChakraLink>
             </Link>
             <Link to="/contact">
-              <ChakraLink variant="underline">Contact</ChakraLink>
+              <ChakraLink as="span" variant="underline">
+                Contact
+              </ChakraLink>
             </Link>
           </HStack>
           <Flex
@@ -119,13 +131,19 @@ const Footer = () => {
           >
             <HStack justify="flex-start" gap="3">
               <Link to="/">
-                <ChakraLink variant="underline">Privacy</ChakraLink>
+                <ChakraLink as="span" variant="underline">
+                  Privacy
+                </ChakraLink>
               </Link>
               <Link to="/films">
-                <ChakraLink variant="underline">Terms of Service</ChakraLink>
+                <ChakraLink as="span" variant="underline">
+                  Terms of Service
+                </ChakraLink>
               </Link>
               <Link to="/lists">
-                <ChakraLink variant="underline">Cookie Settings</ChakraLink>
+                <ChakraLink as="span" variant="underline">
+                  Cookie Settings
+                </ChakraLink>
               </Link>
             </HStack>
           </Flex>
