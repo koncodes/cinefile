@@ -1,31 +1,50 @@
-export default class List<T> extends Array<T> {
+export default class List<T> {
+  private items: T[];
+
   constructor(items: T[] = []) {
-    super(...items);
+    this.items = [...items];
   }
 
   addItem(item: T): this {
-    this.push(item);
+    this.items.push(item);
     return this;
   }
 
   removeItem(item: T): this {
-    const index = this.indexOf(item);
+    const index = this.items.indexOf(item);
     if (index !== -1) {
-      this.splice(index, 1);
+      this.items.splice(index, 1);
     }
     return this;
   }
 
+  removeBy(predicate: (item: T) => boolean): this {
+    this.items = this.items.filter((item) => !predicate(item));
+    return this;
+  }
+
   clearItems(): this {
-    this.splice(0, this.length);
+    this.items = [];
     return this;
   }
 
   getItems(): T[] {
-    return [...this];
+    return [...this.items];
   }
 
   isInList(item: T): boolean {
-    return this.includes(item);
+    return this.items.includes(item);
+  }
+
+  get length(): number {
+    return this.items.length;
+  }
+
+  [Symbol.iterator](): Iterator<T> {
+    return this.items[Symbol.iterator]();
+  }
+
+  at(index: number): T | undefined {
+    return this.items[index];
   }
 }

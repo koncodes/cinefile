@@ -17,6 +17,7 @@ const useMovies = (query?: MovieQuery) => {
     queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
+          include_adult: false,
           language: "en-US",
           page: pageParam,
           "vote_count.gte": currentQuery.searchText

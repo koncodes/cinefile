@@ -3,12 +3,11 @@ import UserCollection from "@/firebase/UserCollection";
 import { Heading, Spinner, Text, Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import AddListForm from "@/components/AddListForm";
-import SearchMovies from "@/components/SearchMovie";
-import { Movie } from "@/entities/Movie";
+import { User } from "@/entities/User";
 
 const UserProfilePage = () => {
   const { id } = useParams();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,7 +39,6 @@ const UserProfilePage = () => {
       <Heading>{user?.displayName}</Heading>
       <Text>Email: {user?.email}</Text>
       <Text>Avatar URL: {user?.avatarURL}</Text>
-      <AddListForm />
     </Box>
   );
 };

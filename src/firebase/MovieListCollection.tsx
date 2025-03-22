@@ -28,8 +28,8 @@ export default class MovieListCollection {
     const MovieListsCollection = MovieListCollection.getMovieListsCollection();
     const MovieListQuery = query(
       MovieListsCollection,
-      where('privacy', '==', 'public'),
-      where('type', '==', 'custom')
+      where("privacy", "==", "public"),
+      where("type", "==", "custom")
     ).withConverter(movieListConverter);
     const MovieListDocsSnap = await getDocs(MovieListQuery);
     return MovieListDocsSnap.docs.map((doc) => doc.data());
@@ -39,9 +39,9 @@ export default class MovieListCollection {
     const MovieListsCollection = MovieListCollection.getMovieListsCollection();
     const MovieListQuery = query(
       MovieListsCollection,
-      where('userId', '==', id),
-      where('privacy', '==', 'public'),
-      where('type', '==', 'custom')
+      where("userId", "==", id),
+      where("privacy", "==", "public"),
+      where("type", "==", "custom")
     ).withConverter(movieListConverter);
     const MovieListDocsSnap = await getDocs(MovieListQuery);
     return MovieListDocsSnap.docs.map((doc) => doc.data());
@@ -51,8 +51,8 @@ export default class MovieListCollection {
     const MovieListsCollection = MovieListCollection.getMovieListsCollection();
     const MovieListQuery = query(
       MovieListsCollection,
-      where('userId', '==', id),
-      where('type', '==', 'watched')
+      where("userId", "==", id),
+      where("type", "==", "watched")
     ).withConverter(movieListConverter);
     const MovieListDocSnap = await getDocs(MovieListQuery);
     return MovieListDocSnap?.docs[0]?.data();
@@ -62,8 +62,8 @@ export default class MovieListCollection {
     const MovieListsCollection = MovieListCollection.getMovieListsCollection();
     const MovieListQuery = query(
       MovieListsCollection,
-      where('userId', '==', id),
-      where('type', '==', 'toWatch')
+      where("userId", "==", id),
+      where("type", "==", "toWatch")
     ).withConverter(movieListConverter);
     const MovieListDocSnap = await getDocs(MovieListQuery);
     return MovieListDocSnap?.docs[0]?.data();
@@ -73,9 +73,9 @@ export default class MovieListCollection {
     const MovieListsCollection = MovieListCollection.getMovieListsCollection();
     const MovieListQuery = query(
       MovieListsCollection,
-      where('movieIds', 'array-contains', movieId),
-      where('privacy', '==', 'public'),
-      where('type', '==', 'custom')
+      where("movieIds", "array-contains", movieId),
+      where("privacy", "==", "public"),
+      where("type", "==", "custom")
     ).withConverter(movieListConverter);
     const MovieListDocsSnap = await getDocs(MovieListQuery);
     return MovieListDocsSnap.docs.map((doc) => doc.data());
@@ -85,18 +85,19 @@ export default class MovieListCollection {
     const MovieListDocRef = MovieListCollection.getMovieListDoc(MovieList.id);
     return setDoc(MovieListDocRef.withConverter(movieListConverter), MovieList);
   }
-
-  static async updateMovieList(MovieList: MovieList) {
-    const MovieListDocRef = this.getMovieListDoc(MovieList.id);
-    await updateDoc(MovieListDocRef, { ...MovieList });
+  static async updateMovieList(movieList: MovieList) {
+    const movieListDocRef = this.getMovieListDoc(movieList.id);
+    const movieListData = movieList.toFirestore() as { [key: string]: any };
+    await updateDoc(movieListDocRef, movieListData);
     console.log("MovieList updated successfully.");
   }
 
-  static async deleteRecipe(id: string) {
+  static async deleteMovieList(id: string) {
     try {
-      await deleteDoc(doc(db, MovieListCollection.COLLECTION_NAME, id));
+      const movieListDocRef = this.getMovieListDoc(id);
+      await deleteDoc(movieListDocRef);
     } catch (error) {
-      console.error("Error deleting move list:", error);
+      console.error("Error deleting movie list:", error);
     }
   }
 
