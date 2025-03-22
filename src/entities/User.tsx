@@ -11,7 +11,7 @@ interface FirestoreUser {
 }
 
 export class User {
-  id: string;
+  readonly id: string; 
   displayName: string;
   email: string;
   avatarURL: string;
@@ -21,7 +21,7 @@ export class User {
     displayName = "Anonymous",
     email = "",
     avatarURL = "",
-  }: Partial<User> & { id: string }) {
+  }: Omit<Partial<FirestoreUser>, 'id'> & { id: string }) {
     this.id = id;
     this.displayName = displayName;
     this.email = email;
@@ -46,7 +46,8 @@ export const userConverter: FirestoreDataConverter<User> = {
     return user.toFirestore();
   },
   fromFirestore(snapshot: QueryDocumentSnapshot): User {
-    const data = snapshot.data() as FirestoreUser;
-    return new User({ id: snapshot.id, ...data });
+    const data = snapshot.data();
+    const { displayName, email, avatarURL } = data as FirestoreUser; 
+    return new User({ id: snapshot.id, displayName, email, avatarURL });
   },
 };

@@ -37,7 +37,7 @@ const MovieCard = ({ movie }: Props) => {
       )}
       <Card.Body gap="2">
         <Card.Title mb="2">
-          <Link to={"/movies/" + movie.id}>{movie.title}</Link>
+          <Link to={"/films/" + movie.id}>{movie.title}</Link>
         </Card.Title>
         <Card.Description>
           This is the card body. Lorem ipsum dolor sit amet, consectetur

@@ -1,15 +1,13 @@
+import { Genre } from "@/entities/Genre";
+import { Provider } from "@/entities/Provider";
 import { create } from "zustand";
-import { Genre } from "./entities/Genre";
-import { Provider } from "./entities/Provider";
-import { User } from "./entities/User";
 
-interface MovieQuery {
+export interface MovieQuery {
   genre?: Genre | null;
   sortBy?: string;
   provider?: Provider | null;
   searchText?: string;
 }
-
 interface MovieQueryStore {
   movieQuery: MovieQuery;
   setSearchText: (searchText: string) => void;
@@ -52,14 +50,4 @@ export const useMovieQueryStore = create<MovieQueryStore>((set) => ({
           : store.movieQuery.searchText,
       },
     })),
-}));
-
-interface AuthStore {
-  authUser: User | null;
-  setAuthUser: (authUser: User | null) => void;
-}
-
-export const userAuthStore = create<AuthStore>((set) => ({
-  authUser: null,
-  setAuthUser: (authUser: User | null) => set(() => ({ authUser })),
 }));

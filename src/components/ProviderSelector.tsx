@@ -1,5 +1,5 @@
 import useProviders from "@/hooks/useProviders";
-import { useMovieQueryStore } from "@/store";
+import { useMovieQueryStore } from "@/stores/MovieQueryStore";
 import { Button, Menu, Portal } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 
