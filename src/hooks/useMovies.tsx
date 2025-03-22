@@ -13,7 +13,24 @@ const useMovies = (query?: MovieQuery) => {
   );
 
   return useInfiniteQuery<FetchResponse<Movie>, Error>({
-    queryKey: ["movies", currentQuery],
+    queryKey: [
+      "movies",
+      Object.entries(currentQuery)
+        .filter(([_, value]) => value !== null && value !== undefined)
+        .reduce(
+          (obj, [key, value]) => {
+            if (key === "genre" && value) {
+              obj[key] = value.id;
+            } else if (key === "provider" && value) {
+              obj[key] = value.provider_id;
+            } else {
+              obj[key] = value;
+            }
+            return obj;
+          },
+          {} as Record<string, any>
+        ),
+    ],
     queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
