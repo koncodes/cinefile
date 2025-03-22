@@ -1,6 +1,6 @@
 import { Genre } from "@/entities/Genre";
 import useGenres from "@/hooks/useGenres";
-import { useMovieQueryStore } from "@/store";
+import { useMovieQueryStore } from "@/stores/MovieQueryStore";
 import { Badge, Skeleton, Wrap } from "@chakra-ui/react";
 
 const GenreList = () => {

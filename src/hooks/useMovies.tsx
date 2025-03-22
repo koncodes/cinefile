@@ -2,30 +2,37 @@ import APIClient, { FetchResponse } from "@/services/api-client";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ms from "ms";
 import { Movie } from "../entities/Movie";
-import { useMovieQueryStore } from "@/store";
+import { MovieQuery, useMovieQueryStore } from "@/stores/MovieQueryStore";
 
-const useMovies = () => {
-  const movieQuery = useMovieQueryStore((s) => s.movieQuery);
+const useMovies = (query?: MovieQuery) => {
+  const storeQuery = useMovieQueryStore((s) => s.movieQuery);
+  const currentQuery = query || storeQuery;
 
   const apiClient = new APIClient<Movie>(
-    movieQuery.searchText ? "search/movie" : "discover/movie"
+    currentQuery.searchText ? "search/movie" : "discover/movie"
   );
 
   return useInfiniteQuery<FetchResponse<Movie>, Error>({
-    queryKey: ["movies", movieQuery],
+    queryKey: ["movies", currentQuery],
     queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
           language: "en-US",
           page: pageParam,
-          "vote_count.gte": movieQuery.searchText ? undefined : 300,
-          watch_region: "US",
-          with_genres: movieQuery.searchText ? undefined : movieQuery.genre?.id,
-          sort_by: movieQuery.searchText ? undefined : movieQuery.sortBy,
-          with_watch_providers: movieQuery.searchText
+          "vote_count.gte": currentQuery.searchText
             ? undefined
-            : movieQuery.provider?.provider_id,
-          query: movieQuery.searchText || undefined,
+            : currentQuery.sortBy == "vote_average.desc"
+              ? 250
+              : 10,
+          watch_region: "US",
+          with_genres: currentQuery.searchText
+            ? undefined
+            : currentQuery.genre?.id,
+          sort_by: currentQuery.searchText ? undefined : currentQuery.sortBy,
+          with_watch_providers: currentQuery.searchText
+            ? undefined
+            : currentQuery.provider?.provider_id,
+          query: currentQuery.searchText || undefined,
         },
       }),
     initialPageParam: 1,
@@ -36,6 +43,7 @@ const useMovies = () => {
       return undefined;
     },
     staleTime: ms("24h"),
+    placeholderData: query ? (prev) => prev : undefined,
   });
 };
 

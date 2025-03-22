@@ -1,7 +1,7 @@
 import { User } from "@/entities/User";
 import { auth } from "@/firebase";
 import UserCollection from "@/firebase/UserCollection";
-import { userAuthStore } from "@/store";
+import { userAuthStore } from "@/stores/AuthStore";
 import {
   Button,
   Field,

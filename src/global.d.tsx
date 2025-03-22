@@ -7,6 +7,7 @@ declare module "@chakra-ui/react" {
   export interface MenuItemProps extends PropsWithChildren {
     value?: string;
     onClick?: () => void;
+    asChild?: boolean;
   }
   export interface ProgressCircleCircleProps extends PropsWithChildren {
     css?: object;
