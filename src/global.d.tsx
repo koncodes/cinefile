@@ -19,4 +19,10 @@ declare module "@chakra-ui/react" {
   export interface PopoverTriggerProps extends PropsWithChildren {
     asChild?: boolean;
   }
+  export interface DialogTriggerProps extends PropsWithChildren {
+    asChild?: boolean;
+  }
+  export interface DialogCloseTriggerProps extends PropsWithChildren {
+    asChild?: boolean;
+  }
 }

@@ -7,7 +7,6 @@ interface Props {
 }
 
 const MovieListPreview = ({ posterUrls, listName }: Props) => {
-  console.log(posterUrls);
   return (
     <Card.Root overflow="hidden">
       <Grid
@@ -19,13 +18,15 @@ const MovieListPreview = ({ posterUrls, listName }: Props) => {
       >
         {posterUrls
           ?.getItems()
-          .map((posterUrl) => (
+          .slice(0, 4)
+          .map((posterUrl, index) => (
             <Image
               src={`https://media.themoviedb.org/t/p/w440_and_h660_face${posterUrl}`}
               alt={listName}
               objectFit="cover"
               width="100%"
               height="auto"
+              key={index}
             />
           ))}
       </Grid>

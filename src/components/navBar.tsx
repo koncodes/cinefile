@@ -35,6 +35,9 @@ const NavBar = () => {
                   <Menu.Item value="Profile" asChild>
                     <Link to={"/users/" + authUser.id}>Profile</Link>
                   </Menu.Item>
+                  <Menu.Item value="NewList" asChild>
+                    <Link to={"/lists/add"}>Add List</Link>
+                  </Menu.Item>
                   <Menu.Item value="Logout">
                     <LogoutButton />
                   </Menu.Item>
@@ -49,7 +52,7 @@ const NavBar = () => {
         <Button variant="outline" size="sm" asChild>
           <Link to={"/lists"}>Lists</Link>
         </Button>
-        <Authentication />
+        {!authUser && (<Authentication />)}
         <ColorModeSwitch />
       </HStack>
     </HStack>

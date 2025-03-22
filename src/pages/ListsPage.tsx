@@ -44,7 +44,7 @@ const ListsPage = () => {
       ) : (
         <>
           {movieLists.map((list) => (
-            <MovieListCard list={list} />
+            <MovieListCard key={list.id} list={list} />
           ))}
         </>
       )}

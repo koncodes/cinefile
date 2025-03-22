@@ -18,6 +18,19 @@ interface FirestoreMovieList {
   posterUrls: string[];
 }
 
+interface MovieListConstructorParams {
+  id?: string;
+  userId: string;
+  name?: string;
+  description?: string;
+  type?: string;
+  privacy?: string;
+  created?: Timestamp | null;
+  updated?: Timestamp | null;
+  movieIds?: number[] | List<number>;
+  posterUrls?: string[] | List<string>;
+}
+
 export class MovieList {
   id: string;
   userId: string;
@@ -39,12 +52,9 @@ export class MovieList {
     privacy = "public",
     created = Timestamp.now(),
     updated = Timestamp.now(),
-    movieIds = new List<number>(),
-    posterUrls = new List<string>(),
-  }: Omit<Partial<FirestoreMovieList>, "userId"> & {
-    userId: string;
-    id?: string;
-  }) {
+    movieIds = [],
+    posterUrls = [],
+  }: MovieListConstructorParams) {
     this.id = id ?? crypto.randomUUID();
     this.userId = userId;
     this.name = name;
@@ -53,12 +63,11 @@ export class MovieList {
     this.privacy = privacy;
     this.created = created ?? Timestamp.now();
     this.updated = updated ?? Timestamp.now();
-    this.movieIds = Array.isArray(movieIds)
-      ? new List<number>(movieIds)
-      : new List<number>();
-    this.posterUrls = Array.isArray(posterUrls)
-      ? new List<string>(posterUrls)
-      : new List<string>();
+    this.movieIds =
+      movieIds instanceof List ? movieIds : new List<number>(movieIds);
+
+    this.posterUrls =
+      posterUrls instanceof List ? posterUrls : new List<string>(posterUrls);
   }
 
   toFirestore(): FirestoreMovieList {
@@ -90,9 +99,10 @@ export const movieListConverter: FirestoreDataConverter<MovieList> = {
       privacy,
       created,
       updated,
-      movieIds = new List<number>(data?.movieIds || []),
-      posterUrls = new List<string>(data?.posterUrls || []),
+      movieIds = [],
+      posterUrls = [],
     } = data as FirestoreMovieList;
+
     return new MovieList({
       id: snapshot.id,
       userId,

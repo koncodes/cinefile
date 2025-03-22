@@ -1,6 +1,8 @@
+import AddListForm from "@/components/AddListForm";
 import ErrorPage from "@/pages/ErrorPage";
 import HomePage from "@/pages/HomePage";
 import Layout from "@/pages/Layout";
+import ListPage from "@/pages/ListPage";
 import ListsPage from "@/pages/ListsPage";
 import MovieDetailPage from "@/pages/MovieDetailPage";
 import MoviesPage from "@/pages/MoviesPage";
@@ -16,6 +18,9 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "films", element: <MoviesPage /> },
       { path: "lists", element: <ListsPage /> },
+      { path: "lists/:id", element: <ListPage /> },
+      { path: "lists/edit/:id", element: <AddListForm /> },
+      { path: "lists/add", element: <AddListForm /> },
       { path: "films/:id", element: <MovieDetailPage /> },
       { path: "users/:id", element: <UserProfilePage /> },
     ],

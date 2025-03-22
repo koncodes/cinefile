@@ -81,7 +81,8 @@ const Authentication = () => {
           } else {
             const newUser = new User({
               id: firebaseUser.uid,
-              displayName: firebaseUser.displayName || "Anonymous",
+              displayName:
+                firebaseUser.displayName || firebaseUser.email || "Anonymous",
               email: firebaseUser.email || "",
               avatarURL: firebaseUser.photoURL || "",
             });
@@ -100,72 +101,61 @@ const Authentication = () => {
   }, []);
 
   return (
-    <>
-      {authUser && (
-        <Button size="sm" variant="outline" onClick={handleLogout}>
-          Logout
+    <Popover.Root>
+      <Popover.Trigger asChild>
+        <Button size="sm" variant="outline">
+          {isLogin ? "Login" : "Sign Up"}
         </Button>
-      )}
-      {!authUser && (
-        <Popover.Root>
-          <Popover.Trigger asChild>
-            <Button size="sm" variant="outline">
-              {isLogin ? "Login" : "Sign Up"}
-            </Button>
-          </Popover.Trigger>
-          <Portal>
-            <Popover.Positioner>
-              <Popover.Content>
-                <Popover.Arrow />
-                <Popover.Body>
-                  <form onSubmit={handleSubmit}>
-                    <Stack gap="4">
-                      <Field.Root>
-                        <Field.Label>Email address</Field.Label>
-                        <Input
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          required
-                          placeholder="Email address"
-                        />
-                      </Field.Root>
-                      <Field.Root>
-                        <Field.Label>
-                          {isLogin ? "Password" : "Create password"}
-                        </Field.Label>
-                        <Input
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          required
-                          placeholder="Password"
-                        />
-                      </Field.Root>
-                      {error && <p style={{ color: "red" }}>{error}</p>}
-                      <Button type="submit">
-                        {isLogin ? "Login" : "Sign Up"}
-                      </Button>
-                      <Text
-                        as="span"
-                        color="blue.500"
-                        cursor="pointer"
-                        onClick={() => setIsLogin(!isLogin)}
-                      >
-                        {isLogin
-                          ? "Need an account? Sign Up"
-                          : "Already have an account? Login"}
-                      </Text>
-                    </Stack>
-                  </form>
-                </Popover.Body>
-                <Popover.CloseTrigger />
-              </Popover.Content>
-            </Popover.Positioner>
-          </Portal>
-        </Popover.Root>
-      )}
-    </>
+      </Popover.Trigger>
+      <Portal>
+        <Popover.Positioner>
+          <Popover.Content>
+            <Popover.Arrow />
+            <Popover.Body>
+              <form onSubmit={handleSubmit}>
+                <Stack gap="4">
+                  <Field.Root>
+                    <Field.Label>Email address</Field.Label>
+                    <Input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      placeholder="Email address"
+                    />
+                  </Field.Root>
+                  <Field.Root>
+                    <Field.Label>
+                      {isLogin ? "Password" : "Create password"}
+                    </Field.Label>
+                    <Input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      placeholder="Password"
+                    />
+                  </Field.Root>
+                  {error && <p style={{ color: "red" }}>{error}</p>}
+                  <Button type="submit">{isLogin ? "Login" : "Sign Up"}</Button>
+                  <Text
+                    as="span"
+                    color="blue.500"
+                    cursor="pointer"
+                    onClick={() => setIsLogin(!isLogin)}
+                  >
+                    {isLogin
+                      ? "Need an account? Sign Up"
+                      : "Already have an account? Login"}
+                  </Text>
+                </Stack>
+              </form>
+            </Popover.Body>
+            <Popover.CloseTrigger />
+          </Popover.Content>
+        </Popover.Positioner>
+      </Portal>
+    </Popover.Root>
   );
 };
 
