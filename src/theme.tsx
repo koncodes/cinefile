@@ -1,10 +1,76 @@
-import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
-import { defaultSystem } from "@chakra-ui/react";
+import {
+  createSystem,
+  defaultConfig,
+  defineConfig,
+  defineRecipe,
+} from "@chakra-ui/react";
 
+const buttonRecipe = defineRecipe({
+  variants: {
+    primary: {
+      true: {
+        bg: "buttonPrimary.bg",
+        color: "buttonPrimary.text",
+        fontFamily: "customHeading",
+        textTransform: "uppercase",
+        borderRadius: "10em",
+        letterSpacing: ".1em",
+        wordSpacing: "2px",
+        paddingInline: "5",
+        border: "0px",
+        fontSize: ".8em",
+        align: "center",
+        justify: "center",
+        h: "42px",
+        boxSizing: "border-box",
+        _hover: {
+          bg: "buttonPrimary.hoverBg",
+          color: "buttonPrimary.hoverText",
+        },
+        _active: {
+          bg: "buttonPrimary.bg",
+          color: "buttonPrimary.text",
+        },
+        _focus: {
+          bg: "buttonPrimary.bg",
+          color: "buttonPrimary.text",
+          boxShadow: "outline",
+        },
+        '[data-state="open"] &, &[data-state="open"]': {
+          bg: "buttonPrimary.activeBg",
+          color: "buttonPrimary.activeText",
+        },
+      },
+    },
+    secondary: {
+      true: {
+        bg: "buttonSecondary.bg",
+        color: "buttonPrimary.text",
+        fontFamily: "customHeading",
+        textTransform: "uppercase",
+        borderRadius: "100px",
+        paddingInline: "5",
+        border: "0px",
+        fontSize: ".8em",
+        align: "center",
+        justify: "center",
+        h: "42px",
+        _hover: {
+          bg: "buttonSecondary.hoverBg",
+          color: "buttonSecondary.hoverText",
+        },
+      },
+    },
+  },
+});
 const customConfig = defineConfig({
   theme: {
+    recipes: {
+      button: buttonRecipe,
+    },
     tokens: {
       fonts: {
+        body: { value: "'Poppins', sans-serif" },
         heading: { value: "'Nebulica', sans-serif" },
       },
       fontWeights: {
@@ -21,12 +87,13 @@ const customConfig = defineConfig({
             900: { value: "#666CDD" },
           },
           gold: {
-            500: { value: "#9B9B9B" },
+            500: { value: "#FFB431" },
           },
           gray: {
             50: { value: "#FAFAFA" },
             100: { value: "#D5D5D5" },
-            300: { value: "#9B9B9B" },
+            300: { value: "#777777" },
+            600: { value: "#666666" },
             900: { value: "#424242" },
           },
         },
@@ -209,6 +276,12 @@ const customConfig = defineConfig({
               _dark: "{colors.white}",
             },
           },
+          border: {
+            value: {
+              _light: "{colors.white}",
+              _dark: "{colors.brand.gray.600}",
+            },
+          },
         },
         layoutPrimary: {
           bg: {
@@ -237,6 +310,30 @@ const customConfig = defineConfig({
               _dark: "{colors.white}",
             },
           },
+          hoverBg: {
+            value: {
+              _light: "{colors.brand.gold.500}",
+              _dark: "{colors.brand.gold.500}",
+            },
+          },
+          hoverText: {
+            value: {
+              _light: "{colors.black}",
+              _dark: "{colors.black}",
+            },
+          },
+          activeBg: {
+            value: {
+              _light: "{colors.brand.gray.900}",
+              _dark: "{colors.brand.gray.100}",
+            },
+          },
+          activeText: {
+            value: {
+              _light: "{colors.white}",
+              _dark: "{colors.black}",
+            },
+          },
         },
         buttonSecondary: {
           bg: {
@@ -249,6 +346,18 @@ const customConfig = defineConfig({
             value: {
               _light: "{colors.black}",
               _dark: "{colors.white}",
+            },
+          },
+          hoverBg: {
+            value: {
+              _light: "{colors.brand.gold.500}",
+              _dark: "{colors.brand.gold.500}",
+            },
+          },
+          hoverText: {
+            value: {
+              _light: "{colors.black}",
+              _dark: "{colors.black}",
             },
           },
         },

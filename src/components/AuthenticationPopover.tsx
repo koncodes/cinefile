@@ -103,9 +103,7 @@ const AuthenticationPopover = () => {
   return (
     <Popover.Root>
       <Popover.Trigger asChild>
-        <Button size="sm" variant="outline">
-          {isLogin ? "Login" : "Sign Up"}
-        </Button>
+        <Button primary>{isLogin ? "User Login" : "Create Account"}</Button>
       </Popover.Trigger>
       <Portal>
         <Popover.Positioner>
