@@ -1,3 +1,4 @@
+import { ButtonProps } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 
 declare module "@chakra-ui/react" {
@@ -24,5 +25,12 @@ declare module "@chakra-ui/react" {
   }
   export interface DialogCloseTriggerProps extends PropsWithChildren {
     asChild?: boolean;
+  }
+  export interface AvatarImageProps extends PropsWithChildren {
+    src?: string;
+  }
+  interface ButtonProps extends React.ComponentProps<"button"> {
+    primary?: boolean;
+    secondary?: boolean;
   }
 }

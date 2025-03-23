@@ -2,11 +2,9 @@ import {
   Box,
   Flex,
   HStack,
-  Text,
   Link as ChakraLink,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
 import Marquee from "./Marquee";
 import { Link } from "react-router-dom";
 import { AiOutlineCopyright } from "react-icons/ai";
@@ -29,8 +27,8 @@ const OutlineCopyright: IconType = AiOutlineCopyright;
 const Footer = () => {
   return (
     <Flex h="full" bg="layoutSecondary.bg" grow="1" gap="0" direction="column">
-      <Marquee bg="banner.bg" color="white" h="140px">
-        <HStack fontFamily="customHeading" gap="3em" fontSize="2xl">
+      <Marquee bg="banner.bg" color="white" h="120px">
+        <HStack fontFamily="customHeading" gap="3em" fontSize="1.5em">
           <Link to="">Amazon Prime</Link>
           <Link to="">Netflix</Link>
           <Link to="">Max</Link>
