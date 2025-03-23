@@ -4,6 +4,8 @@ import {
   HStack,
   Link as ChakraLink,
   VStack,
+  Text,
+  Container,
 } from "@chakra-ui/react";
 import Marquee from "./Marquee";
 import { Link } from "react-router-dom";
@@ -40,18 +42,19 @@ const Footer = () => {
           <Link to="">Crunchyroll</Link>
         </HStack>
       </Marquee>
-      <Flex
-        paddingInline={{ base: "5", md: "10" }}
+      <Container
+        display="flex"
         paddingBlock={{ base: "10", md: "5em" }}
-        direction="column"
+        flexDirection="column"
         gap="8"
+         maxW="7xl"
       >
         <Flex
           direction={{ base: "column", md: "row" }}
           justify="space-between"
           gap="8"
         >
-          <HStack justify="flex-start" gap="6">
+          <Flex justify="flex-start" gap="6" flexWrap="wrap" fontSize=".95em">
             <Link to="/">
               <ChakraLink as="span" variant="underline">
                 Home
@@ -72,22 +75,13 @@ const Footer = () => {
                 Members
               </ChakraLink>
             </Link>
-            <Link to="/about">
-              <ChakraLink as="span" variant="underline">
-                About
-              </ChakraLink>
-            </Link>
             <Link to="/contact">
               <ChakraLink as="span" variant="underline">
                 Contact
               </ChakraLink>
             </Link>
-          </HStack>
-          <Flex
-            direction={{ base: "column", md: "row" }}
-            justify="space-between"
-            fontSize="l"
-          >
+          </Flex>
+          <Flex flexWrap="wrap" justify="space-between" fontSize="l">
             <HStack gap={6}>
               <Facebook size={24} />
               <Instagram size={24} />
@@ -111,11 +105,10 @@ const Footer = () => {
             gap="1"
           >
             <Box>
-              <HStack>
-                <OutlineCopyright />
-                2025{" "}
-                <ChakraLink fontWeight="black">Cinematheque Limited</ChakraLink>
-              </HStack>
+              © 2025{" "}
+              <ChakraLink display="inline" fontWeight="black">
+                Cinematheque Limited
+              </ChakraLink>
             </Box>
             <Box>
               Website Designed and developed by{" "}
@@ -146,7 +139,7 @@ const Footer = () => {
             </HStack>
           </Flex>
         </Flex>
-      </Flex>
+      </Container>
     </Flex>
   );
 };

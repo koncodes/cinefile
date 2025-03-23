@@ -19,9 +19,9 @@ const GameGrid = () => {
   if (error) return <Text>{error.message}</Text>;
 
   return (
-    <Box padding="10px">
+    <Box marginTop="20px">
       <SimpleGrid
-        columns={{ base: 1, sm: 2, md: 4, lg: 5, xl: 6 }}
+        columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 4 }}
         gap={{ sm: 5, md: 5, lg: 5, xl: 6 }}
       >
         {isLoading &&

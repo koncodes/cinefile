@@ -7,6 +7,12 @@ import {
 
 const buttonRecipe = defineRecipe({
   variants: {
+    variant: {
+      outline: {
+        borderColor: "border.card",
+        borderRadius: "100px",
+      },
+    },
     primary: {
       true: {
         bg: "buttonPrimary.bg",
@@ -37,15 +43,15 @@ const buttonRecipe = defineRecipe({
           boxShadow: "outline",
         },
         '[data-state="open"] &, &[data-state="open"]': {
-          bg: "buttonPrimary.activeBg",
-          color: "buttonPrimary.activeText",
+          bg: "buttonPrimary.bg",
+          color: "buttonPrimary.text",
         },
       },
     },
     secondary: {
       true: {
         bg: "buttonSecondary.bg",
-        color: "buttonPrimary.text",
+        color: "buttonSecondary.text",
         fontFamily: "customHeading",
         textTransform: "uppercase",
         borderRadius: "100px",
@@ -59,6 +65,54 @@ const buttonRecipe = defineRecipe({
           bg: "buttonSecondary.hoverBg",
           color: "buttonSecondary.hoverText",
         },
+        '[data-state="open"] &, &[data-state="open"]': {
+          bg: "buttonSecondary.bg",
+          color: "buttonSecondary.text",
+        },
+      },
+    },
+    tertiary: {
+      true: {
+        bg: "transparent",
+        color: "buttonTertiary.text",
+        fontFamily: "customHeading",
+        textTransform: "uppercase",
+        borderRadius: "100px",
+        padding: "10px",
+        borderWidth: "2px",
+        borderStyle: "solid",
+        borderColor: "buttonPrimary.bg",
+        fontSize: ".85em",
+        align: "center",
+        justify: "center",
+        h: "42px",
+        w: "42px",
+        _hover: {
+          bg: "buttonTertiary.hoverBg",
+          color: "buttonTertiary.hoverText",
+          borderColor: "buttonTertiary.hoverBorder",
+        },
+        '[data-state="open"] &, &[data-state="open"]': {
+          bg: "buttonTertiary.bg",
+          color: "buttonTertiary.text",
+          borderColor: "buttonTertiary.hoverBorder",
+        },
+        "& path": {
+          transform: "scale(.9)",
+          transformOrigin: "center",
+        },
+      },
+    },
+  },
+});
+const badgeRecipe = defineRecipe({
+  variants: {
+    primary: {
+      true: {
+        bg: "transparent",
+        border: "1px",
+        borderStyle: "solid",
+        borderColor: "border.card",
       },
     },
   },
@@ -67,6 +121,7 @@ const customConfig = defineConfig({
   theme: {
     recipes: {
       button: buttonRecipe,
+      badge: badgeRecipe,
     },
     tokens: {
       fonts: {
@@ -90,11 +145,15 @@ const customConfig = defineConfig({
             500: { value: "#FFB431" },
           },
           gray: {
-            50: { value: "#FAFAFA" },
-            100: { value: "#D5D5D5" },
-            300: { value: "#777777" },
+            50: { value: "#f8f8f8" },
+            100: { value: "#fff" },
+            300: { value: "#D5D5D5" },
+            500: { value: "#777777" },
             600: { value: "#666666" },
-            900: { value: "#424242" },
+            700: { value: "#555555" },
+            800: { value: "#424242" },
+            900: { value: "#393939" },
+            1000: { value: "#292929" },
           },
         },
         transparent: { value: "transparent" },
@@ -257,17 +316,25 @@ const customConfig = defineConfig({
             value: { _light: "{colors.white}", _dark: "{colors.gray.1000}" },
           },
           pill: {
-            value: { _light: "{colors.gray.100}", _dark: "{colors.gray.800}" },
+            value: { _light: "{colors.gray.300}", _dark: "{colors.gray.800}" },
           },
           card: {
             value: { _light: "{colors.white}", _dark: "{colors.gray.1000}" },
+          },
+        },
+        border: {
+          card: {
+            value: {
+              _light: "{colors.brand.gray.300}",
+              _dark: "{colors.brand.gray.700}",
+            },
           },
         },
         layoutSecondary: {
           bg: {
             value: {
               _light: "{colors.brand.purple.500}",
-              _dark: "{colors.brand.gray.900}",
+              _dark: "{colors.brand.gray.800}",
             },
           },
           text: {
@@ -287,6 +354,20 @@ const customConfig = defineConfig({
           bg: {
             value: {
               _light: "{colors.brand.gray.50}",
+              _dark: "{colors.brand.gray.1000}",
+            },
+          },
+          text: {
+            value: {
+              _light: "{colors.black}",
+              _dark: "{colors.white}",
+            },
+          },
+        },
+        layoutTertiary: {
+          bg: {
+            value: {
+              _light: "{colors.brand.gray.100}",
               _dark: "{colors.brand.gray.900}",
             },
           },
@@ -324,8 +405,8 @@ const customConfig = defineConfig({
           },
           activeBg: {
             value: {
-              _light: "{colors.brand.gray.900}",
-              _dark: "{colors.brand.gray.100}",
+              _light: "{colors.brand.gray.800}",
+              _dark: "{colors.brand.gray.300}",
             },
           },
           activeText: {
@@ -338,8 +419,8 @@ const customConfig = defineConfig({
         buttonSecondary: {
           bg: {
             value: {
-              _light: "{colors.brand.gray.100}",
-              _dark: "{colors.brand.gray.300}",
+              _light: "{colors.brand.gray.300}",
+              _dark: "{colors.brand.gray.500}",
             },
           },
           text: {
@@ -358,6 +439,44 @@ const customConfig = defineConfig({
             value: {
               _light: "{colors.black}",
               _dark: "{colors.black}",
+            },
+          },
+        },
+        buttonTertiary: {
+          bg: {
+            value: {
+              _light: "transparent",
+              _dark: "transparent",
+            },
+          },
+          text: {
+            value: {
+              _light: "{colors.brand.purple.900}",
+              _dark: "{colors.brand.purple.900}",
+            },
+          },
+          border: {
+            value: {
+              _light: "{colors.brand.purple.900}",
+              _dark: "{colors.brand.purple.900}",
+            },
+          },
+          hoverBg: {
+            value: {
+              _light: "transparent",
+              _dark: "transparent",
+            },
+          },
+          hoverText: {
+            value: {
+              _light: "{colors.brand.gray.800}",
+              _dark: "{colors.brand.gray.300}",
+            },
+          },
+          hoverBorder: {
+            value: {
+              _light: "{colors.brand.gray.800}",
+              _dark: "{colors.brand.gray.300}",
             },
           },
         },

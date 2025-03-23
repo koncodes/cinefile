@@ -32,5 +32,19 @@ declare module "@chakra-ui/react" {
   interface ButtonProps extends React.ComponentProps<"button"> {
     primary?: boolean;
     secondary?: boolean;
+    tertiary?: boolean;
+  }
+  interface BadgeProps extends React.ComponentProps<"button"> {
+    primary?: boolean;
+    secondary?: boolean;
+    tertiary?: boolean;
+  }
+  export interface DialogContentProps extends PropsWithChildren {
+    padding?: string;
+    bg?: string;
+  }
+  export interface SwitchLabelProps extends PropsWithChildren {
+    fontSize?: string;
+    fontWeight?: string;
   }
 }
