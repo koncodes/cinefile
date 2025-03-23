@@ -1,5 +1,6 @@
 import { auth } from "@/firebase";
 import { userAuthStore } from "@/stores/AuthStore";
+import { Button } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -18,9 +19,9 @@ const LogoutButton = () => {
   };
 
   return (
-    <Link onClick={handleLogout} to={""}>
+    <Button onClick={handleLogout} variant="plain" padding="0" margin="0" h="auto" fontWeight="400" w="100%" justifyContent="flex-start">
       Logout
-    </Link>
+    </Button>
   );
 };
 

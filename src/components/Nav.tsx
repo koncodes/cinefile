@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Badge,
   Box,
   Button,
   HStack,
@@ -32,7 +31,7 @@ const NavBar = () => {
     <HStack
       justifyContent="space-between"
       paddingInline={{ base: "5", md: "10" }}
-      paddingBlock="5"
+      paddingBlock="4"
       bg="layoutSecondary.bg"
       borderBottom="1px"
       borderStyle="solid"
@@ -52,57 +51,52 @@ const NavBar = () => {
           <Button variant="plain" size="sm" padding="0" asChild>
             <Link to={"/lists"}>Lists</Link>
           </Button>
-          <Badge variant="outline"  size="xs">
-            <ColorModeButton
-              variant="plain"
-              _hover={{
-                "& svg": {
-                  stroke: "color.white",
-                },
-              }}
-            />
-          </Badge>
         </HStack>
-        {authUser && (
-          <HStack gap="0">
-            <Menu.Root>
-              <Menu.Trigger asChild>
-                <Button primary>
-                  {authUser.displayName} <ChevronDownIcon />
-                </Button>
-              </Menu.Trigger>
-              <Portal closeOnSelect={false}>
-                <Menu.Positioner>
-                  <Menu.Content>
-                    <Menu.Item value="Profile" asChild>
-                      <Link to={"/users/" + authUser.id}>Profile</Link>
-                    </Menu.Item>
-                    <Menu.Item value="NewList" asChild>
-                      <Link to={"/lists/add"}>Add List</Link>
-                    </Menu.Item>
-                    <Menu.Item value="Logout">
-                      <LogoutButton />
-                    </Menu.Item>
-                    <Menu.Item>
-                      <Box
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                      >
-                        <ColorModeSwitch />
-                      </Box>
-                    </Menu.Item>
-                  </Menu.Content>
-                </Menu.Positioner>
-              </Portal>
-            </Menu.Root>
-            <Avatar.Root shape="full" size="lg">
-              <Avatar.Fallback />
-              <Avatar.Image src={authUser.avatarURL} />
-            </Avatar.Root>
-          </HStack>
-        )}
-        {!authUser && <AuthenticationPopover />}
+        <HStack gap="0">
+          {authUser && (
+            <>
+              <Menu.Root>
+                <Menu.Trigger asChild>
+                  <Button primary>
+                    {authUser.displayName} <ChevronDownIcon />
+                  </Button>
+                </Menu.Trigger>
+                <Portal closeOnSelect={false}>
+                  <Menu.Positioner>
+                    <Menu.Content>
+                      <Menu.Item value="Profile" asChild>
+                        <Link to={"/users/" + authUser.id}>Profile</Link>
+                      </Menu.Item>
+                      <Menu.Item value="NewList" asChild>
+                        <Link to={"/lists/add"}>Add List</Link>
+                      </Menu.Item>
+                      <Menu.Item value="Logout">
+                        <LogoutButton />
+                      </Menu.Item>
+                    </Menu.Content>
+                  </Menu.Positioner>
+                </Portal>
+              </Menu.Root>
+              <Link to={"/users/" + authUser.id}>
+                <Avatar.Root shape="full" size="lg">
+                  <Avatar.Fallback />
+                  <Avatar.Image src={authUser.avatarURL} />
+                </Avatar.Root>
+              </Link>
+            </>
+          )}
+          {!authUser && <AuthenticationPopover />}
+          <ColorModeButton
+            paddingInline="2"
+            w="44px"
+            secondary
+            _hover={{
+              "& svg": {
+                stroke: "buttonSecondary.hoverText",
+              },
+            }}
+          />
+        </HStack>
       </HStack>
     </HStack>
   );

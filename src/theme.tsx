@@ -21,7 +21,7 @@ const buttonRecipe = defineRecipe({
         fontSize: ".8em",
         align: "center",
         justify: "center",
-        h: "45px",
+        h: "42px",
         boxSizing: "border-box",
         _hover: {
           bg: "buttonPrimary.hoverBg",
@@ -46,14 +46,15 @@ const buttonRecipe = defineRecipe({
       true: {
         bg: "buttonSecondary.bg",
         color: "buttonPrimary.text",
+        fontFamily: "customHeading",
+        textTransform: "uppercase",
         borderRadius: "100px",
-        paddingInline: "2",
+        paddingInline: "5",
         border: "0px",
         fontSize: ".8em",
         align: "center",
         justify: "center",
-        h: "45px",
-        w: "47px",
+        h: "42px",
         _hover: {
           bg: "buttonSecondary.hoverBg",
           color: "buttonSecondary.hoverText",
@@ -91,7 +92,7 @@ const customConfig = defineConfig({
           gray: {
             50: { value: "#FAFAFA" },
             100: { value: "#D5D5D5" },
-            300: { value: "#9B9B9B" },
+            300: { value: "#777777" },
             600: { value: "#666666" },
             900: { value: "#424242" },
           },

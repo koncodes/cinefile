@@ -47,6 +47,8 @@ const Header = () => {
         <HStack gap="0">
           <Button primary>Get started for free</Button>
           <Button
+            paddingInline="2"
+            w="44px"
             secondary
             _hover={{
               "& svg": {

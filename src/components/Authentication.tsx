@@ -20,7 +20,7 @@ import {
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AuthenticationPopover = () => {
+const Authentication = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -102,8 +102,10 @@ const AuthenticationPopover = () => {
 
   return (
     <Popover.Root>
-      <Popover.Trigger asChild>
-        <Button primary>{isLogin ? "User Login" : "Create Account"}</Button>
+      <Popover.Trigger>
+        <Button size="xl" variant="solid">
+          {isLogin ? "Login" : "Sign Up"}
+        </Button>
       </Popover.Trigger>
       <Portal>
         <Popover.Positioner>
@@ -157,4 +159,4 @@ const AuthenticationPopover = () => {
   );
 };
 
-export default AuthenticationPopover;
+export default Authentication;
