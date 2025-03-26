@@ -48,7 +48,7 @@ const Header = () => {
           <Button primary>Get started for free</Button>
           <Button
             paddingInline="2"
-            w="44px"
+            w="46px"
             secondary
             _hover={{
               "& svg": {

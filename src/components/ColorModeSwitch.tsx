@@ -6,16 +6,16 @@ const ColorModeSwitch = () => {
 
   return (
     <Switch.Root
-      size="xs"
+      size="md"
       checked={colorMode === "dark"}
       onCheckedChange={toggleColorMode}
-      gap="3"
+      gap="5"
     >
       <Switch.HiddenInput />
       <Switch.Control>
         <Switch.Thumb />
       </Switch.Control>
-      <Switch.Label fontSize="md" fontWeight="normal">
+      <Switch.Label fontSize="lg" fontWeight="normal">
         {colorMode === "dark" ? "Dark Mode" : "Light Mode"}
       </Switch.Label>
     </Switch.Root>

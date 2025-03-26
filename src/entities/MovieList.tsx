@@ -5,38 +5,27 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import List from "./List";
-import { FirestoreMovie } from "./Movie";
+import { MovieReference } from "./Movie";
+import { UserReference } from "./User";
 
-interface FirestoreMovieList {
+interface FirebaseMovieList {
   userId: string;
+  user: UserReference;
   name: string;
   description: string;
   type: string;
   privacy: string;
-  created: Timestamp | null;
-  updated: Timestamp | null;
+  created: Timestamp;
+  updated: Timestamp;
   movieIds: number[];
   posterUrls: string[];
-  movies: FirestoreMovie[];
-}
-
-interface MovieListConstructorParams {
-  id?: string;
-  userId: string;
-  name?: string;
-  description?: string;
-  type?: string;
-  privacy?: string;
-  created?: Timestamp | null;
-  updated?: Timestamp | null;
-  movieIds?: number[] | List<number>;
-  posterUrls?: string[] | List<string>;
-  movies?: FirestoreMovie[] | List<FirestoreMovie>;
+  movies: MovieReference[];
 }
 
 export class MovieList {
   id: string;
   userId: string;
+  user: UserReference;
   name: string;
   description: string;
   type: string;
@@ -45,23 +34,25 @@ export class MovieList {
   updated: Timestamp;
   movieIds: List<number>;
   posterUrls: List<string>;
-  movies: List<FirestoreMovie>;
+  movies: List<MovieReference>;
 
   constructor({
-    id,
-    userId,
+    id = "",
+    userId = "",
+    user = {} as UserReference,
     name = "Untitled",
     description = "",
     type = "watched",
     privacy = "public",
     created = Timestamp.now(),
     updated = Timestamp.now(),
-    movieIds = [],
-    posterUrls = [],
-    movies = [],
-  }: MovieListConstructorParams) {
+    movieIds = new List<number>([]),
+    posterUrls = new List<string>([]),
+    movies = new List<MovieReference>([]),
+  }) {
     this.id = id ?? crypto.randomUUID();
     this.userId = userId;
+    this.user = user as UserReference;
     this.name = name;
     this.description = description;
     this.type = type;
@@ -75,8 +66,11 @@ export class MovieList {
     this.movies =
       movies instanceof List
         ? movies
-        : new List<FirestoreMovie>(
-            movies.map((movie: FirestoreMovie) => ({
+        : new List<MovieReference>(
+            (Array.isArray(movies)
+              ? movies
+              : (movies as List<MovieReference>).getItems()
+            ).map((movie: MovieReference) => ({
               id: movie.id,
               poster_path: movie.poster_path,
               release_date: movie.release_date,
@@ -86,22 +80,7 @@ export class MovieList {
           );
   }
 
-  toFirestore(): FirestoreMovieList {
-    return {
-      userId: this.userId,
-      name: this.name,
-      description: this.description,
-      type: this.type,
-      privacy: this.privacy,
-      created: this.created,
-      updated: this.updated,
-      movieIds: this.movieIds.getItems(),
-      posterUrls: this.posterUrls.getItems(),
-      movies: this.movies.getItems(),
-    };
-  }
-
-  addMovie(anotherMovie: FirestoreMovie): void {
+  addMovie(anotherMovie: MovieReference): void {
     const index = this.movies
       .getItems()
       .findIndex((movie) => movie.id === anotherMovie.id);
@@ -125,6 +104,22 @@ export class MovieList {
       this.updated = Timestamp.now();
     }
   }
+
+  toFirestore(): FirebaseMovieList {
+    return {
+      userId: this.userId,
+      user: Object.assign({}, this.user),
+      name: this.name,
+      description: this.description,
+      type: this.type,
+      privacy: this.privacy,
+      created: this.created,
+      updated: this.updated,
+      movieIds: this.movieIds.getItems(),
+      posterUrls: this.posterUrls.getItems(),
+      movies: this.movies.getItems(),
+    };
+  }
 }
 
 export const movieListConverter: FirestoreDataConverter<MovieList> = {
@@ -135,20 +130,7 @@ export const movieListConverter: FirestoreDataConverter<MovieList> = {
     const data = snapshot.data();
     const {
       userId,
-      name,
-      description,
-      type,
-      privacy,
-      created,
-      updated,
-      movieIds = [],
-      posterUrls = [],
-      movies = [],
-    } = data as FirestoreMovieList;
-
-    return new MovieList({
-      id: snapshot.id,
-      userId,
+      user,
       name,
       description,
       type,
@@ -158,6 +140,21 @@ export const movieListConverter: FirestoreDataConverter<MovieList> = {
       movieIds,
       posterUrls,
       movies,
+    } = data as FirebaseMovieList;
+
+    return new MovieList({
+      id: snapshot.id,
+      userId,
+      user: user as UserReference,
+      name,
+      description,
+      type,
+      privacy,
+      created,
+      updated,
+      movieIds: new List<number>(movieIds),
+      posterUrls: new List<string>(posterUrls),
+      movies: new List<MovieReference>(movies),
     });
   },
 };

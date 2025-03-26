@@ -1,3 +1,4 @@
+import ClearAllButton from "@/components/ClearAllButton";
 import GenreList from "@/components/GenreList";
 import MovieGrid from "@/components/MovieGrid";
 import MovieGridHeading from "@/components/MovieGridHeading";
@@ -11,7 +12,7 @@ const MoviesPage = () => {
   return (
     <>
       <MovieGridHeading />
-      <Grid
+      <Grid width={{md: "fit-content"}}
         templateAreas={{
           base: `"search search" "provider provider" "sort clear"`,
           sm: `"search search search" "provider sort clear"`,
@@ -22,7 +23,8 @@ const MoviesPage = () => {
           sm: `1fr min-content min-content`,
           md: `1fr min-content min-content min-content`,
         }}
-        gap="3"
+        gap={{ base: "4", md: "2" }}
+        paddingTop="4"
       >
         <GridItem area="search">
           <SearchInput />
@@ -34,17 +36,10 @@ const MoviesPage = () => {
           <SortBySelector />
         </GridItem>
         <GridItem area="clear">
-          <Button
-            size="sm"
-            variant="outline"
-            width="100%"
-            justifyContent="space-between"
-          >
-            Clear All
-          </Button>
+          <ClearAllButton />
         </GridItem>
       </Grid>
-      <HStack align="flex-start" gap="20" marginTop={5}>
+      <HStack align="flex-start" gap="20" marginTop={4} paddingBottom="4">
         <GenreList />
       </HStack>
       <MovieGrid />

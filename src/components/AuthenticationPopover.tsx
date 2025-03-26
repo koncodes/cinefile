@@ -3,6 +3,7 @@ import { auth } from "@/firebase";
 import UserCollection from "@/firebase/UserCollection";
 import { userAuthStore } from "@/stores/AuthStore";
 import {
+  Box,
   Button,
   Field,
   Input,
@@ -72,7 +73,7 @@ const AuthenticationPopover = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        console.log("Logged in:", firebaseUser);
+        // console.log("Logged in:", firebaseUser);
         try {
           const dbUser = await UserCollection.getUser(firebaseUser.uid);
           if (dbUser && dbUser.exists()) {
@@ -102,13 +103,15 @@ const AuthenticationPopover = () => {
 
   return (
     <Popover.Root>
-      <Popover.Trigger>
-        <Button display={{ base: "flex", md: "none" }} primary>
-          {isLogin ? "Log In" : "Sign Up"}
-        </Button>
-        <Button display={{ base: "none", md: "flex" }} primary>
-          {isLogin ? "User Log In" : "Create Account"}
-        </Button>
+      <Popover.Trigger asChild>
+        <Box position="relative">
+          <Button display={{ base: "flex", md: "none" }} primary>
+            {isLogin ? "Log In" : "Sign Up"}
+          </Button>
+          <Button display={{ base: "none", md: "flex" }} primary>
+            {isLogin ? "User Log In" : "Create Account"}
+          </Button>
+        </Box>
       </Popover.Trigger>
       <Portal>
         <Popover.Positioner>
@@ -125,6 +128,7 @@ const AuthenticationPopover = () => {
                       onChange={(e) => setEmail(e.target.value)}
                       required
                       placeholder="Email address"
+                      autoComplete="username"
                     />
                   </Field.Root>
                   <Field.Root>
@@ -137,6 +141,9 @@ const AuthenticationPopover = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                       placeholder="Password"
+                      autoComplete={
+                        isLogin ? "current-password" : "new-password"
+                      }
                     />
                   </Field.Root>
                   {error && <p style={{ color: "red" }}>{error}</p>}

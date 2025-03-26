@@ -9,12 +9,28 @@ interface Props {
 
 const MovieListCard = ({ list }: Props) => {
   return (
-    <Card.Root key={list.id} maxWidth="50vw" padding="3">
+    <Card.Root
+      key={list.id}
+      h="100%"
+      justifyContent="space-between"
+      flexDirection="column"
+      border="1px"
+      borderStyle="solid"
+      borderColor="layoutQuaternary.border"
+      bg="layoutQuaternary.bg"
+      padding="3"
+      overflow="hidden"
+      _hover={{
+        transform: "scale(1.03)",
+        transition: "transform .15s ease-in",
+      }}
+    >
       <Flex gap="4">
         <MovieListPreview listName={list.name} posterUrls={list.posterUrls} />
         <VStack align="flex-start">
-          <Heading textTransform="capitalize"><Link to={"/lists/" + list.id}>{list.name}</Link></Heading>
-          <p>{list.id}</p>
+          <Heading textTransform="capitalize">
+            <Link to={"/lists/" + list.id}>{list.name}</Link>
+          </Heading>
           <p>{list.description}</p>
           <p>Created by: {list.userId}</p>
         </VStack>

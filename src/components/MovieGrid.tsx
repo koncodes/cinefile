@@ -1,8 +1,7 @@
 import useMovies from "@/hooks/useMovies";
 import { Box, Button, Center, SimpleGrid, Text } from "@chakra-ui/react";
 import MovieCard from "./MovieCard";
-import MovieCardContainer from "./MovieCardContainer";
-import MovieCardSkeleton from "./MovieCardSkeleton";
+import MovieGridCardSkeleton from "./MovieGridCardSkeleton";
 import React from "react";
 
 const GameGrid = () => {
@@ -21,27 +20,21 @@ const GameGrid = () => {
   return (
     <Box marginTop="20px">
       <SimpleGrid
-        columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 4 }}
+        columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
         gap={{ sm: 5, md: 5, lg: 5, xl: 6 }}
       >
         {isLoading &&
-          skeletons.map((skeleton) => (
-            <MovieCardContainer key={skeleton}>
-              <MovieCardSkeleton />
-            </MovieCardContainer>
-          ))}
+          skeletons.map((skeleton) => <MovieGridCardSkeleton key={skeleton} />)}
         {movies?.pages.map((page, index) => (
           <React.Fragment key={index}>
             {page.results?.map((movie) => (
-              <MovieCardContainer key={movie.id}>
-                <MovieCard movie={movie} />
-              </MovieCardContainer>
+              <MovieCard movie={movie} key={movie.id} />
             ))}
           </React.Fragment>
         ))}
       </SimpleGrid>
       {hasNextPage && (
-        <Center marginTop="10">
+        <Center marginBlock="10">
           <Button onClick={() => fetchNextPage()} secondary>
             {isFetchingNextPage ? "Loading..." : "Load More Films"}
           </Button>

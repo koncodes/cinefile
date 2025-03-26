@@ -6,7 +6,6 @@ import { MdDeleteOutline } from "react-icons/md";
 
 const DeleteOutline = MdDeleteOutline as React.ElementType;
 
-// Create Chakra-wrapped Framer Motion components
 const ChakraReorderGroup = chakra(Reorder.Group);
 const ChakraReorderItem = chakra(Reorder.Item);
 
@@ -50,7 +49,7 @@ export default function DraggableMovieList({
   };
 
   const handleDelete = (e: React.MouseEvent, movie: Movie) => {
-    e.stopPropagation(); // Prevent triggering drag when clicking delete
+    e.stopPropagation(); 
     if (onDelete) {
       onDelete(movie);
     }

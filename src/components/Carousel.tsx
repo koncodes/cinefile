@@ -1,4 +1,3 @@
-// ChakraCarousel.jsx
 import React, { useEffect, useState, useRef } from "react";
 import { Flex, IconButton, useBreakpointValue } from "@chakra-ui/react";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
@@ -16,27 +15,35 @@ interface ChakraCarouselProps {
 const Carousel: React.FC<ChakraCarouselProps> = ({
   children,
   gap,
-  itemsToShow = 3,
+  itemsToShow = 4,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [trackWidth, setTrackWidth] = useState(0);
   const [trackIsActive, setTrackIsActive] = useState(false);
-  const [multiplier, setMultiplier] = useState(0.35);
   const [sliderWidth, setSliderWidth] = useState(0);
-  const [constraint, setConstraint] = useState(0);
   const [itemWidth, setItemWidth] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const trackRef = useRef<HTMLDivElement>(null);
   const trackContainerRef = useRef<HTMLDivElement>(null);
 
-  // Responsive item counts based on screen size
   const responsiveItemsToShow =
     useBreakpointValue({
       base: 1,
       sm: 2,
       md: 3,
-      lg: itemsToShow,
-    }) || itemsToShow;
+      lg: 4,
+      xl: itemsToShow,
+    }) || 5;
+
+  const childrenArray = React.Children.toArray(children);
+  const totalItems = childrenArray.length;
+
+  const extendedChildren = [
+    ...childrenArray.slice(-responsiveItemsToShow),
+    ...childrenArray,
+    ...childrenArray.slice(0, responsiveItemsToShow),
+  ];
 
   const calculateCardWidth = () => {
     const containerWidth =
@@ -46,10 +53,9 @@ const Carousel: React.FC<ChakraCarouselProps> = ({
       responsiveItemsToShow;
     setItemWidth(calculatedItemWidth);
     setTrackWidth(
-      calculatedItemWidth * React.Children.toArray(children).length +
-        gap * (React.Children.toArray(children).length - 1)
+      calculatedItemWidth * extendedChildren.length +
+        gap * (extendedChildren.length - 1)
     );
-    setConstraint(containerWidth - trackWidth);
     setSliderWidth(containerWidth);
   };
 
@@ -59,23 +65,75 @@ const Carousel: React.FC<ChakraCarouselProps> = ({
     return () => window.removeEventListener("resize", calculateCardWidth);
   }, [children, responsiveItemsToShow]);
 
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
+  useEffect(() => {
+    if (trackRef.current) {
+      trackRef.current.style.transition = "none";
+      trackRef.current.style.transform = `translateX(${
+        -responsiveItemsToShow * (itemWidth + gap)
+      }px)`;
+
+      trackRef.current.offsetHeight;
+
+      trackRef.current.style.transition = trackIsActive
+        ? "transform 0.2s"
+        : "none";
     }
+  }, [itemWidth, responsiveItemsToShow]);
+
+  const handlePrev = () => {
+    if (isTransitioning) return;
+
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev - 1);
+
+    setTimeout(() => {
+      if (currentIndex <= 0) {
+        if (trackRef.current) {
+          trackRef.current.style.transition = "none";
+          trackRef.current.style.transform = `translateX(${
+            -(totalItems + responsiveItemsToShow - 1) * (itemWidth + gap)
+          }px)`;
+
+          trackRef.current.offsetHeight;
+
+          setCurrentIndex(totalItems - 1);
+          trackRef.current.style.transition = trackIsActive
+            ? "transform 0.2s"
+            : "none";
+        }
+      }
+      setIsTransitioning(false);
+    }, 200);
   };
 
   const handleNext = () => {
-    if (
-      currentIndex <
-      React.Children.toArray(children).length - responsiveItemsToShow
-    ) {
-      setCurrentIndex((prev) => prev + 1);
-    }
+    if (isTransitioning) return;
+
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev + 1);
+
+    setTimeout(() => {
+      if (currentIndex >= totalItems - 1) {
+        if (trackRef.current) {
+          trackRef.current.style.transition = "none";
+          trackRef.current.style.transform = `translateX(${
+            -responsiveItemsToShow * (itemWidth + gap)
+          }px)`;
+
+          trackRef.current.offsetHeight;
+
+          setCurrentIndex(0);
+          trackRef.current.style.transition = trackIsActive
+            ? "transform 0.2s"
+            : "none";
+        }
+      }
+      setIsTransitioning(false);
+    }, 200);
   };
 
   const getCardsToRender = () => {
-    return React.Children.toArray(children)
+    return extendedChildren
       .filter((child): child is React.ReactElement =>
         React.isValidElement(child)
       )
@@ -84,27 +142,29 @@ const Carousel: React.FC<ChakraCarouselProps> = ({
           style: {
             minWidth: `${itemWidth}px`,
             maxWidth: `${itemWidth}px`,
-            marginRight: `${index === React.Children.toArray(children).length - 1 ? 0 : gap}px`,
+            marginRight: `${index === extendedChildren.length - 1 ? 0 : gap}px`,
           },
+          key: index,
         });
       });
   };
 
   const trackStyle = {
-    transform: `translateX(${-currentIndex * (itemWidth + gap)}px)`,
-    transition: trackIsActive ? "transform 0.2s" : "none",
+    transform: `translateX(${
+      -(currentIndex + responsiveItemsToShow) * (itemWidth + gap)
+    }px)`,
+    transition: trackIsActive ? "transform 0.2s ease" : "none",
     width: `${trackWidth}px`,
   };
 
   return (
     <Flex w="full" position="relative">
-      <Flex ref={trackContainerRef} w="full" overflow="hidden">
-        <Flex ref={trackRef} style={trackStyle}>
+      <Flex ref={trackContainerRef} w="full">
+        <Flex ref={trackRef} style={trackStyle} >
           {getCardsToRender()}
         </Flex>
       </Flex>
 
-      {/* Navigation arrows */}
       <IconButton
         tertiary
         asChild
@@ -114,7 +174,6 @@ const Carousel: React.FC<ChakraCarouselProps> = ({
         top="50%"
         transform="translateY(-50%)"
         onClick={handlePrev}
-        disabled={currentIndex === 0}
         zIndex={2}
       >
         <LeftArrowAlt />
@@ -129,10 +188,6 @@ const Carousel: React.FC<ChakraCarouselProps> = ({
         top="50%"
         transform="translateY(-50%)"
         onClick={handleNext}
-        disabled={
-          currentIndex >=
-          React.Children.toArray(children).length - responsiveItemsToShow
-        }
         zIndex={2}
       >
         <RightArrowAlt />

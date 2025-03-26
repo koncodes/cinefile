@@ -17,7 +17,18 @@ const MovieTrailer = ({ id }: Props) => {
   return (
     <ReactPlayer
       controls
+      playing={false}
+      config={{
+        youtube: {
+          playerVars: {
+            modestbranding: 1,
+            rel: 0,
+            showinfo: 0,
+          },
+        },
+      }}
       url={`https://www.youtube.com/watch?v=${trailers?.[num]?.key}`}
+      fallback={<div>Trailer not available</div>}
     ></ReactPlayer>
   );
 };

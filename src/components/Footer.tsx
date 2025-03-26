@@ -47,7 +47,7 @@ const Footer = () => {
         paddingBlock={{ base: "10", md: "5em" }}
         flexDirection="column"
         gap="8"
-         maxW="7xl"
+        maxW="7xl"
       >
         <Flex
           direction={{ base: "column", md: "row" }}
@@ -121,17 +121,17 @@ const Footer = () => {
             fontSize="xs"
           >
             <HStack justify="flex-start" gap="3">
-              <Link to="/">
+              <Link to="/privacy-policy">
                 <ChakraLink as="span" variant="underline">
-                  Privacy
+                  Privacy Policy
                 </ChakraLink>
               </Link>
-              <Link to="/films">
+              <Link to="/terms-of-service">
                 <ChakraLink as="span" variant="underline">
                   Terms of Service
                 </ChakraLink>
               </Link>
-              <Link to="/lists">
+              <Link to="/cookie-settings">
                 <ChakraLink as="span" variant="underline">
                   Cookie Settings
                 </ChakraLink>

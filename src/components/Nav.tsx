@@ -7,6 +7,7 @@ import {
   CloseButton,
   Container,
   Dialog,
+  Flex,
   Heading,
   HStack,
   Image,
@@ -17,13 +18,19 @@ import {
 } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 import { LuMenu } from "react-icons/lu";
-import { RiFileList3Line, RiMovie2Line } from "react-icons/ri";
-import { PiHouse } from "react-icons/pi";
+import {
+  RiFileList3Line,
+  RiMovie2Line,
+  RiHome2Line,
+  RiChat4Line,
+} from "react-icons/ri";
 import { Link } from "react-router-dom";
 import AuthenticationPopover from "./AuthenticationPopover";
-import LogoutButton from "./LogoutButton";
-import { ColorModeButton } from "./ui/color-mode";
-import logo from "/images/cinefile.svg";
+import { LogoutButton, LogoutBadge } from "./LogoutButton";
+import { ColorModeButton, useColorMode } from "./ui/color-mode";
+import logoDark from "/images/cinefile.svg";
+import logoLight from "/images/cinefileDark.svg";
+
 import { IconType } from "react-icons";
 import ColorModeSwitch from "./ColorModeSwitch";
 
@@ -31,7 +38,17 @@ const MenuIcon: IconType = LuMenu;
 const ChevronDownIcon: IconType = BsChevronDown;
 const Movie: IconType = RiMovie2Line;
 const FileList: IconType = RiFileList3Line;
-const House: IconType = PiHouse;
+const House: IconType = RiHome2Line;
+const Chat: IconType = RiChat4Line;
+
+export function Logo() {
+  const { colorMode } = useColorMode();
+  return colorMode === "dark" ? (
+    <Image src={logoDark} height="8" />
+  ) : (
+    <Image src={logoLight} height="8" />
+  );
+}
 
 const NavBar = () => {
   const authUser = userAuthStore((s) => s.authUser);
@@ -53,7 +70,7 @@ const NavBar = () => {
         maxW="7xl"
       >
         <Link to={"/"}>
-          <Image src={logo} height="8" />
+          <Logo />
         </Link>
 
         {/* Desktop Navigation */}
@@ -84,8 +101,16 @@ const NavBar = () => {
                         <Menu.Item value="Profile" asChild>
                           <Link to={"/users/" + authUser.id}>Profile</Link>
                         </Menu.Item>
-                        <Menu.Item value="NewList" asChild>
+                        <Menu.Item value="Lists" asChild>
+                          <Link to={"/users/" + authUser.id + "/lists"}>
+                            Lists
+                          </Link>
+                        </Menu.Item>
+                        <Menu.Item value="AddList" asChild>
                           <Link to={"/lists/add"}>Add List</Link>
+                        </Menu.Item>
+                        <Menu.Item value="Settings" asChild>
+                          <Link to={"/settings"}>Settings</Link>
                         </Menu.Item>
                         <Menu.Item value="Logout">
                           <LogoutButton />
@@ -95,21 +120,22 @@ const NavBar = () => {
                   </Portal>
                 </Menu.Root>
                 <Link to={"/users/" + authUser.id}>
-                  <Avatar.Root shape="full" size="lg">
+                  <Avatar.Root shape="full" size="lg" colorPalette="brand">
                     <Avatar.Fallback />
-                    <Avatar.Image src={authUser.avatarURL} />
+                    <Avatar.Image src={authUser.avatarURL || undefined} />
                   </Avatar.Root>
                 </Link>
               </>
             )}
             {!authUser && <AuthenticationPopover />}
             <ColorModeButton
+              className="color-mode-button"
               paddingInline="2"
               w="44px"
-              secondary
+              quaternary
               _hover={{
                 "& svg": {
-                  stroke: "buttonSecondary.hoverText",
+                  stroke: "brand.solid",
                 },
               }}
             />
@@ -136,57 +162,70 @@ const NavBar = () => {
                       <HStack
                         gap="5"
                         paddingBlock="7"
-                        marginTop="4"
-                        marginBottom="10"
                         borderTop="1px"
-                        borderBottom="1px"
                         borderStyle="solid"
                         borderColor="border.card"
                       >
                         <Avatar.Root shape="full" size="2xl">
                           <Avatar.Fallback />
-                          <Avatar.Image src={authUser.avatarURL} />
+                          <Avatar.Image src={authUser.avatarURL || undefined} />
                         </Avatar.Root>
                         <VStack align="left" gap="1">
                           <Link to={"/users/" + authUser.id}>
                             {authUser.displayName}
                           </Link>
-                          <Text>{authUser.email}</Text>
+                          <Text wordBreak="break-word">{authUser.email}</Text>
                           <HStack paddingTop="1">
                             <Badge primary>
                               <Link to={"/"}>Edit</Link>
                             </Badge>
-                            <Badge primary>
-                              <Link to={"/"}>Lists</Link>
-                            </Badge>
-                            <Badge primary>
-                              <Link to={"/"}>Reviews</Link>
-                            </Badge>
+                            <LogoutBadge />
                           </HStack>
                         </VStack>
                       </HStack>
                     )}
-                    <VStack align="left" gap="5" fontSize="lg">
+                    <VStack
+                      align="left"
+                      gap="5"
+                      fontSize="md"
+                      paddingBlock="7"
+                      marginTop="1"
+                      borderTop="1px"
+                      borderStyle="solid"
+                      borderColor="border.card"
+                    >
                       <HStack gap="3">
-                        <House size="25px" />
+                        <House />
                         <Link to={"/"}>Home</Link>
                       </HStack>
                       <HStack gap="3">
-                        <Movie size="25px" />
+                        <Movie />
                         <Link to={"/films"}>Films</Link>
                       </HStack>
                       <HStack gap="3">
-                        <FileList size="25px" />
+                        <FileList />
                         <Link to={"/lists"}>Lists</Link>
                       </HStack>
-                      <ColorModeSwitch />
+                      <HStack gap="3">
+                        <Chat />
+                        <Link to={"/lists"}>Reviews</Link>
+                      </HStack>
                     </VStack>
+                    <Flex
+                      paddingBlock="7"
+                      marginTop="1"
+                      borderTop="1px"
+                      borderStyle="solid"
+                      borderColor="border.card"
+                    >
+                      <ColorModeSwitch />
+                    </Flex>
                   </Dialog.Body>
                   <Dialog.CloseTrigger asChild>
                     <CloseButton
                       size="xl"
                       variant="outline"
-                      top="9"
+                      top="8"
                       right="9"
                     />
                   </Dialog.CloseTrigger>

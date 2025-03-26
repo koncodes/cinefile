@@ -13,6 +13,9 @@ declare module "@chakra-ui/react" {
   export interface ProgressCircleCircleProps extends PropsWithChildren {
     css?: object;
   }
+  export interface ProgressCircleTrackProps extends PropsWithChildren {
+    stroke?: string;
+  }
   export interface ProgressCircleRangeProps extends PropsWithChildren {
     strokeLinecap?: string;
     stroke?: string;
@@ -33,6 +36,7 @@ declare module "@chakra-ui/react" {
     primary?: boolean;
     secondary?: boolean;
     tertiary?: boolean;
+    quaternary?: boolean;
   }
   interface BadgeProps extends React.ComponentProps<"button"> {
     primary?: boolean;
@@ -46,5 +50,12 @@ declare module "@chakra-ui/react" {
   export interface SwitchLabelProps extends PropsWithChildren {
     fontSize?: string;
     fontWeight?: string;
+  }
+  export interface RatingGroupItemProps extends PropsWithChildren {
+    key?: number;
+    index?: number;
+  }
+  export interface ContainerProps extends PropsWithChildren {
+    variant?: string;
   }
 }

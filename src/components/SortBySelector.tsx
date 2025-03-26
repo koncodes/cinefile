@@ -7,7 +7,6 @@ const SortBySelector = () => {
     { value: "popularity.desc", label: "Popularity" },
     { value: "primary_release_date.desc", label: "Release Date" },
     { value: "vote_average.desc", label: "Rating" },
-    // Uncomment these if needed:
     { value: "title.desc", label: "Title" },
     // { value: 'title.asc', label: 'Title Ascending' },
     // { value: 'popularity.asc', label: 'Popularity Ascending' },

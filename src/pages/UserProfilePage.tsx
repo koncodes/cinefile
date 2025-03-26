@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import UserCollection from "@/firebase/UserCollection";
 import { Heading, Spinner, Text, Box } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AddListForm from "@/components/AddListForm";
 import { User } from "@/entities/User";
+import { userAuthStore } from "@/stores/AuthStore";
 
 const UserProfilePage = () => {
   const { id } = useParams();
+  const authUser = userAuthStore((s) => s.authUser);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -39,6 +41,8 @@ const UserProfilePage = () => {
       <Heading>{user?.displayName}</Heading>
       <Text>Email: {user?.email}</Text>
       <Text>Avatar URL: {user?.avatarURL}</Text>
+
+      {authUser?.id === user?.id && <Link to="/settings">Edit</Link>}
     </Box>
   );
 };

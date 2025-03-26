@@ -1,4 +1,3 @@
-// PostCarousel.jsx
 import { Heading, VStack, Text, Flex } from "@chakra-ui/react";
 import Carousel from "./Carousel";
 
@@ -11,7 +10,7 @@ interface Post {
 
 const PostCarousel = ({ posts }: { posts: Post[] }) => {
   return (
-    <Carousel gap={20} itemsToShow={4}>
+    <Carousel gap={25} itemsToShow={4}>
       {posts.map((post, index) => (
         <Flex
           key={index}

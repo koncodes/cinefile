@@ -4,6 +4,13 @@ import {
   QueryDocumentSnapshot,
 } from "firebase/firestore";
 
+export interface UserReference {
+  id: string;
+  displayName: string;
+  email: string;
+  avatarURL: string;
+}
+
 interface FirestoreUser {
   displayName: string;
   email: string;
@@ -11,7 +18,7 @@ interface FirestoreUser {
 }
 
 export class User {
-  readonly id: string; 
+  readonly id: string;
   displayName: string;
   email: string;
   avatarURL: string;
@@ -21,7 +28,7 @@ export class User {
     displayName = "Anonymous",
     email = "",
     avatarURL = "",
-  }: Omit<Partial<FirestoreUser>, 'id'> & { id: string }) {
+  }: Omit<Partial<FirestoreUser>, "id"> & { id: string }) {
     this.id = id;
     this.displayName = displayName;
     this.email = email;
@@ -47,7 +54,7 @@ export const userConverter: FirestoreDataConverter<User> = {
   },
   fromFirestore(snapshot: QueryDocumentSnapshot): User {
     const data = snapshot.data();
-    const { displayName, email, avatarURL } = data as FirestoreUser; 
+    const { displayName, email, avatarURL } = data as FirestoreUser;
     return new User({ id: snapshot.id, displayName, email, avatarURL });
   },
 };

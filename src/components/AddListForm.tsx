@@ -15,14 +15,14 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { Timestamp } from "firebase/firestore";
-
 import List from "@/entities/List";
-import { Movie, FirestoreMovie } from "@/entities/Movie";
+import { Movie, MovieReference } from "@/entities/Movie";
 import { MovieList } from "@/entities/MovieList";
 import MovieListCollection from "@/firebase/MovieListCollection";
 import { userAuthStore } from "@/stores/AuthStore";
 import AddMovie from "./AddMovie";
 import DraggableMovieList from "./DragableMovieList";
+import { UserReference } from "@/entities/User";
 
 const AddListForm = () => {
   const { id } = useParams();
@@ -36,10 +36,9 @@ const AddListForm = () => {
   });
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const isEditing = Boolean(id);
 
   useEffect(() => {
-    if (!isEditing) return;
+    if (!id) return;
 
     const fetchList = async () => {
       setIsLoading(true);
@@ -56,7 +55,7 @@ const AddListForm = () => {
             setMovies(listData.movies.getItems() as Movie[]);
           }
         } else {
-          navigate("/");
+          navigate("/lists");
         }
       } catch (error) {
         console.error("Error fetching movie list:", error);
@@ -99,7 +98,7 @@ const AddListForm = () => {
 
     const movieIds = new List<number>(movies.map((m) => m.id));
     const posterUrls = new List<string>(movies.map((m) => m.poster_path));
-    const firestoreMovies = new List<FirestoreMovie>(
+    const moveListMovies = new List<MovieReference>(
       movies.map((m) => ({
         id: m.id,
         title: m.title,
@@ -109,26 +108,27 @@ const AddListForm = () => {
       }))
     );
     const newMovieList = new MovieList({
-      id: id || crypto.randomUUID(),
+      id: id || "",
       userId: authUser.id,
+      user: authUser as UserReference,
       name: formData.name,
       description: formData.description,
       privacy: formData.privacy,
       type: "custom",
       created: Timestamp.now(),
       updated: Timestamp.now(),
-      movieIds: movieIds.getItems(),
-      posterUrls: posterUrls.getItems(),
-      movies: firestoreMovies.getItems(),
+      movieIds: movieIds,
+      posterUrls: posterUrls,
+      movies: moveListMovies,
     });
 
     try {
-      if (isEditing) {
+      if (id) {
         await MovieListCollection.updateMovieList(newMovieList);
       } else {
-        await MovieListCollection.setMovieList(newMovieList);
+        await MovieListCollection.addMovieList(newMovieList);
       }
-      navigate("/");
+      navigate("/lists/" + authUser.id);
     } catch (error) {
       console.error("Error saving MovieList:", error);
     }
@@ -152,7 +152,7 @@ const AddListForm = () => {
       <Fieldset.Root size="lg" maxW="md">
         <Stack>
           <Fieldset.Legend>
-            {isEditing ? "Edit Custom List" : "Create Custom List"}
+            {id ? "Edit Custom List" : "Create Custom List"}
           </Fieldset.Legend>
           <Fieldset.HelperText>
             Please provide the details for your custom list.
@@ -212,10 +212,10 @@ const AddListForm = () => {
 
         <HStack mt={4}>
           <Button type="submit" loading={isLoading}>
-            {isEditing ? "Update" : "Create"} List
+            {id ? "Update" : "Create"} List
           </Button>
 
-          {isEditing && (
+          {id && (
             <Dialog.Root placement="center">
               <Dialog.Trigger asChild>
                 <Button variant="outline">Delete</Button>
