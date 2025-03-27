@@ -29,7 +29,7 @@ const router = createBrowserRouter([
 
     children: [
       { path: "films", element: <MoviesPage /> },
-      { path: "films/:provider_id", element: <MoviesPage /> },
+      { path: "films/provider/:provider_id", element: <MoviesPage /> },
       { path: "lists", element: <ListsPage /> },
       { path: "lists/:id", element: <ListPage /> },
       { path: "lists/edit/:id", element: <AddListForm /> },
