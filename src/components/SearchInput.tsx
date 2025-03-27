@@ -21,10 +21,13 @@ const SearchInput = () => {
         <Input
           placeholder="Search movies..."
           borderRadius={20}
-          variant="subtle"
+          variant="outline"
           ref={ref}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
+          maxW={{md: "400px"}}
+          w={{md: "340px"}}
+          minW={{md: "300px"}}
         />
       </InputGroup>
     </form>

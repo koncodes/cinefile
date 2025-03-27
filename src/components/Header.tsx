@@ -1,13 +1,14 @@
+"use client";
+
 import {
   Button,
   chakra,
   Flex,
   Heading,
   HStack,
-  Image,
   VStack,
 } from "@chakra-ui/react";
-import arrow from "/images/arrow.svg";
+import { Toaster, toaster } from "./ui/toaster";
 
 const Header = () => {
   return (
@@ -48,12 +49,19 @@ const Header = () => {
           <Button primary>Get started for free</Button>
           <Button
             paddingInline="2"
-            w="44px"
+            w="46px"
             secondary
             _hover={{
               "& svg": {
                 fill: "buttonSecondary.hoverText",
               },
+            }}
+            onClick={() => {
+              toaster.create({
+                description: "File saved successfully",
+                duration: 6000,
+              });
+              console.log("Toaster instance created:", toaster);
             }}
           >
             <chakra.svg
@@ -66,6 +74,7 @@ const Header = () => {
           </Button>
         </HStack>
       </VStack>
+      
     </Flex>
   );
 };

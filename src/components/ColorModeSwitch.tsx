@@ -5,22 +5,20 @@ const ColorModeSwitch = () => {
   const { toggleColorMode, colorMode } = useColorMode();
 
   return (
-    <HStack>
-      <Switch.Root
-        size="xs"
-        checked={colorMode === "dark"}
-        onCheckedChange={toggleColorMode}
-        gap="3"
-      >
-        <Switch.HiddenInput />
-        <Switch.Control>
-          <Switch.Thumb />
-        </Switch.Control>
-        <Switch.Label>
-          {colorMode === "dark" ? "Dark Mode" : "Light Mode"}
-        </Switch.Label>
-      </Switch.Root>
-    </HStack>
+    <Switch.Root
+      size="md"
+      checked={colorMode === "dark"}
+      onCheckedChange={toggleColorMode}
+      gap="5"
+    >
+      <Switch.HiddenInput />
+      <Switch.Control>
+        <Switch.Thumb />
+      </Switch.Control>
+      <Switch.Label fontSize="lg" fontWeight="normal">
+        {colorMode === "dark" ? "Dark Mode" : "Light Mode"}
+      </Switch.Label>
+    </Switch.Root>
   );
 };
 

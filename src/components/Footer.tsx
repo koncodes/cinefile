@@ -4,6 +4,8 @@ import {
   HStack,
   Link as ChakraLink,
   VStack,
+  Text,
+  Container,
 } from "@chakra-ui/react";
 import Marquee from "./Marquee";
 import { Link } from "react-router-dom";
@@ -29,29 +31,30 @@ const Footer = () => {
     <Flex h="full" bg="layoutSecondary.bg" grow="1" gap="0" direction="column">
       <Marquee bg="banner.bg" color="white" h="120px">
         <HStack fontFamily="customHeading" gap="3em" fontSize="1.5em">
-          <Link to="">Amazon Prime</Link>
-          <Link to="">Netflix</Link>
-          <Link to="">Max</Link>
-          <Link to="">Disney+</Link>
-          <Link to="">Hulu</Link>
-          <Link to="">Paramount+</Link>
-          <Link to="">Peacock</Link>
-          <Link to="">Apple TV+</Link>
-          <Link to="">Crunchyroll</Link>
+          <Link to="/films/9">Amazon Prime</Link>
+          <Link to="/films/8">Netflix</Link>
+          <Link to="/films/1899">Max</Link>
+          <Link to="/films/337">Disney+</Link>
+          <Link to="/films/15">Hulu</Link>
+          <Link to="/films/582">Paramount+</Link>
+          <Link to="/films/386">Peacock</Link>
+          <Link to="/films/350">Apple TV+</Link>
+          <Link to="/films/283">Crunchyroll</Link>
         </HStack>
       </Marquee>
-      <Flex
-        paddingInline={{ base: "5", md: "10" }}
+      <Container
+        display="flex"
         paddingBlock={{ base: "10", md: "5em" }}
-        direction="column"
+        flexDirection="column"
         gap="8"
+        maxW="7xl"
       >
         <Flex
           direction={{ base: "column", md: "row" }}
           justify="space-between"
           gap="8"
         >
-          <HStack justify="flex-start" gap="6">
+          <Flex justify="flex-start" gap="6" flexWrap="wrap" fontSize=".95em">
             <Link to="/">
               <ChakraLink as="span" variant="underline">
                 Home
@@ -72,22 +75,13 @@ const Footer = () => {
                 Members
               </ChakraLink>
             </Link>
-            <Link to="/about">
-              <ChakraLink as="span" variant="underline">
-                About
-              </ChakraLink>
-            </Link>
             <Link to="/contact">
               <ChakraLink as="span" variant="underline">
                 Contact
               </ChakraLink>
             </Link>
-          </HStack>
-          <Flex
-            direction={{ base: "column", md: "row" }}
-            justify="space-between"
-            fontSize="l"
-          >
+          </Flex>
+          <Flex flexWrap="wrap" justify="space-between" fontSize="l">
             <HStack gap={6}>
               <Facebook size={24} />
               <Instagram size={24} />
@@ -111,11 +105,10 @@ const Footer = () => {
             gap="1"
           >
             <Box>
-              <HStack>
-                <OutlineCopyright />
-                2025{" "}
-                <ChakraLink fontWeight="black">Cinematheque Limited</ChakraLink>
-              </HStack>
+              © 2025{" "}
+              <ChakraLink display="inline" fontWeight="black">
+                Cinematheque Limited
+              </ChakraLink>
             </Box>
             <Box>
               Website Designed and developed by{" "}
@@ -128,17 +121,17 @@ const Footer = () => {
             fontSize="xs"
           >
             <HStack justify="flex-start" gap="3">
-              <Link to="/">
+              <Link to="/privacy-policy">
                 <ChakraLink as="span" variant="underline">
-                  Privacy
+                  Privacy Policy
                 </ChakraLink>
               </Link>
-              <Link to="/films">
+              <Link to="/terms-of-service">
                 <ChakraLink as="span" variant="underline">
                   Terms of Service
                 </ChakraLink>
               </Link>
-              <Link to="/lists">
+              <Link to="/cookie-settings">
                 <ChakraLink as="span" variant="underline">
                   Cookie Settings
                 </ChakraLink>
@@ -146,7 +139,7 @@ const Footer = () => {
             </HStack>
           </Flex>
         </Flex>
-      </Flex>
+      </Container>
     </Flex>
   );
 };

@@ -1,5 +1,6 @@
 import { MovieList, movieListConverter } from "@/entities/MovieList";
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -83,8 +84,18 @@ export default class MovieListCollection {
 
   static async setMovieList(MovieList: MovieList) {
     const MovieListDocRef = MovieListCollection.getMovieListDoc(MovieList.id);
-    return setDoc(MovieListDocRef.withConverter(movieListConverter), MovieList);
+    await setDoc(MovieListDocRef.withConverter(movieListConverter), MovieList);
+    console.log("MovieList added successfully.");
   }
+
+  static async addMovieList(MovieList: MovieList) {
+    const MovieListDocRef = await addDoc(
+      MovieListCollection.getMovieListsCollection(),
+      MovieList.toFirestore()
+    );
+    console.log("MovieList added successfully with ID:", MovieListDocRef.id);
+  }
+
   static async updateMovieList(movieList: MovieList) {
     const movieListDocRef = this.getMovieListDoc(movieList.id);
     const movieListData = movieList.toFirestore() as { [key: string]: any };

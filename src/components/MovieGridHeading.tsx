@@ -8,7 +8,7 @@ const MovieGridHeading = () => {
   const heading = `${selectedGenre?.name || ""} Movies ${selectedProvider ? `available on ${selectedProvider.provider_name}` : ""}`;
 
   return (
-    <Heading as="h1" size="5xl" marginY={2}>
+    <Heading as="h1" size="4xl" marginY={2}>
       {heading}
     </Heading>
   );

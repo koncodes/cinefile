@@ -64,32 +64,32 @@ export default class UserCollection {
 
   static async updateUserProfile(
     user: User,
-    profileUpdates: { image?: File; avatarURL?: string }
+    newImage: { image?: File; avatarURL?: string }
   ) {
     const userDocRef = this.getUserDoc(user.id);
 
-    if (profileUpdates.image) {
+    if (newImage.image) {
       const allowedTypes = ["jpg", "jpeg", "png", "gif", "webp"];
       const extension =
-        profileUpdates.image.name.toLowerCase().split(".").pop() || "";
+        newImage.image.name.toLowerCase().split(".").pop() || "";
 
       if (!allowedTypes.includes(extension)) {
         console.error("Invalid file type.");
         throw new Error("Invalid file type.");
       }
 
-      if (profileUpdates.image.size > 500 * 1024) {
+      if (newImage.image.size > 500 * 1024) {
         console.error("File too large. 500KB max.");
         throw new Error("File too large. 500KB max.");
       }
 
       const imageRef = ref(userStorage, `${user.id}`);
-      const snapshot = await uploadBytes(imageRef, profileUpdates.image);
-      profileUpdates.avatarURL = await getDownloadURL(snapshot.ref);
-      delete profileUpdates.image;
+      const snapshot = await uploadBytes(imageRef, newImage.image);
+      newImage.avatarURL = await getDownloadURL(snapshot.ref);
+      delete newImage.image;
     }
 
-    await updateDoc(userDocRef, profileUpdates);
+    await updateDoc(userDocRef, {displayName: user.displayName, avatarUrl: newImage.avatarURL});
     console.log("User profile updated successfully.");
   }
 }

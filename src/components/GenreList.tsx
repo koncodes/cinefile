@@ -2,6 +2,7 @@ import { Genre } from "@/entities/Genre";
 import useGenres from "@/hooks/useGenres";
 import { useMovieQueryStore } from "@/stores/MovieQueryStore";
 import { Badge, Skeleton, Wrap } from "@chakra-ui/react";
+import { useColorModeValue } from "./ui/color-mode";
 
 const GenreList = () => {
   const { data: genres, error, isLoading } = useGenres();
@@ -20,16 +21,18 @@ const GenreList = () => {
   };
 
   return (
-    <Wrap>
+    <Wrap gap="1.5" rowGap="1.5">
       {genres?.genres?.map((genre) => (
         <Skeleton asChild loading={isLoading} key={genre.id}>
           <Badge
-            size="md"
-            padding="3"
-            bg="bg.pill"
+            size="sm"
+            bg={genre.id === selectedGenre?.id ? "brand.purple.900" : "bg.pill"}
+            color={genre.id === selectedGenre?.id ? "white" : useColorModeValue("black", "white")}
             onClick={() => handleGenreClick(genre)}
             fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
             cursor="pointer"
+            variant="subtle"
+            paddingInline="5"
           >
             {genre.name}
           </Badge>

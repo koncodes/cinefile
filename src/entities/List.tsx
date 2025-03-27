@@ -47,4 +47,8 @@ export default class List<T> {
   at(index: number): T | undefined {
     return this.items[index];
   }
+
+  map<U>(callback: (item: T) => U): List<U> {
+    return new List(this.items.map(callback));
+  }
 }

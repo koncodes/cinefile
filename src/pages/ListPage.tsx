@@ -39,13 +39,13 @@ const MovieListProfilePage = () => {
 
   if (isLoading) return <Spinner />;
   if (error) return <Text color="red.500">{error}</Text>;
-  if (!movielist || !authUser) return;
+  if (!movielist) return;
 
   return (
     <Box>
       <Heading>{movielist.name}</Heading>
       <Text>Email: {movielist.id}</Text>
-      {movielist.userId == authUser.id && (
+      {movielist.userId == authUser?.id && (
         <Link to={"/lists/edit/" + movielist.id}>Edit</Link>
       )}
     </Box>
