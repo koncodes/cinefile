@@ -4,7 +4,10 @@ import React from "react";
 const PrivacyPage = () => {
   return (
     <VStack alignItems="flex-start" gap="5">
-      <VStack alignItems="flex-start">
+      <Heading as="h1" size="4xl" marginY={2}>
+        Privacy Policy
+      </Heading>
+      <VStack alignItems="flex-start" paddingTop="4">
         This Privacy Policy describes how cinefile.com (the “Site” or “we”)
         collects, uses, and discloses your personal information when you visit
         or engage with the Site.

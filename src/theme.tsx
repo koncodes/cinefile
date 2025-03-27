@@ -179,12 +179,23 @@ const badgeRecipe = defineRecipe({
         border: "1px",
         borderStyle: "solid",
         borderColor: "border.card",
+        borderRadius: "5px",
+        padding: "3",
+        paddingBlock: "1"
       },
     },
     variant: {
       subtle: {
         borderRadius: "30px",
         padding: "3",
+      },
+      outline: {
+        borderWidth: "1px",
+        borderStyle: "solid",
+        outlineColor: "border.badge",
+        borderColor: "border.badge",
+        paddingBlock: "1",
+        boxShadow: "none",
       },
     },
   },
@@ -324,6 +335,12 @@ const customConfig = defineConfig({
             value: {
               _light: "{colors.whiteAlpha.600}",
               _dark: "{colors.whiteAlpha.600}",
+            },
+          },
+          badge: {
+            value: {
+              _light: "{colors.brand.gray.300}",
+              _dark: "{colors.gray.600}",
             },
           },
         },

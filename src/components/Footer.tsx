@@ -31,15 +31,15 @@ const Footer = () => {
     <Flex h="full" bg="layoutSecondary.bg" grow="1" gap="0" direction="column">
       <Marquee bg="banner.bg" color="white" h="120px">
         <HStack fontFamily="customHeading" gap="3em" fontSize="1.5em">
-          <Link to="">Amazon Prime</Link>
-          <Link to="">Netflix</Link>
-          <Link to="">Max</Link>
-          <Link to="">Disney+</Link>
-          <Link to="">Hulu</Link>
-          <Link to="">Paramount+</Link>
-          <Link to="">Peacock</Link>
-          <Link to="">Apple TV+</Link>
-          <Link to="">Crunchyroll</Link>
+          <Link to="/films/9">Amazon Prime</Link>
+          <Link to="/films/8">Netflix</Link>
+          <Link to="/films/1899">Max</Link>
+          <Link to="/films/337">Disney+</Link>
+          <Link to="/films/15">Hulu</Link>
+          <Link to="/films/582">Paramount+</Link>
+          <Link to="/films/386">Peacock</Link>
+          <Link to="/films/350">Apple TV+</Link>
+          <Link to="/films/283">Crunchyroll</Link>
         </HStack>
       </Marquee>
       <Container

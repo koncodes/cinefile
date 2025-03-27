@@ -12,8 +12,8 @@ const MovieListPreview = ({ posterUrls, listName }: Props) => {
     <Card.Root
       overflow="hidden"
       height="min-content"
-      minW="100px"
-      width="300px"
+      minW="70px"
+      width="100%"
       borderColor="layoutQuaternary.border"
     >
       <Grid templateColumns="repeat(2, 1fr)" gap="0">

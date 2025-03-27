@@ -58,4 +58,9 @@ declare module "@chakra-ui/react" {
   export interface ContainerProps extends PropsWithChildren {
     variant?: string;
   }
+  export interface ToasterProps extends PropsWithChildren {
+    children?: React.ReactNode | any;
+    toaster?: any;
+    insetInline?: object;
+  }
 }

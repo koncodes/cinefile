@@ -52,7 +52,6 @@ export function Logo() {
 
 const NavBar = () => {
   const authUser = userAuthStore((s) => s.authUser);
-  const ChevronDownIcon = BsChevronDown as React.ElementType;
 
   return (
     <Box
@@ -222,12 +221,7 @@ const NavBar = () => {
                     </Flex>
                   </Dialog.Body>
                   <Dialog.CloseTrigger asChild>
-                    <CloseButton
-                      size="xl"
-                      variant="outline"
-                      top="8"
-                      right="9"
-                    />
+                    <CloseButton quaternary top="8" right="9" width="44px" />
                   </Dialog.CloseTrigger>
                 </Dialog.Content>
               </Dialog.Positioner>

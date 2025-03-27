@@ -1,85 +1,61 @@
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-  Icon,
-  Stack,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { ReactElement } from "react";
-import { useColorModeValue } from "@/components/ui/color-mode";
-import {
-  FcAbout,
-  FcAssistant,
-  FcCollaboration,
-  FcDonate,
-  FcManager,
-} from "react-icons/fc";
-
-interface CardProps {
-  heading: string;
-  description: string;
-  icon: ReactElement;
-  href: string;
-}
-
-const Card = ({ heading, description, icon, href }: CardProps) => {
-  return (
-    <Box
-      maxW={{ base: "full", md: "275px" }}
-      w={"full"}
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      p={5}
-    >
-      <Stack align={"start"} gap={2}>
-        <Flex
-          w={16}
-          h={16}
-          align={"center"}
-          justify={"center"}
-          color={"white"}
-          rounded={"full"}
-          bg={useColorModeValue("gray.100", "gray.700")}
-        >
-          {icon}
-        </Flex>
-        <Box mt={2}>
-          <Heading size="md">{heading}</Heading>
-          <Text mt={1} fontSize={"sm"}>
-            {description}
-          </Text>
-        </Box>
-        <Button colorScheme={"blue"} size={"sm"}>
-          Learn more
-        </Button>
-      </Stack>
-    </Box>
-  );
-};
+import SwitchCard from "@/components/SwitchCard";
+import { Heading, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 
 const CookiePage = () => {
   return (
-    <Container maxW={"5xl"} mt={12}>
-      <Flex flexWrap="wrap" gridGap={6} justify="center">
-        <Card
-          heading={"Heading"}
-          icon={<Icon as={FcAssistant} w={10} h={10} />}
-          description={"Lorem ipsum dolor sit amet catetur, adipisicing elit."}
-          href={"#"}
-        />
-        <Card
-          heading={"Heading"}
-          icon={<Icon as={FcCollaboration} w={10} h={10} />}
-          description={"Lorem ipsum dolor sit amet catetur, adipisicing elit."}
-          href={"#"}
-        />
-      </Flex>
-    </Container>
+    <VStack alignItems="flex-start" gap="5">
+      <Heading as="h1" size="4xl" marginY={2}>
+        Cookie Settings
+      </Heading>
+      <Text>
+        Cookies are used to perform essential website functions and provide
+        specific services such as persistent user authentication and retriving
+        browser information to deliver a more optimized experience.
+      </Text>
+      <SimpleGrid columns={{ base: 1, sm: 2 }} gap="5" paddingTop="4">
+        <SwitchCard disabled={true} on={true}>
+          <VStack gap="3" alignItems="start">
+            <Heading size="md">Necessary</Heading>
+            <Text fontSize={"sm"}>
+              Neccesary Cookies enable core functionality such as security,
+              network management, and accessibility. You may disable these by
+              changing your browser settings, but this may affect how the
+              website functions.
+            </Text>
+          </VStack>
+        </SwitchCard>
+        <SwitchCard on={true}>
+          <VStack gap="3" alignItems="start">
+            <Heading size="md">Necessary</Heading>
+            <Text fontSize={"sm"}>
+              Neccesary Cookies enable core functionality such as security,
+              network management, and accessibility. You may disable these by
+              changing your browser settings, but this may affect how the
+              website functions.
+            </Text>
+          </VStack>
+        </SwitchCard>
+        <SwitchCard on={true}>
+          <VStack gap="3" alignItems="start">
+            <Heading size="md">Preferences</Heading>
+            <Text fontSize={"sm"}>
+              Preference cookies are used to store settings and information that
+              change the way the website appears or behaves, such as your
+              preferred language or the region that you are in.
+            </Text>
+          </VStack>
+        </SwitchCard>
+        <SwitchCard on={true}>
+          <VStack gap="3" alignItems="start">
+            <Heading size="md">Analytics</Heading>
+            <Text fontSize={"sm"}>
+              Marketing cookies help us provide our visitors with relevant
+              content, browsing history, and product recommendations.
+            </Text>
+          </VStack>
+        </SwitchCard>
+      </SimpleGrid>
+    </VStack>
   );
 };
 

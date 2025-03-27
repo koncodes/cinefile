@@ -63,11 +63,11 @@ const MovieCard = ({ movie }: Props) => {
           <Rating score={movie.vote_average} />
           <VStack alignItems="flex-start" gap="0" fontSize=".9em">
             <Link to={"/films/" + movie.id}>
-              <Text  lineHeight="130%" fontWeight="bold">
+              <Text lineHeight="130%" fontWeight="bold">
                 {movie.title}
               </Text>
             </Link>
-            <Text>
+            <Text opacity=".6">
               {new Date(movie.release_date).toLocaleDateString("en-US", {
                 month: "long",
                 day: "numeric",

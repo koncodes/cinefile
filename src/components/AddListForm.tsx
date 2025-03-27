@@ -128,7 +128,7 @@ const AddListForm = () => {
       } else {
         await MovieListCollection.addMovieList(newMovieList);
       }
-      navigate("/lists/" + authUser.id);
+      navigate("/users/" + authUser.id + "/lists");
     } catch (error) {
       console.error("Error saving MovieList:", error);
     }

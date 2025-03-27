@@ -5,14 +5,39 @@ import MovieGridHeading from "@/components/MovieGridHeading";
 import ProviderSelector from "@/components/ProviderSelector";
 import SearchInput from "@/components/SearchInput";
 import SortBySelector from "@/components/SortBySelector";
-import { Box, Button, Grid, GridItem, HStack } from "@chakra-ui/react";
-import React from "react";
+import { Provider } from "@/entities/Provider";
+import useProviders from "@/hooks/useProviders";
+import { useMovieQueryStore } from "@/stores/MovieQueryStore";
+import { Grid, GridItem, HStack } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const MoviesPage = () => {
+  const { data: providers, error } = useProviders();
+  const { provider_id } = useParams<{ provider_id?: string }>();
+  const setProvider = useMovieQueryStore((s) => s.setProvider);
+  console.log(providers, provider_id);
+
+  useEffect(() => {
+    if (providers && provider_id) {
+      console.log(providers, provider_id);
+      const foundProvider = providers.results?.find(
+        (provider: Provider) => provider.provider_id === parseInt(provider_id)
+      );
+
+      if (foundProvider) {
+        setProvider(foundProvider);
+      } else {
+        console.warn(`Provider with ID ${provider_id} not found.`);
+      }
+    }
+  }, [provider_id]);
+
   return (
     <>
       <MovieGridHeading />
-      <Grid width={{md: "fit-content"}}
+      <Grid
+        width={{ md: "fit-content" }}
         templateAreas={{
           base: `"search search" "provider provider" "sort clear"`,
           sm: `"search search search" "provider sort clear"`,

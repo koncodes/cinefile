@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 const TermsPage = () => {
   return (
     <VStack alignItems="flex-start" gap="5">
-      <VStack alignItems="flex-start">
+      <Heading as="h1" size="4xl" marginY={2}>
+        Terms of Service
+      </Heading>
+      <VStack alignItems="flex-start" paddingTop="4">
         By accessing and using cinefile.com (the “Site” or “we”), you accept and
         agree to be bound by the following terms and conditions (“Terms”):
       </VStack>

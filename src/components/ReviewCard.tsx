@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Text, Flex, Icon, Card } from "@chakra-ui/react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { Review } from "@/entities/Review";
+import { Link } from "react-router-dom";
 
 interface Props {
   review: Review;
@@ -56,21 +57,17 @@ const ReviewCard = ({ review }: Props) => {
           textTransform="uppercase"
           fontSize="md"
         >
-          {review.movie.title}
+          <Link to={"/films/" + review.movie.id}>{review.movie.title}</Link>
         </Text>
 
-        <Flex alignItems="center" justifyContent="center" >
+        <Flex alignItems="center" justifyContent="center">
           {renderStars(review.rating)}
           <Text ml={2} opacity=".4" paddingTop="3px">
             ({review.rating.toFixed(1)})
           </Text>
         </Flex>
 
-        <Text
-          alignSelf="stretch"
-          textAlign="center"
-          fontStyle="italic"
-        >
+        <Text alignSelf="stretch" textAlign="center" fontStyle="italic">
           "{review.content}"
         </Text>
 
@@ -80,7 +77,7 @@ const ReviewCard = ({ review }: Props) => {
           textTransform="uppercase"
           color="gray.500"
         >
-          {review.user.displayName}
+          <Link to={"/users/" + review.user.id}>{review.user.displayName}</Link>
         </Text>
       </Card.Body>
     </Card.Root>

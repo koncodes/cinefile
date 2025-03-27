@@ -29,11 +29,13 @@ const router = createBrowserRouter([
 
     children: [
       { path: "films", element: <MoviesPage /> },
+      { path: "films/:provider_id", element: <MoviesPage /> },
       { path: "lists", element: <ListsPage /> },
       { path: "lists/:id", element: <ListPage /> },
       { path: "lists/edit/:id", element: <AddListForm /> },
       { path: "lists/add", element: <AddListForm /> },
       { path: "films/:id", element: <MovieDetailPage /> },
+
       { path: "users/:id", element: <UserProfilePage /> },
       { path: "settings", element: <EditProfilePage /> },
       { path: "users/:id/lists", element: <UserListsPage /> },
