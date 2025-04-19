@@ -1,4 +1,80 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 14.22">
-  <path d="M.38,7.65c-.26-.13-.38-.31-.38-.54s.12-.41.38-.54h23.65c-1.29-.96-2.29-2.12-3-3.48-.45-.87-.75-1.74-.9-2.59h0s0-.07-.02-.11c0,0,0-.01,0-.02,0-.02,0-.05,0-.06,0-.2.18-.3.54-.3.22,0,.36.02.42.07.06.05.11.15.15.31.05.36.15.74.3,1.12.4,1.22,1.06,2.3,1.99,3.26s2.01,1.64,3.24,2.05c.16.06.24.16.24.3s-.08.24-.24.3c-1.23.41-2.31,1.1-3.24,2.05-.92.95-1.59,2.04-1.99,3.26-.13.38-.23.74-.3,1.09-.04.18-.09.3-.15.34-.06.05-.2.07-.42.07-.38,0-.57-.1-.57-.3,0-.05.06-.28.16-.68.56-2.27,1.83-4.13,3.78-5.58H.38Z"/>
-</svg>
+/**
+ * Retrieves the translation of text.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
+ */
+import { __ } from '@wordpress/i18n';
+
+/**
+ * React hook that is used to mark the block wrapper element.
+ * It provides all the necessary props like the class name.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
+ */
+import { useBlockProps } from '@wordpress/block-editor';
+
+/**
+ * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
+ * Those files can contain any CSS code that gets applied to the editor.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
+import './editor.scss';
+
+import { RichText, PlainText } from '@wordpress/block-editor';
+import { SelectControl } from '@wordpress/components';
+import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+
+/**
+ * The edit function describes the structure of your block in the context of the
+ * editor. This represents what the editor will render when the block is used.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
+ *
+ * @return {Element} Element to render.
+ */
+export default function Edit( {attributes, setAttributes} ) {
+	const divStyles = {
+		"--background-color": attributes.backgroundColor | 'transparent',
+		"--text-color": attributes.textColor | '$black',
+	}
+
+	return (
+		<div {...useBlockProps({className: '', style: divStyles})}>
+			<div className="photo">
+				<MediaUploadCheck>
+					<MediaUpload
+						onSelect={(media) =>
+							setAttributes({avatarURL: media.sizes?.thumbnail?.url || media.url})
+						}
+						allowedTypes={['image']}
+						render={({open}) => (
+							<img
+								onClick={() => open()} // Ensuring open is triggered
+								src={attributes.avatarURL}
+								alt="Choose image"
+							/>
+						)}
+					/>
+				</MediaUploadCheck>
+
+			</div>
+			<div className="text">
+				<PlainText
+					className="heading"
+					tagName="h2"
+					placeholder="Write heading here"
+					value={attributes.heading}
+					onChange={heading => setAttributes({heading})}
+				/>
+				<RichText
+					className="text"
+					tagName="p"
+					placeholder="Write content here"
+					value={ attributes.text }
+					onChange={ text => setAttributes({text}) }
+				/>
+			</div>
+		</div>
+	);
+}

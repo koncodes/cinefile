@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import MovieCarousel from "@/components/MovieCarousel";
-import PostCarouselCard from "@/components/PostCarouselCard";
 import ReviewCarousel from "@/components/ReviewCarousel";
 import { Box, Container, Heading, Span, Text, VStack } from "@chakra-ui/react";
 

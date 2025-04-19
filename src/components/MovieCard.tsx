@@ -60,8 +60,14 @@ const MovieCard = ({ movie }: Props) => {
       )}
       <Card.Body gap="2" padding="3" paddingBottom="3">
         <HStack gap="2.5" alignItems="flex-start">
-          <Rating score={movie.vote_average} />
-          <VStack alignItems="flex-start" gap="0" fontSize=".9em">
+          <Box display={{ base: "none", md: "flex" }}>
+            <Rating score={movie.vote_average} />
+          </Box>
+          <VStack
+            alignItems="flex-start"
+            gap="0"
+            fontSize={{ base: ".75em", sm: ".9em" }}
+          >
             <Link to={"/films/" + movie.id}>
               <Text lineHeight="130%" fontWeight="bold">
                 {movie.title}

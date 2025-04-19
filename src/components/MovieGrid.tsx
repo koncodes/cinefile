@@ -20,8 +20,8 @@ const GameGrid = () => {
   return (
     <Box marginTop="20px">
       <SimpleGrid
-        columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
-        gap={{ sm: 5, md: 5, lg: 5, xl: 6 }}
+        columns={{ base: 2, sm: 2, md: 3, lg: 4, xl: 5 }}
+        gap={{ base: 3, sm: 3, md: 5, lg: 5, xl: 6 }}
       >
         {isLoading &&
           skeletons.map((skeleton) => <MovieGridCardSkeleton key={skeleton} />)}

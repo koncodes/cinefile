@@ -3,6 +3,7 @@ import {
   defaultConfig,
   defineConfig,
   defineRecipe,
+  NativeSelect,
 } from "@chakra-ui/react";
 
 const containerRecipe = defineRecipe({
@@ -171,6 +172,48 @@ const inputRecipe = defineRecipe({
   },
 });
 
+const selectTextarea = defineRecipe({
+  variants: {
+    variant: {
+      outline: {
+        borderColor: "border.card",
+        borderRadius: "20px",
+        paddingInline: "4",
+        paddingBlock: "2.5",
+        h: "auto",
+      },
+    },
+  },
+});
+
+const selectRecipe = defineRecipe({
+  variants: {
+    variant: {
+      outline: {
+        borderColor: "border.card",
+        borderRadius: "30px",
+        paddingInline: "4",
+        paddingBlock: "2.5",
+        h: "auto",
+      },
+    },
+  },
+});
+
+const nativeSelectRecipe = defineRecipe({
+  variants: {
+    variant: {
+      outline: {
+        borderColor: "border.card",
+        borderRadius: "30px",
+        paddingInline: "4",
+        paddingBlock: "2.5",
+        h: "auto",
+      },
+    },
+  },
+});
+
 const badgeRecipe = defineRecipe({
   variants: {
     primary: {
@@ -181,7 +224,7 @@ const badgeRecipe = defineRecipe({
         borderColor: "border.card",
         borderRadius: "5px",
         padding: "3",
-        paddingBlock: "1"
+        paddingBlock: "1",
       },
     },
     variant: {
@@ -207,6 +250,9 @@ const customConfig = defineConfig({
       badge: badgeRecipe,
       container: containerRecipe,
       input: inputRecipe,
+      select: selectRecipe,
+      nativeSelect: nativeSelectRecipe,
+      textarea: selectTextarea,
     },
     tokens: {
       fonts: {
@@ -315,7 +361,7 @@ const customConfig = defineConfig({
         },
         bg: {
           root: {
-            value: { _light: "{colors.white}", _dark: "{colors.gray.1000}" },
+            value: { _light: "{colors.white}", _dark: "{colors.gray.400}" },
           },
           pill: {
             value: { _light: "{colors.gray.200}", _dark: "{colors.gray.800}" },

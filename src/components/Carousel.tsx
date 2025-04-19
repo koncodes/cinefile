@@ -9,13 +9,21 @@ const RightArrowAlt: IconType = BiRightArrowAlt;
 interface ChakraCarouselProps {
   children: React.ReactNode;
   gap: number;
-  itemsToShow?: number;
+  itemsToShowBase?: number;
+  itemsToShowSm?: number;
+  itemsToShowMd?: number;
+  itemsToShowLg?: number;
+  itemsToShowXl?: number;
 }
 
 const Carousel: React.FC<ChakraCarouselProps> = ({
   children,
   gap,
-  itemsToShow = 4,
+  itemsToShowBase = 1,
+  itemsToShowSm = 2,
+  itemsToShowMd = 3,
+  itemsToShowLg = 4,
+  itemsToShowXl = 5,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [trackWidth, setTrackWidth] = useState(0);
@@ -29,11 +37,11 @@ const Carousel: React.FC<ChakraCarouselProps> = ({
 
   const responsiveItemsToShow =
     useBreakpointValue({
-      base: 1,
-      sm: 2,
-      md: 3,
-      lg: 4,
-      xl: itemsToShow,
+      base: itemsToShowBase,
+      sm: itemsToShowSm,
+      md: itemsToShowMd,
+      lg: itemsToShowLg,
+      xl: itemsToShowXl,
     }) || 5;
 
   const childrenArray = React.Children.toArray(children);

@@ -1,6 +1,7 @@
 import { useMovieQueryStore } from "@/stores/MovieQueryStore";
 import { Button, Menu, Portal } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
+const ChevronDownIcon = BsChevronDown as React.ElementType;
 
 const SortBySelector = () => {
   const sortValues: { value: string; label: string }[] = [
@@ -17,7 +18,6 @@ const SortBySelector = () => {
   const selectedSort = useMovieQueryStore((s) => s.movieQuery.sortBy);
   const setSortBy = useMovieQueryStore((s) => s.setSortBy);
 
-  const ChevronDownIcon = BsChevronDown as React.ElementType;
   const selectedLabel =
     sortValues.find(
       (item) => item.value === (selectedSort || "popularity.desc")

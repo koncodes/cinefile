@@ -26,7 +26,7 @@ const MovieCarousel = () => {
   if (error) throw error;
 
   return (
-    <Carousel gap={25} itemsToShow={5}>
+    <Carousel gap={25} itemsToShowBase={2}>
       {movies?.map((movie, index) => (
         <Flex
           key={index}

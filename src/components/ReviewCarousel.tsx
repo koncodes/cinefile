@@ -22,7 +22,7 @@ const ReviewCarousel = () => {
   }
 
   return (
-    <Carousel gap={25} itemsToShow={4}>
+    <Carousel gap={25} itemsToShowXl={4}>
       {reviews?.map((review, index) => (
         <Flex key={index} direction="column">
           <ReviewCard review={review} />

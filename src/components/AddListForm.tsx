@@ -4,15 +4,19 @@ import {
   Button,
   CloseButton,
   Dialog,
+  EmptyState,
   Field,
   Fieldset,
+  Heading,
   HStack,
   Input,
+  Menu,
   NativeSelect,
   Portal,
   Stack,
   Text,
   Textarea,
+  VStack,
 } from "@chakra-ui/react";
 import { Timestamp } from "firebase/firestore";
 import List from "@/entities/List";
@@ -23,6 +27,10 @@ import { userAuthStore } from "@/stores/AuthStore";
 import AddMovie from "./AddMovie";
 import DraggableMovieList from "./DragableMovieList";
 import { UserReference } from "@/entities/User";
+import { LuShoppingCart } from "react-icons/lu";
+import { BsChevronDown } from "react-icons/bs";
+const ShoppingCart = LuShoppingCart as React.ElementType;
+const ChevronDownIcon = BsChevronDown as React.ElementType;
 
 const AddListForm = () => {
   const { id } = useParams();
@@ -152,7 +160,9 @@ const AddListForm = () => {
       <Fieldset.Root size="lg" maxW="md">
         <Stack>
           <Fieldset.Legend>
-            {id ? "Edit Custom List" : "Create Custom List"}
+            <Heading as="h1" size="4xl" marginY={2}>
+              {id ? "Edit Custom List" : "Create Custom List"}
+            </Heading>
           </Fieldset.Legend>
           <Fieldset.HelperText>
             Please provide the details for your custom list.
@@ -176,27 +186,52 @@ const AddListForm = () => {
               name="description"
               value={formData.description}
               onChange={handleInputChange}
+              variant="outline"
             />
           </Field.Root>
 
-          <Field.Root>
+          <Field.Root variant="outline">
             <Field.Label>Who can view?</Field.Label>
-            <NativeSelect.Root>
-              <NativeSelect.Field
-                name="privacy"
-                value={formData.privacy}
-                onChange={handleInputChange}
-              >
-                <option value="public">Public</option>
-                <option value="private">Private</option>
-              </NativeSelect.Field>
-              <NativeSelect.Indicator />
-            </NativeSelect.Root>
+            <Menu.Root>
+              <Menu.Trigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  width="100%"
+                  justifyContent="space-between"
+                >
+                  {formData.privacy === "public" ? "Public" : "Private"}
+                  <ChevronDownIcon />
+                </Button>
+              </Menu.Trigger>
+              <Portal>
+                <Menu.Positioner>
+                  <Menu.Content>
+                    <Menu.Item
+                      value="public"
+                      onClick={() =>
+                        setFormData((prev) => ({ ...prev, privacy: "public" }))
+                      }
+                    >
+                      Public
+                    </Menu.Item>
+                    <Menu.Item
+                      value="private"
+                      onClick={() =>
+                        setFormData((prev) => ({ ...prev, privacy: "private" }))
+                      }
+                    >
+                      Private
+                    </Menu.Item>
+                  </Menu.Content>
+                </Menu.Positioner>
+              </Portal>
+            </Menu.Root>
           </Field.Root>
 
           <AddMovie onAddMovie={handleAddMovie} />
 
-          {movies.length > 0 && (
+          {movies.length > 0 ? (
             <>
               <Text fontWeight="bold" mt={4}>
                 Added Movies:
@@ -207,6 +242,20 @@ const AddListForm = () => {
                 onDelete={handleDeleteMovie}
               />
             </>
+          ) : (
+            <EmptyState.Root>
+              <EmptyState.Content>
+                <EmptyState.Indicator>
+                  <ShoppingCart />
+                </EmptyState.Indicator>
+                <VStack textAlign="center">
+                  <EmptyState.Title>Your list is empty</EmptyState.Title>
+                  <EmptyState.Description>
+                    Add movies to your list
+                  </EmptyState.Description>
+                </VStack>
+              </EmptyState.Content>
+            </EmptyState.Root>
           )}
         </Fieldset.Content>
 

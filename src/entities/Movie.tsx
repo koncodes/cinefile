@@ -1,15 +1,21 @@
+export interface Genre {
+  id: number;
+  name: string;
+}
+
 export interface Movie {
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: string;
   budget: number;
   credits?: { cast?: Array<any>; crew?: Array<any> };
-  genres: object[];
+  genres: Genre[];
   homepage: string;
   id: number;
   images?: { backdrops?: Array<any>; logos?: Array<any>; posters?: Array<any> };
   imdb_id: string;
   keywords?: { keywords?: Array<any> };
+  origin_country?: string;
   original_language: string;
   original_title: string;
   overview: string;
@@ -24,6 +30,17 @@ export interface Movie {
     total_results?: number;
   };
   release_date: string;
+  release_dates?: {
+    results?: Array<{
+      iso_3166_1: string;
+      release_dates: Array<{
+        certification: string;
+        iso_639_1: string;
+        note: string;
+        release_date: string;
+      }>;
+    }>;
+  };
   revenue: number;
   runtime: number;
   spoken_languages: object[];

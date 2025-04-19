@@ -63,4 +63,10 @@ declare module "@chakra-ui/react" {
     toaster?: any;
     insetInline?: object;
   }
+  export interface SelectItemProps extends PropsWithChildren {
+    value?: string;
+  }
+  export interface SelectValueTextProps extends PropsWithChildren {
+    placeholder?: string;
+  }
 }
