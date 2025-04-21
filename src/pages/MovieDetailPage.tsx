@@ -1,9 +1,6 @@
-import ExpandableText from "@/components/ExpandableText";
 import MovieImg from "@/components/MovieImg";
-import MovieTrailer from "@/components/MovieTrailer";
 import Rating from "@/components/Rating";
 import ReviewForm from "@/components/ReviewForm";
-import useMovie from "@/hooks/useMovie";
 import placeholder from "/images/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg";
 import useMovieExtended from "@/hooks/useMovieExtended";
 import { userAuthStore } from "@/stores/AuthStore";
@@ -16,11 +13,25 @@ import {
   VStack,
   Container,
   Box,
-  Grid,
   SimpleGrid,
+  Span,
+  Badge,
+  Strong,
+  Button,
+  Stack,
 } from "@chakra-ui/react";
 import ReactPlayer from "react-player";
 import { Link, useParams } from "react-router-dom";
+import { MdArrowForwardIos } from "react-icons/md";
+import { IconType } from "react-icons";
+import MovieCard from "@/components/MovieCard";
+import MovieTrailer from "@/components/MovieTrailer";
+import { Review } from "@/entities/Review";
+import { useEffect, useState } from "react";
+import ReviewCollection from "@/firebase/ReviewCollection";
+import ReviewCard from "@/components/ReviewCard";
+
+const ArrowForward: IconType = MdArrowForwardIos;
 
 export interface Person {
   id: number;
@@ -89,6 +100,23 @@ const MovieDetailPage = () => {
   const { id } = useParams();
   const authUser = userAuthStore((s) => s.authUser);
   const { data: movie, isLoading, error } = useMovieExtended(id!);
+  const [reviews, setReviews] = useState<Review[]>([]);
+
+  useEffect(() => {
+    getReviews();
+  }, [id]);
+
+  async function getReviews() {
+    if (!id) return;
+    try {
+      console.log("movieId" + id);
+      const reviewData = await ReviewCollection.getReviewsByMovie(id);
+      setReviews(reviewData);
+      console.log("reviews" + reviewData);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  }
 
   console.log(movie);
 
@@ -136,12 +164,29 @@ const MovieDetailPage = () => {
         />
 
         <Container maxW="7xl" paddingTop="20">
-          <HStack alignItems="flex-start" gap="10">
-            <Box maxW="300px" overflow="hidden" borderRadius="10px" flex=".6">
+          <HStack alignItems="flex-start" gap={{ base: "5", md: "10" }}>
+            <Box
+              maxW={{ base: "100px", sm: "200px", md: "250px", lg: "300px" }}
+              overflow="hidden"
+              borderRadius="10px"
+              flex=".6"
+            >
               <MovieImg movie={movie} />
+              <Box
+                w="100%"
+                bg="buttonPrimary.bg"
+                color="buttonPrimary.text"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                padding="2"
+                fontSize={{ base: "1em", md: "2em" }}
+              >
+                <MovieTrailer movie={movie} />
+              </Box>
             </Box>
-            <VStack alignItems="flex-start" flex="1">
-              <Heading as="h1" size="4xl" marginY={2}>
+            <VStack alignItems="flex-start" flex="1" gap="4">
+              <Heading as="h1" size="4xl" marginBottom="2" marginTop="0">
                 {movie.title}{" "}
                 {(() => {
                   const certification = movie.release_dates?.results
@@ -153,73 +198,109 @@ const MovieDetailPage = () => {
                   return certification ? <>[{certification}]</> : null;
                 })()}
               </Heading>
-              <Heading
-                as="h4"
-                size="xl"
-                marginY={2}
-                opacity=".6"
-                fontFamily="Poppins"
-              >
-                "{movie.tagline}"
-              </Heading>
               <Text>
-                Directed by{" "}
-                {movie.credits?.crew &&
-                  movie.credits.crew
-                    .filter((person) => person.job === "Director")
-                    .map((director, index, array) => (
-                      <span key={director.credit_id}>
-                        {director.name}
-                        {index < array.length - 1 ? ", " : ""}
-                      </span>
-                    ))}
+                <span className="release-date">
+                  {new Date(movie.release_date).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}{" "}
+                  ({movie.origin_country && movie.origin_country[0]})
+                </span>
+                <Span px="2">•</Span>
+                <span className="runtime">
+                  {movie.runtime && <>{formatRuntime(movie.runtime)}</>}
+                </span>
               </Text>
-              <Text>
-                {movie.credits?.crew &&
-                  movie.credits.crew
-                    .filter((person) => person.job === "Screenplay")
-                    .map((director, index, array) => (
-                      <span key={director.credit_id}>
-                        {director.name}
-                        {index < array.length - 1 ? ", " : ""}
-                      </span>
-                    ))}
-              </Text>
-              <Text>{movie.overview}</Text>
-              <Rating score={movie.vote_average} />
-              <Text>
+              <Text gap="2" display="flex" flexWrap="wrap">
                 {movie.genres.map((genre, index) => (
-                  <span key={genre.id}>
+                  <Badge secondary key={genre.id}>
                     {genre.name}
-                    {index < movie.genres.length - 1 ? ", " : ""}
-                  </span>
+                  </Badge>
                 ))}
               </Text>
-              <Text opacity=".6">
-                {new Date(movie.release_date).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}{" "}
-                ({movie.origin_country && movie.origin_country})
-              </Text>
-              <Text className="runtime">
-                {movie.runtime && <>{formatRuntime(movie.runtime)}</>}
-              </Text>
+              <HStack>
+                <Rating score={movie.vote_average} size="lg" />
+                {authUser?.id ? (
+                  <ReviewForm movieId={movie.id} />
+                ) : (
+                  <Button primary>Login to Leave a Review</Button>
+                )}
+              </HStack>
+
+              {movie.tagline && (
+                <Heading as="h4" size="xl" marginTop={2} fontFamily="Poppins">
+                  "{movie.tagline}"
+                </Heading>
+              )}
+              <Text>{movie.overview}</Text>
+              {movie.credits?.crew?.some(
+                (person) => person.job === "Director"
+              ) && (
+                <Text>
+                  <Strong>
+                    {movie.credits.crew
+                      .filter((person) => person.job === "Director")
+                      .map((director, index, array) => (
+                        <span key={director.credit_id}>
+                          {director.name}
+                          {index < array.length - 1 ? ", " : ""}
+                        </span>
+                      ))}
+                  </Strong>
+                  <Span
+                    fontSize="xs"
+                    textTransform="uppercase"
+                    lineHeight="140%"
+                    display="block"
+                  >
+                    Directed by
+                  </Span>
+                </Text>
+              )}
+              {movie.credits?.crew?.some(
+                (person) => person.job === "Screenplay"
+              ) && (
+                <Text>
+                  <Strong>
+                    {movie.credits.crew
+                      .filter((person) => person.job === "Screenplay")
+                      .map((director, index, array) => (
+                        <span key={director.credit_id}>
+                          {director.name}
+                          {index < array.length - 1 ? ", " : ""}
+                        </span>
+                      ))}
+                  </Strong>
+                  <Span
+                    fontSize="xs"
+                    textTransform="uppercase"
+                    lineHeight="140%"
+                    display="block"
+                  >
+                    Written by
+                  </Span>
+                </Text>
+              )}
             </VStack>
           </HStack>
         </Container>
       </Box>
-      <Container maxW="7xl">
-        <Heading
-          as="h4"
-          size="3xl"
-          marginY={8}
-          opacity=".6"
-          fontFamily="Poppins"
-        >
-          Top Cast
-        </Heading>
+      <Container maxW="7xl" paddingBottom="10">
+        <Link to={"/films/" + movie.id + "/fullcredits"}>
+          <Heading
+            as="h4"
+            size="xl"
+            marginY={8}
+            opacity=".6"
+            fontFamily="Poppins"
+            display="flex"
+            alignItems="center"
+            gap="2"
+          >
+            Top Cast <ArrowForward />
+          </Heading>
+        </Link>
         <SimpleGrid
           className="cast-list"
           columns={{ base: 2, sm: 3, md: 4, lg: 6, xl: 6 }}
@@ -230,25 +311,81 @@ const MovieDetailPage = () => {
               .slice(0, 6)
               .map((person) => <CastMember key={person.id} person={person} />)}
         </SimpleGrid>
-        <Link to={"/films/" + movie.id + "/fullcredits"}>
-          Full Cast and Crew
-        </Link>
-        <ReactPlayer
-          controls
-          playing={false}
-          config={{
-            youtube: {
-              playerVars: {
-                modestbranding: 1,
-                rel: 0,
-                showinfo: 0,
+        <Heading
+          as="h4"
+          size="xl"
+          marginY={8}
+          opacity=".6"
+          fontFamily="Poppins"
+          display="flex"
+          alignItems="center"
+          gap="2"
+        >
+          Similar Films
+        </Heading>
+        <HStack
+          overflowX="auto"
+          gap="4"
+          paddingBottom="4"
+          alignItems="stretch"
+          css={{
+            "& .movie-card-link": {
+              height: "auto!important",
+            },
+            "& .movie-card": {
+              minWidth: "220px!important",
+              _hover: {
+                transform: "none !important",
+                transition: "none !important",
               },
             },
+            "& .movie-card-rating": {
+              display: "none",
+            },
           }}
-          url={trailersUrl}
-          fallback={<div>Trailer not available</div>}
-        ></ReactPlayer>{" "}
-        {authUser?.id && <ReviewForm movieId={movie.id} />}
+          height="100%"
+        >
+          {movie.similar?.results
+            ?.slice(0, 10)
+            .map((movie) => <MovieCard movie={movie} key={movie.id} />)}
+        </HStack>
+        {reviews && reviews.length > 0 && (
+          <>
+            <Heading
+              as="h4"
+              size="xl"
+              marginY={8}
+              opacity=".6"
+              fontFamily="Poppins"
+              display="flex"
+              alignItems="center"
+              gap="2"
+            >
+              Reviews
+            </Heading>
+            <HStack
+              overflowX="auto"
+              gap="4"
+              paddingBottom="4"
+              alignItems="stretch"
+              css={{
+                columnCount: [1, 2, 3],
+                "& .review-card": {
+                  height: "auto!important",
+                  width: "300px",
+                  _hover: {
+                    transform: "none !important",
+                    transition: "none !important",
+                  },
+                },
+              }}
+            >
+              {reviews.map((review, index) => (
+                <ReviewCard review={review} key={index} />
+              ))}
+            </HStack>
+          </>
+        )}
       </Container>
     </>
   );

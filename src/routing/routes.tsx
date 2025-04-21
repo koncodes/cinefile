@@ -29,7 +29,6 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "films", element: <MoviesPage /> },
-      { path: "films/:id/fullcredits", element: <MovieCreditsPage /> },
       { path: "films/provider/:provider_id", element: <MoviesPage /> },
       { path: "lists", element: <ListsPage /> },
       { path: "lists/:id", element: <ListPage /> },
@@ -48,7 +47,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <FullLayout />,
-    children: [{ path: "films/:id", element: <MovieDetailPage /> }],
+    children: [
+      { path: "films/:id", element: <MovieDetailPage /> },
+      { path: "films/:id/fullcredits", element: <MovieCreditsPage /> },
+    ],
   },
 ]);
 

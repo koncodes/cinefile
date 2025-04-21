@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text, Flex, Icon, Card } from "@chakra-ui/react";
+import { Box, Text, Flex, Icon, Card, Avatar } from "@chakra-ui/react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { Review } from "@/entities/Review";
 import { Link } from "react-router-dom";
@@ -35,6 +35,7 @@ const ReviewCard = ({ review }: Props) => {
 
   return (
     <Card.Root
+      className="review-card"
       h="100%"
       justifyContent="space-between"
       flexDirection="column"
@@ -43,14 +44,25 @@ const ReviewCard = ({ review }: Props) => {
       borderColor="border.card"
       bg="layoutTertiary.bg"
       padding="0"
-      overflow="hidden"
       fontSize="sm"
       _hover={{
         transform: "scale(1.03)",
         transition: "transform .15s ease-in",
       }}
+      marginTop="calc(2.75rem / 2)"
     >
-      <Card.Body gap="4" paddingBlock="5" paddingInline="3">
+      <Card.Body gap="4" paddingBlock="5" paddingBottom="3" paddingTop="10">
+        <Avatar.Root
+          colorPalette="brand"
+          size="lg"
+          transformOrigin="center"
+          position="absolute"
+          top="calc(-2.75rem / 2)"
+          alignSelf="center"
+        >
+          <Avatar.Fallback name={review.user.displayName} />
+          <Avatar.Image src={review.user.avatarURL || undefined} />
+        </Avatar.Root>
         <Text
           textAlign="center"
           fontWeight={700}

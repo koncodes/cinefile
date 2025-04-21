@@ -43,6 +43,12 @@ export interface Movie {
   };
   revenue: number;
   runtime: number;
+  similar?: {
+    page?: number;
+    results?: Array<Movie>;
+    total_pages?: number;
+    total_results?: number;
+  };
   spoken_languages: object[];
   status: string;
   tagline: string;

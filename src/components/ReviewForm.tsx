@@ -12,6 +12,7 @@ import {
   Heading,
   Icon,
   RatingGroup,
+  Span,
   Spinner,
   Stack,
   Text,
@@ -141,12 +142,7 @@ const ReviewForm = ({ movieId, id }: Props) => {
     };
     return (
       <Flex justify="flex-end">
-        <Button
-          type="submit"
-          colorScheme="blue"
-          loadingText="Submitting"
-          onClick={handleSubmit as any}
-        >
+        <Button primary loadingText="Submitting" onClick={handleSubmit as any}>
           Submit Review
         </Button>
       </Flex>
@@ -159,24 +155,22 @@ const ReviewForm = ({ movieId, id }: Props) => {
   return (
     <Dialog.Root placement="center">
       <Dialog.Trigger asChild>
-        <Button variant="outline">Leave Review</Button>
+        <Button quinary>Leave Review</Button>
       </Dialog.Trigger>
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content>
+        <Dialog.Content bg="layoutTertiary.bg">
           <Dialog.CloseTrigger />
           <Dialog.Header>
-            <Dialog.Title />
+            <Heading as="h5" size="2xl">
+              Write a Review for "{movie.title}"
+            </Heading>
           </Dialog.Header>
           <Dialog.Body>
             <form>
-              <Heading size="md" mb={4}>
-                Write a Review for "{movie.title}"
-              </Heading>
-
               <Stack gap={4}>
                 <Field.Root state={errors.rating ? "error" : "default"}>
-                  <Field.Label>Your Rating</Field.Label>
+                  <Field.Label>Rate this movie</Field.Label>
                   <RatingGroup.Root
                     value={formData.rating}
                     onValueChange={(e: { value: number }) =>
@@ -185,7 +179,6 @@ const ReviewForm = ({ movieId, id }: Props) => {
                     count={5}
                     allowHalf
                   >
-                    <RatingGroup.Label>Rate this movie</RatingGroup.Label>
                     <RatingGroup.HiddenInput name="rating" />
                     <RatingGroup.Control>
                       {[1, 2, 3, 4, 5].map((index) => (
@@ -207,19 +200,19 @@ const ReviewForm = ({ movieId, id }: Props) => {
                                   ? "yellow.400"
                                   : "gray.300"
                             }
-                            w={8}
-                            h={8}
+                            w={6}
+                            h={6}
                           />
                         </RatingGroup.Item>
                       ))}
                     </RatingGroup.Control>
+                    <Span mt={1} color="gray.500" paddingLeft="2">
+                      {formData.rating > 0
+                        ? ` (${formData.rating.toFixed(1)} out of 5 stars)`
+                        : "Select rating"}
+                    </Span>
                   </RatingGroup.Root>
 
-                  <Text mt={1} color="gray.500">
-                    {formData.rating > 0
-                      ? `${formData.rating.toFixed(1)} out of 5 stars`
-                      : "Select rating"}
-                  </Text>
                   {errors.rating && (
                     <Field.ErrorText>{errors.rating}</Field.ErrorText>
                   )}
@@ -246,7 +239,6 @@ const ReviewForm = ({ movieId, id }: Props) => {
               </Stack>
             </form>
           </Dialog.Body>
-          <Dialog.Footer />
         </Dialog.Content>
       </Dialog.Positioner>
     </Dialog.Root>

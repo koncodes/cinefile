@@ -3,7 +3,6 @@ import {
   defaultConfig,
   defineConfig,
   defineRecipe,
-  NativeSelect,
 } from "@chakra-ui/react";
 
 const containerRecipe = defineRecipe({
@@ -136,6 +135,27 @@ const buttonRecipe = defineRecipe({
         },
       },
     },
+    quinary: {
+      true: {
+        background: "transparent",
+        color: "layoutPrimary.text",
+        borderColor: "border.button",
+        borderRadius: "100px",
+        paddingInline: "4",
+        paddingBlock: "2.5",
+        h: "auto",
+        _hover: {
+          bg: "transparent",
+          color: "layoutPrimary.text",
+          borderColor: "layoutPrimary.text",
+        },
+        '[data-state="open"] &, &[data-state="open"]': {
+          bg: "transparent",
+          color: "layoutPrimary.text",
+          borderColor: "layoutPrimary.text",
+        },
+      },
+    },
     variant: {
       outline: {
         borderColor: "border.card",
@@ -227,6 +247,17 @@ const badgeRecipe = defineRecipe({
         paddingBlock: "1",
       },
     },
+    secondary: {
+      true: {
+        bg: "transparent",
+        border: "1px",
+        borderStyle: "solid",
+        borderColor: "border.tag",
+        borderRadius: "5px",
+        padding: "3",
+        paddingBlock: "1",
+      },
+    },
     variant: {
       subtle: {
         borderRadius: "30px",
@@ -278,6 +309,7 @@ const customConfig = defineConfig({
           gray: {
             50: { value: "#f8f8f8" },
             100: { value: "#ffffff" },
+            200: { value: "#DDDDDD" },
             300: { value: "#D5D5D5" },
             400: { value: "#bbbbbb" },
             500: { value: "#777777" },
@@ -387,6 +419,18 @@ const customConfig = defineConfig({
             value: {
               _light: "{colors.brand.gray.300}",
               _dark: "{colors.gray.600}",
+            },
+          },
+          tag: {
+            value: {
+              _light: "{colors.brand.gray.400}",
+              _dark: "{colors.gray.500}",
+            },
+          },
+          button: {
+            value: {
+              _light: "{colors.brand.gray.500}",
+              _dark: "{colors.gray.300}",
             },
           },
         },

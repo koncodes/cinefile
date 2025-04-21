@@ -41,6 +41,7 @@ const AddListForm = () => {
     name: "",
     description: "",
     privacy: "public",
+    created: Timestamp.now(),
   });
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -57,6 +58,7 @@ const AddListForm = () => {
             name: listData.name || "",
             description: listData.description || "",
             privacy: listData.privacy || "public",
+            created: listData.created || Timestamp.now(),
           });
 
           if (listData.movies && listData.movies.length > 0) {
@@ -123,7 +125,7 @@ const AddListForm = () => {
       description: formData.description,
       privacy: formData.privacy,
       type: "custom",
-      created: Timestamp.now(),
+      created: formData.created,
       updated: Timestamp.now(),
       movieIds: movieIds,
       posterUrls: posterUrls,

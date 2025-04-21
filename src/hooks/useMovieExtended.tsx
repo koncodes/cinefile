@@ -12,7 +12,7 @@ const useMovieExtended = (id: number | string) => {
       apiClient.get(id, {
         params: {
           append_to_response:
-            "release_dates,credits,images,keywords,recommendations,videos,watch/providers",
+            "credits,images,keywords,recommendations,release_dates,similar,videos,watch/providers",
         },
       }),
     staleTime: ms("24h"),

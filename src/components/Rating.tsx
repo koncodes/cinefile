@@ -9,9 +9,10 @@ import { useColorModeValue } from "./ui/color-mode";
 
 interface Props {
   score: number;
+  size?: "sm" | "md" | "lg";
 }
 
-const Rating = ({ score }: Props) => {
+const Rating = ({ score, size = "md" }: Props) => {
   const green = useColorModeValue("green.500", "green.400");
   const yellow = useColorModeValue("yellow.400", "yellow.200");
   const track = useColorModeValue("brand.gray.400", "brand.gray.600");
@@ -19,12 +20,21 @@ const Rating = ({ score }: Props) => {
 
   const color = score > 7.5 ? green : score > 6.0 ? yellow : grayColor;
 
+  const sizeMapping: Record<
+    "sm" | "md" | "lg",
+    "sm" | "md" | "lg" | "xl" | "xs"
+  > = {
+    sm: "sm",
+    md: "md",
+    lg: "lg",
+  };
+
   return (
     <ProgressCircle.Root
-      size="md"
+      size={sizeMapping[size]}
       value={score * 10}
       width="min-content"
-      transform="scale(.85)"
+      transform={size === "md" ? "scale(.85)" : undefined}
       transformOrigin="center"
     >
       <ProgressCircle.Circle css={{ "--thickness": "3px" }}>

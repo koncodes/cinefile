@@ -1,4 +1,4 @@
-import { Movie } from "@/entities/Movie";
+import { Movie, MovieReference } from "@/entities/Movie";
 import {
   Box,
   Card,
@@ -14,76 +14,91 @@ import placeholder from "/images/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7
 import Rating from "./Rating";
 
 interface Props {
-  movie: Movie;
+  movie: Movie | MovieReference;
 }
 
 const MovieCard = ({ movie }: Props) => {
   return (
-    <Card.Root
-      h="100%"
-      justifyContent="space-between"
-      flexDirection="column"
-      border="1px"
-      borderStyle="solid"
-      borderColor="border.card"
-      bg="layoutTertiary.bg"
-      padding="0"
-      overflow="hidden"
-      _hover={{
-        transform: "scale(1.03)",
-        transition: "transform .15s ease-in",
-      }}
+    <Link
+      className="movie-card-link"
+      to={"/films/" + movie.id}
+      style={{ height: "-webkit-fill-available" }}
     >
-      {movie.poster_path ? (
-        <Image
-          src={`https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`}
-          alt={movie.title}
-          objectFit="cover"
-          width="100%"
-          height="auto"
-        />
-      ) : (
-        <Box
-          display="block"
-          width="100%"
-          height="auto"
-          aspectRatio="2/3"
-          position="relative"
-          top="0"
-          left="0"
-          backgroundImage={`url(${placeholder})`}
-          backgroundPosition="center"
-          backgroundRepeat="no-repeat"
-          backgroundColor="gray.200"
-          backgroundSize="60%"
-        />
-      )}
-      <Card.Body gap="2" padding="3" paddingBottom="3">
-        <HStack gap="2.5" alignItems="flex-start">
-          <Box display={{ base: "none", md: "flex" }}>
-            <Rating score={movie.vote_average} />
-          </Box>
-          <VStack
-            alignItems="flex-start"
-            gap="0"
-            fontSize={{ base: ".75em", sm: ".9em" }}
-          >
-            <Link to={"/films/" + movie.id}>
+      <Card.Root
+        className="movie-card"
+        h="100%"
+        justifyContent="space-between"
+        flexDirection="column"
+        border="1px"
+        borderStyle="solid"
+        borderColor="border.card"
+        bg="layoutTertiary.bg"
+        padding="0"
+        overflow="hidden"
+        _hover={{
+          transform: "scale(1.03)",
+          transition: "transform .15s ease-in",
+        }}
+        minW="200px"
+      >
+        {movie.poster_path ? (
+          <Image
+            src={`https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`}
+            alt={movie.title}
+            objectFit="cover"
+            width="100%"
+            height="auto"
+          />
+        ) : (
+          <Box
+            display="block"
+            width="100%"
+            height="auto"
+            aspectRatio="2/3"
+            position="relative"
+            top="0"
+            left="0"
+            backgroundImage={`url(${placeholder})`}
+            backgroundPosition="center"
+            backgroundRepeat="no-repeat"
+            backgroundColor="gray.200"
+            backgroundSize="60%"
+          />
+        )}
+        <Card.Body
+          gap="2"
+          padding="3"
+          paddingBottom="3"
+          className="movie-card-body"
+        >
+          <HStack gap="2.5" alignItems="flex-start">
+            <Box
+              display={{ base: "none", md: "flex" }}
+              className="movie-card-rating"
+            >
+              <Rating score={movie.vote_average} />
+            </Box>
+            <VStack
+              alignItems="flex-start"
+              gap="0"
+              fontSize={{ base: ".75em", sm: ".9em" }}
+            >
               <Text lineHeight="130%" fontWeight="bold">
                 {movie.title}
               </Text>
-            </Link>
-            <Text opacity=".6">
-              {new Date(movie.release_date).toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </Text>
-          </VStack>
-        </HStack>
-      </Card.Body>
-    </Card.Root>
+
+              <Text opacity=".6">
+                {new Date(movie.release_date).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </Text>
+            </VStack>
+          </HStack>
+        </Card.Body>
+      </Card.Root>{" "}
+    </Link>
   );
 };
 

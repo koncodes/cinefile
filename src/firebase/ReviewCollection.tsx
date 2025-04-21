@@ -25,16 +25,16 @@ export default class ReviewCollection {
     return reviewsSnapshot.data();
   }
 
-    static async getAllReviews() {
-      const reviewsCollection = ReviewCollection.getreviewsCollection();
-      const reviewDocsSnap = await getDocs(
-        reviewsCollection.withConverter(reviewConverter)
-      );
-      return reviewDocsSnap.docs.map((doc) => doc.data());
-    }
+  static async getAllReviews() {
+    const reviewsCollection = ReviewCollection.getReviewsCollection();
+    const reviewDocsSnap = await getDocs(
+      reviewsCollection.withConverter(reviewConverter)
+    );
+    return reviewDocsSnap.docs.map((doc) => doc.data());
+  }
 
   static async getAllReviewsById(id: string) {
-    const reviewsCollection = ReviewCollection.getreviewsCollection();
+    const reviewsCollection = ReviewCollection.getReviewsCollection();
     const reviewQuery = query(
       reviewsCollection,
       where("userId", "==", id)
@@ -44,12 +44,13 @@ export default class ReviewCollection {
   }
 
   static async getReviewsByMovie(movieId: string) {
-    const reviewsCollection = ReviewCollection.getreviewsCollection();
+    const reviewsCollection = ReviewCollection.getReviewsCollection();
     const reviewQuery = query(
       reviewsCollection,
-      where("movieId", "==", movieId)
+      where("movieId", "==", Number(movieId))
     ).withConverter(reviewConverter);
     const reviewDocsSnap = await getDocs(reviewQuery);
+    console.log("Review retrieved successfully with ID:", movieId);
     return reviewDocsSnap.docs.map((doc) => doc.data());
   }
 
@@ -61,7 +62,7 @@ export default class ReviewCollection {
 
   static async addReview(Review: Review) {
     const reviewDocRef = await addDoc(
-      ReviewCollection.getreviewsCollection(),
+      ReviewCollection.getReviewsCollection(),
       Review.toFirestore()
     );
     console.log("Review added successfully with ID:", reviewDocRef.id);
@@ -84,16 +85,16 @@ export default class ReviewCollection {
   }
 
   static getReviewDoc(id: string) {
-    return doc(ReviewCollection.getreviewsCollection(), id).withConverter(
+    return doc(ReviewCollection.getReviewsCollection(), id).withConverter(
       reviewConverter
     );
   }
 
   static getReviewsDocs() {
-    return getDocs(ReviewCollection.getreviewsCollection());
+    return getDocs(ReviewCollection.getReviewsCollection());
   }
 
-  static getreviewsCollection() {
+  static getReviewsCollection() {
     return collection(db, ReviewCollection.COLLECTION_NAME);
   }
 }

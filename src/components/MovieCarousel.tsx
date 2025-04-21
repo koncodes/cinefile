@@ -28,10 +28,7 @@ const MovieCarousel = () => {
   return (
     <Carousel gap={25} itemsToShowBase={2}>
       {movies?.map((movie, index) => (
-        <Flex
-          key={index}
-          direction="column"
-        >
+        <Flex key={index} direction="column" h="100%" alignItems="stretch">
           <MovieCard movie={movie} />
         </Flex>
       ))}
