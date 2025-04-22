@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Toaster, toaster } from "./ui/toaster";
 import { LuUpload } from "react-icons/lu";
 
 interface FormData {
@@ -117,8 +118,11 @@ const UserSettingsForm = () => {
         image: selectedFile || undefined,
         avatarURL: !selectedFile ? authUser.avatarURL : undefined,
       });
-
-      navigate(`/users/${authUser.id}`);
+      toaster.create({
+        description: "Profile updated successfully",
+        duration: 6000,
+      });
+      // navigate(`/users/${authUser.id}`);
     } catch (error) {
       console.error("Error updating profile:", error);
       setErrors((prev) => ({

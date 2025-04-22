@@ -329,10 +329,8 @@ const MovieDetailPage = () => {
           paddingBottom="4"
           alignItems="stretch"
           css={{
-            "& .movie-card-link": {
-              height: "auto!important",
-            },
             "& .movie-card": {
+              height: "auto!important",
               minWidth: "220px!important",
               _hover: {
                 transform: "none !important",

@@ -16,6 +16,8 @@ import PrivacyPage from "@/pages/PrivacyPage";
 import TermsPage from "@/pages/TermsPage";
 import CookiePage from "@/pages/CookiePage";
 import MovieCreditsPage from "@/pages/MovieCreditsPage";
+import UserWatchlistPage from "@/pages/UserWatchlistPage";
+import UserReviewsPage from "@/pages/UserReviewsPage";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +40,8 @@ const router = createBrowserRouter([
       { path: "users/:id", element: <UserProfilePage /> },
       { path: "settings", element: <EditProfilePage /> },
       { path: "users/:id/lists", element: <UserListsPage /> },
+      { path: "users/:id/reviews", element: <UserWatchlistPage /> },
+      { path: "users/:id/watchlist", element: <UserReviewsPage /> },
 
       { path: "privacy-policy", element: <PrivacyPage /> },
       { path: "terms-of-service", element: <TermsPage /> },

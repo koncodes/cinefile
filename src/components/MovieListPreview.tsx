@@ -1,5 +1,5 @@
 import List from "@/entities/List";
-import { Box, Card, For, Grid, Image } from "@chakra-ui/react";
+import { Box, Card, Grid, Image } from "@chakra-ui/react";
 import placeholder from "/images/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg";
 
 interface Props {
@@ -8,6 +8,13 @@ interface Props {
 }
 
 const MovieListPreview = ({ posterUrls, listName }: Props) => {
+  const itemsToRender = posterUrls?.getItems().slice(0, 4) || [];
+  const filledItems = [...itemsToRender];
+
+  while (filledItems.length < 4) {
+    filledItems.push("");
+  }
+
   return (
     <Card.Root
       overflow="hidden"
@@ -17,46 +24,34 @@ const MovieListPreview = ({ posterUrls, listName }: Props) => {
       borderColor="layoutQuaternary.border"
     >
       <Grid templateColumns="repeat(2, 1fr)" gap="0">
-        <For
-          each={posterUrls?.getItems().slice(0, 4) || []}
-          fallback={[1, 2, 3, 4].map((item, index) => (
-            <Box
-              key={index}
-              position="relative"
-              width="100%"
-              paddingBottom="150%"
-              backgroundImage={`url(${placeholder})`}
-              backgroundPosition="center"
-              backgroundRepeat="no-repeat"
-              backgroundColor="gray.200"
-              backgroundSize="60%"
-              shadow="12px 12px 30px 20px rgba(0, 0, 0, .2)"
-            />
-          ))}
-        >
-          {(posterUrl, index) => (
-            <Box
-              key={index}
-              position="relative"
-              width="100%"
-              paddingBottom="150%"
-              overflow="hidden"
-            >
+        {filledItems.map((posterUrl, index) => (
+          <Box
+            key={index}
+            position="relative"
+            width="100%"
+            paddingBottom="150%"
+            overflow="hidden"
+            backgroundImage={posterUrl ? "none" : `url(${placeholder})`} // Use placeholder if no posterUrl
+            backgroundPosition="center"
+            backgroundRepeat="no-repeat"
+            backgroundColor={posterUrl ? "transparent" : "gray.200"} // Gray background for fallback
+            backgroundSize={posterUrl ? "none" : "60%"} // Adjust size for fallback
+            shadow="12px 12px 30px 20px rgba(0, 0, 0, .2)"
+          >
+            {posterUrl && ( // Render Image only if posterUrl is available
               <Image
                 src={`https://media.themoviedb.org/t/p/w440_and_h660_face${posterUrl}`}
                 alt={`${listName} poster ${index + 1}`}
                 objectFit="cover"
                 position="absolute"
-                top=""
+                top="0"
                 left="0"
                 width="100%"
                 height="100%"
-                key={index}
-                shadow="12px 12px 30px 20px rgba(0, 0, 0, .2)"
               />
-            </Box>
-          )}
-        </For>
+            )}
+          </Box>
+        ))}
       </Grid>
     </Card.Root>
   );

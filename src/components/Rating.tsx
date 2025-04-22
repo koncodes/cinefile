@@ -46,7 +46,7 @@ const Rating = ({ score, size = "md" }: Props) => {
       <AbsoluteCenter>
         <HStack
           gap="0"
-          fontSize={size !== "md" && size !== "sm" ? "1.4em" : "1.1em"}
+          fontSize={size !== "md" && size !== "sm" ? "1.2em" : "1.1em"}
           paddingTop="1px"
         >
           <Text fontWeight="bold">
