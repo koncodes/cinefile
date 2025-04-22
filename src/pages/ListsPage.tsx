@@ -37,7 +37,7 @@ const ListsPage = () => {
 
   return (
     <div>
-      <Heading as="h1" size="4xl" marginY={2}>
+      <Heading as="h1" size="4xl" marginBottom={5}>
         Movie Lists
       </Heading>
       <MovieListGrid movieLists={movieLists} />

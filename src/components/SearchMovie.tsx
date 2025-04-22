@@ -49,7 +49,7 @@ const SearchMovie = ({ onSelectMovie, selectedMovie }: Props) => {
   }, [selectedMovie]);
 
   return (
-    <Box>
+    <Box w="100%">
       <AutoComplete
         emptyState={
           <Text color="gray.500" paddingInline={4}>
@@ -60,7 +60,10 @@ const SearchMovie = ({ onSelectMovie, selectedMovie }: Props) => {
         {({ isOpen }: { isOpen: boolean }) => (
           <>
             <AutoCompleteInput
-              variant="subtle"
+              variant="outline"
+              borderRight="0"
+              outline="0"
+              borderEndRadius="0"
               placeholder="Search movies..."
               value={query.searchText || ""}
               onChange={(e) => {

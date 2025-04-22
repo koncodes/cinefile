@@ -1,4 +1,4 @@
-import { chakra, Text, Flex, IconButton } from "@chakra-ui/react";
+import { chakra, Text, Flex, IconButton, Span, HStack, Image } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { Reorder } from "framer-motion";
 import { Movie } from "@/entities/Movie";
@@ -14,13 +14,13 @@ const variants = {
     zIndex: 0,
     boxShadow: "none",
     background: "transparent",
-    border: "1px solid var(--global-color-border, currentColor)",
+    border: "1px solid var(--chakra-colors-border-card)",
   },
   dragging: {
     zIndex: 1,
     boxShadow: "none",
     background: "transparent",
-    border: "1px solid var(--global-color-border, currentColor)",
+    border: "1px solid var(--chakra-colors-border-card)",
   },
 };
 
@@ -49,7 +49,7 @@ export default function DraggableMovieList({
   };
 
   const handleDelete = (e: React.MouseEvent, movie: Movie) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     if (onDelete) {
       onDelete(movie);
     }
@@ -84,9 +84,19 @@ export default function DraggableMovieList({
           w="100%"
         >
           <Flex alignItems="center" justifyContent="space-between" w="100%">
-            <Text fontSize="sm">
-              {movie.title} ({new Date(movie.release_date).getFullYear()})
-            </Text>
+            <HStack gap="3" fontSize="sm">
+              <Image
+                src={`https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`}
+                alt={movie.title}
+                w="40px"
+                h="40px"
+                borderRadius="4px"
+                objectFit="cover"
+              />
+              <Span>
+                {movie.title} ({new Date(movie.release_date).getFullYear()})
+              </Span>
+            </HStack>
             <IconButton
               aria-label={`Remove ${movie.title}`}
               size="sm"

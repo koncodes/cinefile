@@ -1,25 +1,20 @@
-import {
-  Card,
-  Flex,
-  VStack,
-  Heading,
-  Grid,
-  HStack,
-  Text,
-  Avatar,
-  Badge,
-} from "@chakra-ui/react";
+import { Card, VStack, Heading, Grid, Text, Badge, Span } from "@chakra-ui/react";
 import MovieListPreview from "./MovieListPreview";
 import { MovieList } from "@/entities/MovieList";
-import { Link } from "react-router-dom";
-import { User } from "@/entities/User";
+import { Link, useParams } from "react-router-dom";
 import UserBadge from "./UserBadge";
+import { userAuthStore } from "@/stores/AuthStore";
+import { IoMdLock } from "react-icons/io";
+import ExcerptText from "./ExcerptText";
+const Lock = IoMdLock as React.ElementType;
 
 interface Props {
   list: MovieList;
 }
 
 const MovieListCard = ({ list }: Props) => {
+  const authUser = userAuthStore((s) => s.authUser);
+
   return (
     <Card.Root
       key={list.id}
@@ -45,9 +40,45 @@ const MovieListCard = ({ list }: Props) => {
         <MovieListPreview listName={list.name} posterUrls={list.posterUrls} />
         <VStack align="flex-start">
           <Heading textTransform="capitalize" lineHeight="110%">
-            <Link to={"/lists/" + list.id}>{list.name}</Link>
+            <Link to={"/lists/" + list.id}>
+              {list.name}
+              {list?.privacy === "private" && (
+                <>
+                  {" "}
+                  <Badge
+                    variant="solid"
+                    fontFamily="Poppins"
+                    textTransform="uppercase"
+                    size="sm"
+                    position="relative"
+                    top="-2px"
+                    px="1"
+                    py="1"
+                  >
+                    <Lock />
+                  </Badge>
+                </>
+              )}
+            </Link>
           </Heading>
-          <Text fontSize="sm">{list.description}</Text>
+          <Text fontSize="xs">
+            {list.movies.length} films
+            {authUser?.id === list.userId && (
+              <>
+                {" "}
+                •{" "}
+                <Link
+                  to={"/lists/edit/" + list.id}
+                  style={{ marginLeft: "auto" }}
+                >
+                  edit
+                </Link>
+              </>
+            )}
+          </Text>
+          <Span fontSize="sm">
+            <ExcerptText limit={20}>{list.description}</ExcerptText>
+          </Span>
           <UserBadge user={list.user} />
         </VStack>
       </Grid>

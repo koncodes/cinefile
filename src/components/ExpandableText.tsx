@@ -4,11 +4,11 @@ import React, { useState } from "react";
 
 interface Props {
   children: string;
+  limit?: number;
 }
 
-const ExpandableText = ({ children }: Props) => {
+const ExpandableText = ({ children, limit = 100 }: Props) => {
   const [expanded, setExpanded] = useState(false);
-  const limit = 100;
 
   if (!children) return null;
 

@@ -73,7 +73,6 @@ const AuthenticationPopover = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // console.log("Logged in:", firebaseUser);
         try {
           const dbUser = await UserCollection.getUser(firebaseUser.uid);
           if (dbUser && dbUser.exists()) {
@@ -123,6 +122,7 @@ const AuthenticationPopover = () => {
                   <Field.Root>
                     <Field.Label>Email address</Field.Label>
                     <Input
+                      variant="outline"
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -136,6 +136,7 @@ const AuthenticationPopover = () => {
                       {isLogin ? "Password" : "Create password"}
                     </Field.Label>
                     <Input
+                      variant="outline"
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -147,10 +148,12 @@ const AuthenticationPopover = () => {
                     />
                   </Field.Root>
                   {error && <p style={{ color: "red" }}>{error}</p>}
-                  <Button type="submit">{isLogin ? "Login" : "Sign Up"}</Button>
+                  <Button type="submit" primary>
+                    {isLogin ? "Login" : "Sign Up"}
+                  </Button>
                   <Text
                     as="span"
-                    color="blue.500"
+                    color="brand.purple.900"
                     cursor="pointer"
                     onClick={() => setIsLogin(!isLogin)}
                   >

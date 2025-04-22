@@ -37,12 +37,18 @@ const Rating = ({ score, size = "md" }: Props) => {
       transform={size === "md" ? "scale(.85)" : undefined}
       transformOrigin="center"
     >
-      <ProgressCircle.Circle css={{ "--thickness": "3px" }}>
+      <ProgressCircle.Circle
+        css={{ "--thickness": size !== "md" && size !== "sm" ? "4px" : "3px" }}
+      >
         <ProgressCircle.Track stroke={track} />
         <ProgressCircle.Range strokeLinecap="round" stroke={color} />
       </ProgressCircle.Circle>
       <AbsoluteCenter>
-        <HStack gap="0" fontSize="1.2em" paddingTop="1px">
+        <HStack
+          gap="0"
+          fontSize={size !== "md" && size !== "sm" ? "1.4em" : "1.1em"}
+          paddingTop="1px"
+        >
           <Text fontWeight="bold">
             {" "}
             <FormatNumber value={score * 10} maximumFractionDigits={0} />

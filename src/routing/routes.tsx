@@ -11,7 +11,7 @@ import UserProfilePage from "@/pages/UserProfilePage";
 import { createBrowserRouter } from "react-router-dom";
 import UserListsPage from "@/pages/UserListsPage";
 import ReviewForm from "@/components/ReviewForm";
-import EditProfilePage from "@/pages/EditProfilePage";
+import EditProfilePage from "@/pages/UserEdit";
 import PrivacyPage from "@/pages/PrivacyPage";
 import TermsPage from "@/pages/TermsPage";
 import CookiePage from "@/pages/CookiePage";

@@ -4,7 +4,7 @@ import React from "react";
 const PrivacyPage = () => {
   return (
     <VStack alignItems="flex-start" gap="5">
-      <Heading as="h1" size="4xl" marginY={2}>
+      <Heading as="h1" size="4xl" marginBottom={2}>
         Privacy Policy
       </Heading>
       <VStack alignItems="flex-start" paddingTop="4">

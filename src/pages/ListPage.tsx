@@ -52,17 +52,19 @@ const MovieListProfilePage = () => {
 
   return (
     <Box>
-      <Heading as="h1" size="4xl">
+      <Heading as="h1" size="4xl" marginBottom={2}>
         {movielist.name}
       </Heading>
       <Text my="5">{movielist.description}</Text>
 
       <HStack
         py="3"
+        px="3.5"
         my="5"
-        borderBlock="1px"
+        border="1px"
         borderColor="border.card"
         borderStyle="solid"
+        borderRadius="md"
       >
         <Avatar.Root
           colorPalette="brand"
@@ -70,7 +72,7 @@ const MovieListProfilePage = () => {
           transform="scale(.75)"
           transformOrigin="center"
           position="relative"
-          top="-1px"
+          top="0"
         >
           <Avatar.Fallback name={movielist.user.displayName} />
           <Avatar.Image src={movielist.user.avatarURL || undefined} />
@@ -81,6 +83,8 @@ const MovieListProfilePage = () => {
           Updated {""}
           {movielist.updated.toDate().toLocaleString()}
         </Span>
+        {" • "}
+        <Span>{movielist.movies.length} Films</Span>
         {movielist.userId == authUser?.id && (
           <Link
             to={"/lists/edit/" + movielist.id}

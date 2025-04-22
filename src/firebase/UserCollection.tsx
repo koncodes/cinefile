@@ -89,7 +89,10 @@ export default class UserCollection {
       delete newImage.image;
     }
 
-    await updateDoc(userDocRef, {displayName: user.displayName, avatarUrl: newImage.avatarURL});
+    await updateDoc(userDocRef, {
+      displayName: user.displayName,
+      avatarURL: newImage.avatarURL,
+    });
     console.log("User profile updated successfully.");
   }
 }

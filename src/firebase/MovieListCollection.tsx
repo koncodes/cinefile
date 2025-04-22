@@ -41,6 +41,17 @@ export default class MovieListCollection {
     const MovieListQuery = query(
       MovieListsCollection,
       where("userId", "==", id),
+      where("type", "==", "custom")
+    ).withConverter(movieListConverter);
+    const MovieListDocsSnap = await getDocs(MovieListQuery);
+    return MovieListDocsSnap.docs.map((doc) => doc.data());
+  }
+
+  static async getPublicMovieListsById(id: string) {
+    const MovieListsCollection = MovieListCollection.getMovieListsCollection();
+    const MovieListQuery = query(
+      MovieListsCollection,
+      where("userId", "==", id),
       where("privacy", "==", "public"),
       where("type", "==", "custom")
     ).withConverter(movieListConverter);

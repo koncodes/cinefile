@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  Box,
   Button,
   CloseButton,
   Dialog,
@@ -27,10 +28,11 @@ import { userAuthStore } from "@/stores/AuthStore";
 import AddMovie from "./AddMovie";
 import DraggableMovieList from "./DragableMovieList";
 import { UserReference } from "@/entities/User";
-import { LuShoppingCart } from "react-icons/lu";
 import { BsChevronDown } from "react-icons/bs";
-const ShoppingCart = LuShoppingCart as React.ElementType;
+import { SlSocialDropbox } from "react-icons/sl";
+
 const ChevronDownIcon = BsChevronDown as React.ElementType;
+const SocialDropbox = SlSocialDropbox as React.ElementType;
 
 const AddListForm = () => {
   const { id } = useParams();
@@ -159,7 +161,7 @@ const AddListForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Fieldset.Root size="lg" maxW="md">
+      <Fieldset.Root>
         <Stack>
           <Fieldset.Legend>
             <Heading as="h1" size="4xl" marginY={2}>
@@ -170,106 +172,122 @@ const AddListForm = () => {
             Please provide the details for your custom list.
           </Fieldset.HelperText>
         </Stack>
+        <Fieldset.Content w="100%">
+          <Stack direction={{ base: "column", md: "row" }} w="100%" gap="10">
+            <VStack flex="1" gap="5">
+              <Field.Root>
+                <Field.Label>Name</Field.Label>
+                <Input
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </Field.Root>
 
-        <Fieldset.Content>
-          <Field.Root>
-            <Field.Label>Name</Field.Label>
-            <Input
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-            />
-          </Field.Root>
-
-          <Field.Root>
-            <Field.Label>Description</Field.Label>
-            <Textarea
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              variant="outline"
-            />
-          </Field.Root>
-
-          <Field.Root variant="outline">
-            <Field.Label>Who can view?</Field.Label>
-            <Menu.Root>
-              <Menu.Trigger asChild>
-                <Button
+              <Field.Root>
+                <Field.Label>Description</Field.Label>
+                <Textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
                   variant="outline"
-                  size="sm"
-                  width="100%"
-                  justifyContent="space-between"
-                >
-                  {formData.privacy === "public" ? "Public" : "Private"}
-                  <ChevronDownIcon />
-                </Button>
-              </Menu.Trigger>
-              <Portal>
-                <Menu.Positioner>
-                  <Menu.Content>
-                    <Menu.Item
-                      value="public"
-                      onClick={() =>
-                        setFormData((prev) => ({ ...prev, privacy: "public" }))
-                      }
-                    >
-                      Public
-                    </Menu.Item>
-                    <Menu.Item
-                      value="private"
-                      onClick={() =>
-                        setFormData((prev) => ({ ...prev, privacy: "private" }))
-                      }
-                    >
-                      Private
-                    </Menu.Item>
-                  </Menu.Content>
-                </Menu.Positioner>
-              </Portal>
-            </Menu.Root>
-          </Field.Root>
+                />
+              </Field.Root>
 
-          <AddMovie onAddMovie={handleAddMovie} />
+              <Field.Root variant="outline">
+                <Field.Label>Who can view?</Field.Label>
+                <Menu.Root>
+                  <Menu.Trigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      width="100%"
+                      justifyContent="space-between"
+                    >
+                      {formData.privacy === "public" ? "Public" : "Private"}
+                      <ChevronDownIcon />
+                    </Button>
+                  </Menu.Trigger>
+                  <Portal>
+                    <Menu.Positioner>
+                      <Menu.Content>
+                        <Menu.Item
+                          value="public"
+                          onClick={() =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              privacy: "public",
+                            }))
+                          }
+                        >
+                          Public
+                        </Menu.Item>
+                        <Menu.Item
+                          value="private"
+                          onClick={() =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              privacy: "private",
+                            }))
+                          }
+                        >
+                          Private
+                        </Menu.Item>
+                      </Menu.Content>
+                    </Menu.Positioner>
+                  </Portal>
+                </Menu.Root>
+              </Field.Root>
 
-          {movies.length > 0 ? (
-            <>
-              <Text fontWeight="bold" mt={4}>
-                Added Movies:
-              </Text>
-              <DraggableMovieList
-                movies={movies}
-                onReorder={handleReorderMovies}
-                onDelete={handleDeleteMovie}
-              />
-            </>
-          ) : (
-            <EmptyState.Root>
-              <EmptyState.Content>
-                <EmptyState.Indicator>
-                  <ShoppingCart />
-                </EmptyState.Indicator>
-                <VStack textAlign="center">
-                  <EmptyState.Title>Your list is empty</EmptyState.Title>
-                  <EmptyState.Description>
-                    Add movies to your list
-                  </EmptyState.Description>
-                </VStack>
-              </EmptyState.Content>
-            </EmptyState.Root>
-          )}
+              <Field.Root>
+                <Field.Label>Add Movie to List</Field.Label>
+                <AddMovie onAddMovie={handleAddMovie} />
+              </Field.Root>
+            </VStack>
+
+            {movies.length > 0 ? (
+              <Field.Root flex="1">
+                <Field.Label>Added Movies</Field.Label>
+                <DraggableMovieList
+                  movies={movies}
+                  onReorder={handleReorderMovies}
+                  onDelete={handleDeleteMovie}
+                />
+              </Field.Root>
+            ) : (
+              <EmptyState.Root
+                flex="1"
+                borderWidth="1px"
+                borderColor="border.card"
+                borderStyle="dashed"
+                borderRadius="md"
+              >
+                <EmptyState.Content>
+                  <EmptyState.Indicator>
+                    <SocialDropbox />
+                  </EmptyState.Indicator>
+                  <VStack textAlign="center">
+                    <EmptyState.Title>Your list is empty</EmptyState.Title>
+                    <EmptyState.Description>
+                      Add movies to your list
+                    </EmptyState.Description>
+                  </VStack>
+                </EmptyState.Content>
+              </EmptyState.Root>
+            )}
+          </Stack>
         </Fieldset.Content>
 
-        <HStack mt={4}>
-          <Button type="submit" loading={isLoading}>
+        <HStack mt={4} marginLeft="auto">
+          <Button type="submit" loading={isLoading} primary>
             {id ? "Update" : "Create"} List
           </Button>
 
           {id && (
             <Dialog.Root placement="center">
               <Dialog.Trigger asChild>
-                <Button variant="outline">Delete</Button>
+                <Button variant="outline">Delete List</Button>
               </Dialog.Trigger>
               <Portal>
                 <Dialog.Backdrop />

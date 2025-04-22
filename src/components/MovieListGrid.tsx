@@ -11,7 +11,6 @@ const MovieListGrid = ({ movieLists }: Props) => {
     <SimpleGrid
         columns={{ base: 1, sm: 2, lg: 3 }}
         gap="5"
-        paddingTop="4"
       >
         {movieLists.length === 0 ? (
           <p>No public custom lists found.</p>

@@ -187,6 +187,10 @@ const inputRecipe = defineRecipe({
         paddingInline: "4",
         paddingBlock: "2.5",
         h: "auto",
+        outlineWidth: "0",
+        _focus: {
+          outlineWidth: "0",
+        },
       },
     },
   },
@@ -201,6 +205,9 @@ const selectTextarea = defineRecipe({
         paddingInline: "4",
         paddingBlock: "2.5",
         h: "auto",
+        _focus: {
+          outlineWidth: "0",
+        },
       },
     },
   },
@@ -271,6 +278,18 @@ const badgeRecipe = defineRecipe({
         paddingBlock: "1",
         boxShadow: "none",
       },
+      solid: {
+        borderWidth: "0",
+        outlineWidth: "0",
+        borderStyle: "solid",
+        outlineColor: "border.badge",
+        borderColor: "border.badge",
+        paddingBlock: "1",
+        boxShadow: "none",
+        bg: "border.badge",
+        color: "layoutPrimary.text",
+        letterSpacing: "0.075em",
+      },
     },
   },
 });
@@ -310,8 +329,8 @@ const customConfig = defineConfig({
             50: { value: "#f8f8f8" },
             100: { value: "#ffffff" },
             200: { value: "#DDDDDD" },
-            300: { value: "#D5D5D5" },
-            400: { value: "#bbbbbb" },
+            300: { value: "#CCCCCC" },
+            400: { value: "#AAAAAA" },
             500: { value: "#777777" },
             600: { value: "#666666" },
             700: { value: "#555555" },
@@ -424,7 +443,7 @@ const customConfig = defineConfig({
           tag: {
             value: {
               _light: "{colors.brand.gray.400}",
-              _dark: "{colors.gray.500}",
+              _dark: "{colors.gray.600}",
             },
           },
           button: {

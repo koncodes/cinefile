@@ -71,4 +71,11 @@ declare module "@chakra-ui/react" {
   export interface SelectValueTextProps extends PropsWithChildren {
     placeholder?: string;
   }
+  export interface FileUploadDropzoneProps extends PropsWithChildren {
+    borderWidth?: string;
+    borderColor?: string;
+    borderStyle?: string;
+    borderRadius?: string;
+    bg?: string;
+  }
 }

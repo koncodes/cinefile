@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const TermsPage = () => {
   return (
     <VStack alignItems="flex-start" gap="5">
-      <Heading as="h1" size="4xl" marginY={2}>
+      <Heading as="h1" size="4xl" marginBottom={2}>
         Terms of Service
       </Heading>
       <VStack alignItems="flex-start" paddingTop="4">

@@ -22,12 +22,18 @@ const AddMovie = ({ onAddMovie }: Props) => {
   };
 
   return (
-    <HStack>
+    <HStack gap="0" w="100%">
       <SearchMovie
         onSelectMovie={handleSelectMovie}
         selectedMovie={selectedMovie}
       />
-      <Button onClick={handleAddMovie} disabled={!selectedMovie}>
+      <Button
+        onClick={handleAddMovie}
+        disabled={!selectedMovie}
+        primary
+        borderStartRadius="0"
+        h="42px"
+      >
         Add to List
       </Button>
     </HStack>
