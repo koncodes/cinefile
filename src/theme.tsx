@@ -330,7 +330,7 @@ const customConfig = defineConfig({
             100: { value: "#ffffff" },
             200: { value: "#DDDDDD" },
             300: { value: "#CCCCCC" },
-            400: { value: "#AAAAAA" },
+            400: { value: "#B9B9B9" },
             500: { value: "#777777" },
             600: { value: "#666666" },
             700: { value: "#555555" },
@@ -424,7 +424,7 @@ const customConfig = defineConfig({
         border: {
           card: {
             value: {
-              _light: "{colors.brand.gray.300}",
+              _light: "{colors.brand.gray.400}",
               _dark: "{colors.brand.gray.700}",
             },
           },

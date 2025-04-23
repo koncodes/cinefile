@@ -118,11 +118,12 @@ const UserSettingsForm = () => {
         image: selectedFile || undefined,
         avatarURL: !selectedFile ? authUser.avatarURL : undefined,
       });
+
       toaster.create({
         description: "Profile updated successfully",
         duration: 6000,
       });
-      // navigate(`/users/${authUser.id}`);
+      navigate(`/settings`);
     } catch (error) {
       console.error("Error updating profile:", error);
       setErrors((prev) => ({
@@ -212,6 +213,17 @@ const UserSettingsForm = () => {
                         src={formData.avatarURL}
                         alt="Current avatar"
                         w="100px"
+                        h="100px"
+                        objectFit="cover"
+                        borderRadius="100%"
+                      />
+                    ) : selectedFile ? ( // Show preview of selected file
+                      <Image
+                        src={URL.createObjectURL(selectedFile)}
+                        alt="Preview avatar"
+                        w="100px"
+                        h="100px"
+                        objectFit="cover"
                         borderRadius="100%"
                       />
                     ) : (

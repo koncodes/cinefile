@@ -38,20 +38,26 @@ const ListsPage = () => {
 
   return (
     <div>
-      <Heading as="h1" size="4xl" marginBottom={5}>
+      <Heading as="h1" size="5xl" marginBottom={0}>
         Movie Lists
       </Heading>
+      <Heading
+        as="h2"
+        size="lg"
+        marginBottom={5}
+        fontFamily="body"
+        opacity=".6"
+        textTransform="uppercase"
+        letterSpacing=".025em"
+      >Craft your cinematic collection</Heading>
       <Text mb="5">
-        Craft your cinematic collection. Organize your favorite films into
+        Organize your favorite films into
         personalized lists and share your unique taste with the Cinefile
         community.
       </Text>
       {authUser && (
         <Link to="/lists/add">
-          <Button
-            primary
-            mb="5"
-          >
+          <Button primary mb="6">
             Add new list
           </Button>
         </Link>

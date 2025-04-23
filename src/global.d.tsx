@@ -78,4 +78,7 @@ declare module "@chakra-ui/react" {
     borderRadius?: string;
     bg?: string;
   }
+  export interface AvatarImageProps extends PropsWithChildren {
+    borderEndRadius?: string;
+  }
 }

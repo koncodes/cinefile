@@ -4,12 +4,11 @@ import ms from "ms";
 import { Movie } from "../entities/Movie";
 
 const usePopular = () => {
-  const apiClient = new APIClient<Movie>("/movie/popular");
+  const apiClient = new APIClient<Movie>("/trending/movie/week");
 
   return useQuery({
     queryKey: ["popular"],
-    queryFn: () =>
-      apiClient.getAll({ params: { language: "en-US", watch_region: "US" } }),
+    queryFn: () => apiClient.getAll({ params: { language: "en-US" } }),
     staleTime: ms("24h"),
   });
 };

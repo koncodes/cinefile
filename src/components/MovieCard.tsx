@@ -14,6 +14,7 @@ import placeholder from "/images/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7
 import Rating from "./Rating";
 import { userAuthStore } from "@/stores/AuthStore";
 import MovieCardHover from "./MovieCardHover";
+import ExcerptText from "./ExcerptText";
 
 interface Props {
   movie: Movie | MovieReference;
@@ -25,7 +26,7 @@ const MovieCard = ({ movie }: Props) => {
   return (
     <Card.Root
       className="movie-card"
-      h="-webkit-fill-available"
+      h="100%"
       justifyContent="space-between"
       flexDirection="column"
       border="1px"
@@ -94,12 +95,12 @@ const MovieCard = ({ movie }: Props) => {
             fontSize={{ base: ".75em", sm: ".9em" }}
           >
             <Link className="movie-card-link" to={"/films/" + movie.id}>
-              <Text lineHeight="130%" fontWeight="bold">
-                {movie.title}
+              <Text lineHeight="130%" fontWeight="600">
+                <ExcerptText limit={50}>{movie.title}</ExcerptText>
               </Text>{" "}
             </Link>
 
-            <Text opacity=".6">
+            <Text opacity=".6" textTransform="capitalize" fontSize="xs" mt=".1rem">
               {new Date(movie.release_date).toLocaleDateString("en-US", {
                 month: "long",
                 day: "numeric",

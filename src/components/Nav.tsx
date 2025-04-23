@@ -13,6 +13,7 @@ import {
   Image,
   Menu,
   Portal,
+  Span,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -33,6 +34,7 @@ import logoLight from "/images/cinefileDark.svg";
 
 import { IconType } from "react-icons";
 import ColorModeSwitch from "./ColorModeSwitch";
+import { BiBorderRadius } from "react-icons/bi";
 
 const MenuIcon: IconType = LuMenu;
 const ChevronDownIcon: IconType = BsChevronDown;
@@ -90,9 +92,23 @@ const NavBar = () => {
               <>
                 <Menu.Root>
                   <Menu.Trigger asChild>
-                    <Button primary>
-                      {authUser.displayName} <ChevronDownIcon />
-                    </Button>
+                    <Span>
+                      <Avatar.Root
+                        size="lg"
+                        colorPalette="brand"
+                        transformOrigin="center"
+                        borderEndRadius="0"
+                      >
+                        <Avatar.Fallback />
+                        <Avatar.Image
+                          src={authUser.avatarURL || undefined}
+                          borderEndRadius="0"
+                        />
+                      </Avatar.Root>
+                      <Button primary borderStartRadius="0">
+                        {authUser.displayName} <ChevronDownIcon />
+                      </Button>
+                    </Span>
                   </Menu.Trigger>
                   <Portal closeOnSelect={false}>
                     <Menu.Positioner>
@@ -118,12 +134,6 @@ const NavBar = () => {
                     </Menu.Positioner>
                   </Portal>
                 </Menu.Root>
-                <Link to={"/users/" + authUser.id}>
-                  <Avatar.Root shape="full" size="lg" colorPalette="brand">
-                    <Avatar.Fallback />
-                    <Avatar.Image src={authUser.avatarURL || undefined} />
-                  </Avatar.Root>
-                </Link>
               </>
             )}
             {!authUser && <AuthenticationPopover />}

@@ -28,7 +28,14 @@ const OutlineCopyright: IconType = AiOutlineCopyright;
 
 const Footer = () => {
   return (
-    <Flex h="full" bg="layoutSecondary.bg" grow="1" gap="0" direction="column">
+    <Flex
+      h="full"
+      bg="layoutSecondary.bg"
+      grow="1"
+      gap="0"
+      direction="column"
+      position="relative"
+    >
       <Marquee bg="banner.bg" color="white" h="120px">
         <HStack fontFamily="customHeading" gap="3em" fontSize="1.5em">
           <Link to="/films/provider/9">Amazon Prime</Link>

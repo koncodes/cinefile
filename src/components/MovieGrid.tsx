@@ -34,7 +34,7 @@ const GameGrid = () => {
         ))}
       </SimpleGrid>
       {hasNextPage && (
-        <Center marginBlock="10">
+        <Center marginTop="10">
           <Button onClick={() => fetchNextPage()} secondary>
             {isFetchingNextPage ? "Loading..." : "Load More Films"}
           </Button>

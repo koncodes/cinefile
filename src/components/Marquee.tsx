@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import { motion, useAnimation } from "framer-motion";
+import { ReactNode, useEffect } from "react";
 
 interface Props {
   children: ReactNode;
@@ -8,9 +8,51 @@ interface Props {
   color?: string;
   h?: string;
   paddingBlock?: string;
+  speed?: number;
 }
 
-function Marquee({ children, bg, color, h = "100px", paddingBlock }: Props) {
+function Marquee({
+  children,
+  bg,
+  color,
+  h = "100px",
+  paddingBlock,
+  speed = 60,
+}: Props) {
+  const controls = useAnimation();
+
+  useEffect(() => {
+    controls.start({
+      x: "-50%",
+      transition: {
+        x: {
+          repeat: Infinity,
+          repeatType: "loop",
+          duration: speed,
+          ease: "linear",
+        },
+      },
+    });
+  }, [controls, speed]);
+
+  const handleMouseEnter = () => {
+    controls.stop();
+  };
+
+  const handleMouseLeave = () => {
+    controls.start({
+      x: "-50%",
+      transition: {
+        x: {
+          repeat: Infinity,
+          repeatType: "loop",
+          duration: speed,
+          ease: "linear",
+        },
+      },
+    });
+  };
+
   return (
     <Box
       overflow="hidden"
@@ -23,6 +65,8 @@ function Marquee({ children, bg, color, h = "100px", paddingBlock }: Props) {
       display="flex"
       alignItems="center"
       padding="0"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <motion.div
         style={{
@@ -30,18 +74,9 @@ function Marquee({ children, bg, color, h = "100px", paddingBlock }: Props) {
           display: "flex",
           alignItems: "center",
           whiteSpace: "nowrap",
+          x: "0%", // Start position
         }}
-        animate={{
-          x: ["0%", "-50%"],
-        }}
-        transition={{
-          x: {
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: 60,
-            ease: "linear",
-          },
-        }}
+        animate={controls}
       >
         {[...Array(2)].map((_, i) => (
           <Box

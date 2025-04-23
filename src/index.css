@@ -1,8 +1,8 @@
 @font-face {
   font-family: "Nebulica";
   src:
-    url("/fonts/nebulica/Nebulica-Black.woff2") format("woff2"),
-    url("/fonts/nebulica/Nebulica-Black.woff") format("woff");
+    url("/fonts/nebulica/Nebulica-Bold.woff2") format("woff2"),
+    url("/fonts/nebulica/Nebulica-Bold.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;

@@ -1,5 +1,4 @@
-import React from "react";
-import { Box, Text, Flex, Icon, Card, Avatar } from "@chakra-ui/react";
+import { Text, Flex, Icon, Card, Avatar } from "@chakra-ui/react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { Review } from "@/entities/Review";
 import { Link } from "react-router-dom";
@@ -51,7 +50,7 @@ const ReviewCard = ({ review }: Props) => {
       }}
       marginTop="calc(2.75rem / 2)"
     >
-      <Card.Body gap="4" paddingBlock="5" paddingBottom="3" paddingTop="10">
+      <Card.Body gap="3" paddingBlock="5" paddingBottom="3" paddingTop="10">
         <Avatar.Root
           colorPalette="brand"
           size="lg"
@@ -67,7 +66,7 @@ const ReviewCard = ({ review }: Props) => {
           textAlign="center"
           fontWeight={700}
           textTransform="uppercase"
-          fontSize="md"
+          fontSize="sm"
         >
           <Link to={"/films/" + review.movie.id}>{review.movie.title}</Link>
         </Text>
@@ -79,7 +78,12 @@ const ReviewCard = ({ review }: Props) => {
           </Text>
         </Flex>
 
-        <Text alignSelf="stretch" textAlign="center" fontStyle="italic">
+        <Text
+          alignSelf="stretch"
+          textAlign="center"
+          fontStyle="italic"
+          fontSize="sm"
+        >
           "{review.content}"
         </Text>
 
@@ -88,6 +92,7 @@ const ReviewCard = ({ review }: Props) => {
           fontWeight={700}
           textTransform="uppercase"
           color="gray.500"
+          fontSize="xs"
         >
           <Link to={"/users/" + review.user.id}>{review.user.displayName}</Link>
         </Text>

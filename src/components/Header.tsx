@@ -7,6 +7,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import img from "/images/ANORA_header.jpg";
 
 const Header = () => {
   return (
@@ -16,7 +17,7 @@ const Header = () => {
       marginBottom="0"
       bg="black"
       color="white"
-      backgroundImage="url('/images/ANORA_header.jpg')"
+      backgroundImage={`url('${img}')`}
       backgroundSize="cover"
       backgroundPosition="center"
       backgroundRepeat="no-repeat"

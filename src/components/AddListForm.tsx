@@ -246,40 +246,42 @@ const AddListForm = () => {
               </Field.Root>
             </VStack>
 
-            {movies.length > 0 ? (
-              <Field.Root flex="1">
-                <Field.Label>Added Movies</Field.Label>
-                <DraggableMovieList
-                  movies={movies}
-                  onReorder={handleReorderMovies}
-                  onDelete={handleDeleteMovie}
-                />
-              </Field.Root>
-            ) : (
-              <EmptyState.Root
-                flex="1"
-                borderWidth="1px"
-                borderColor="border.card"
-                borderStyle="dashed"
-                borderRadius="md"
-              >
-                <EmptyState.Content>
-                  <EmptyState.Indicator>
-                    <SocialDropbox />
-                  </EmptyState.Indicator>
-                  <VStack textAlign="center">
-                    <EmptyState.Title>Your list is empty</EmptyState.Title>
-                    <EmptyState.Description>
-                      Add movies to your list
-                    </EmptyState.Description>
-                  </VStack>
-                </EmptyState.Content>
-              </EmptyState.Root>
-            )}
+            <Box flex="1">
+              {movies.length > 0 ? (
+                <Field.Root>
+                  <Field.Label>Added Movies</Field.Label>
+                  <DraggableMovieList
+                    movies={movies}
+                    onReorder={handleReorderMovies}
+                    onDelete={handleDeleteMovie}
+                  />
+                </Field.Root>
+              ) : (
+                <EmptyState.Root
+                  borderWidth="1px"
+                  borderColor="border.card"
+                  borderStyle="dashed"
+                  borderRadius="md"
+                  h="100%"
+                >
+                  <EmptyState.Content>
+                    <EmptyState.Indicator>
+                      <SocialDropbox />
+                    </EmptyState.Indicator>
+                    <VStack textAlign="center">
+                      <EmptyState.Title>Your list is empty</EmptyState.Title>
+                      <EmptyState.Description>
+                        Add movies to your list
+                      </EmptyState.Description>
+                    </VStack>
+                  </EmptyState.Content>
+                </EmptyState.Root>
+              )}
+            </Box>
           </Stack>
         </Fieldset.Content>
 
-        <HStack mt={4} marginLeft="auto">
+        <HStack mt={9} marginLeft="auto">
           <Button type="submit" loading={isLoading} primary>
             {id ? "Update" : "Create"} List
           </Button>
